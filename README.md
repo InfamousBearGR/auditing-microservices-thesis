@@ -22,15 +22,15 @@ This system demonstrates a modern event-driven architecture that:
        ▼
 ┌─────────────┐         ┌─────────────┐
 │  Debezium   │────────▶│    Kafka    │
-│  Connector  │         │   (Topic)   │
+│   Source    │         │   (Topic)   │
 └─────────────┘         └──────┬──────┘
                                │
                 ┌──────────────┴──────────────┐
                 │                             │
                 ▼                             ▼
          ┌─────────────┐            ┌─────────────────┐
-         │ SSE Bridge  │            │ Audit Consumer  │
-         │  (Spring)   │            │ (Redpanda)      │
+         │ SSE Bridge  │            │     Groovy      │
+         │  (Spring)   │            │    Consumer     │
          │   :8080     │            └────────┬────────┘
          └─────────────┘                     │
                                              ▼
@@ -65,14 +65,15 @@ This system demonstrates a modern event-driven architecture that:
   - Auto-creates topics
   - Topic: `server.public.company` (created by Debezium)
 
-### 3. **Debezium Connect**
-- **Purpose**: CDC connector that captures database changes
+### 3. **Kafka Connect** (Debezium + JDBC Sink)
+- **Purpose**: Unified connector runtime for CDC and sink operations
 - **Port**: 8083
 - **Features**:
-  - Monitors PostgreSQL Write-Ahead Log (WAL)
-  - Converts database changes to Kafka events
+  - **Debezium Source Connector**: Monitors PostgreSQL Write-Ahead Log (WAL)
+  - **JDBC Sink Connector**: Writes audit records to TimescaleDB
   - Captures INSERT, UPDATE, DELETE operations
-- **Configuration**: Automatically registered via `register-connector.sh`
+  - Single runtime for both source and sink connectors
+- **Configuration**: Automatically registered via connector setup scripts
 
 ### 4. **auditDb** (TimescaleDB)
 - **Purpose**: Time-series database for storing audit history
@@ -82,18 +83,23 @@ This system demonstrates a modern event-driven architecture that:
   - Hypertable for efficient time-series queries
 - **Schema**: `company_audit` table with fields: `id`, `changes` (JSONB), `changed_at`
 
-### 5. **auditConsumer** (Redpanda Connect)
-- **Purpose**: ETL pipeline that consumes Kafka events and stores them in TimescaleDB
+### 5. **auditConsumer** (Groovy Kafka Consumer)
+- **Purpose**: Production-ready consumer that stores Kafka events in TimescaleDB
+- **Technology**: Java 21 with Apache Kafka clients, PostgreSQL JDBC, Jackson JSON, Groovy
 - **Features**:
   - Reads from Kafka topic `server.public.company`
-  - Extracts the `after` payload from Debezium messages
-  - Inserts changes into `company_audit` table
-  - Automatic timestamp generation
+  - Parses Debezium CDC messages
+  - Writes JSON as TEXT to database
+  - PostgreSQL GENERATED columns auto-convert to JSONB (no triggers!)
+  - Type-safe with compile-time checking
+  - High-performance JVM optimization
+  - Gradle-based build with fat JAR deployment
+- **Architecture**: Multi-stage Docker build for minimal runtime image
 
 ### 6. **sse-bridge** (Spring Boot + WebFlux)
 - **Purpose**: Provides real-time change notifications to web clients via SSE
 - **Port**: 8080
-- **Technology**: Kotlin, Spring Boot, Spring WebFlux, Reactor Kafka
+- **Technology**: Java, Spring Boot, Spring WebFlux, Reactor Kafka, Groovy
 - **Endpoint**: `GET /stream` - Returns Server-Sent Events stream
 - **Features**:
   - Reactive, non-blocking event streaming
@@ -153,7 +159,6 @@ This system demonstrates a modern event-driven architecture that:
 2. **Make a change to the company table**
    ```sql
    UPDATE company SET name = 'New Name' WHERE id = 1;
-   INSERT INTO company (name, test) VALUES ('New Company', 'test3');
    DELETE FROM company WHERE id = 2;
    ```
 
@@ -224,7 +229,7 @@ docker-compose logs -f
 docker-compose logs -f sse-bridge
 docker-compose logs -f history-api
 docker-compose logs -f debezium
-docker-compose logs -f auditConsumer
+docker-compose logs -f auditConsumer  # Groovy Kafka consumer
 ```
 
 ## 🔧 Configuration
@@ -247,25 +252,27 @@ Edit `debezium/register-connector.sh` to:
 - Modify topic naming (`topic.prefix`)
 - Adjust connector settings
 
-### Customizing the ETL Pipeline
+### Customizing the Audit Consumer
 
-Edit `auditConsumer/config.yaml` to:
-- Change data transformations
-- Modify the mapping logic
-- Add additional processing steps
+Edit `audit-consumer/src/main/groovy/auditConsumer/AuditConsumer.groovy` to:
+- Modify data transformation logic
+- Add custom field mappings
+- Implement batch processing
+- Add error handling and retries
+- Tune performance settings
 
 ## 📚 Technology Stack
 
-| Component | Technology | Purpose |
-|-----------|-----------|---------|
-| Source DB | PostgreSQL 15 | Transactional database |
-| CDC | Debezium | Change data capture |
-| Streaming | Apache Kafka (KRaft) | Event streaming platform |
-| ETL | Redpanda Connect | Stream processing |
-| Time-series DB | TimescaleDB | Audit log storage |
-| SSE Service | Spring Boot + WebFlux | Real-time notifications |
-| History API | Go + Gorilla Mux | REST API |
-| Container Orchestration | Docker Compose | Service management |
+| Component | Technology                       | Purpose |
+|-----------|----------------------------------|---------|
+| Source DB | PostgreSQL 15                    | Transactional database |
+| CDC Source | Debezium Connector               | Change data capture from PostgreSQL |
+| Streaming | Apache Kafka (KRaft)             | Event streaming platform |
+| Audit Consumer | Groovy (Java 21) + Kafka clients | Stream processing and database writes |
+| Time-series DB | TimescaleDB                      | Audit log storage with GENERATED columns |
+| SSE Service | Spring Boot + WebFlux            | Real-time notifications |
+| History API | Go + Gorilla Mux                 | REST API |
+| Container Orchestration | Docker Compose                   | Service management |
 
 ## 🎓 Use Cases
 

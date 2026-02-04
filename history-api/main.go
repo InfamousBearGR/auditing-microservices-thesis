@@ -17,9 +17,11 @@ import (
 
 // AuditEntry represents a row in TimescaleDB
 type AuditEntry struct {
-	ID        int         `json:"id"`
-	Changes   interface{} `json:"changes"`
-	ChangedAt string      `json:"changed_at"`
+	ID            int         `json:"id"`
+	Before        interface{} `json:"before"`
+	After         interface{} `json:"after"`
+	OperationType string      `json:"operation_type"`
+	ChangedAt     string      `json:"changed_at"`
 }
 
 // getHistory godoc
@@ -56,7 +58,7 @@ func getHistory(w http.ResponseWriter, r *http.Request) {
 	}(db)
 
 	// Query for a specific day
-	query := `SELECT id, changes, changed_at FROM company_audit
+	query := `SELECT id, before, after, operation_type, changed_at FROM company_audit
 	WHERE changed_at::date = $1`
 
 	rows, err := db.Query(query, date)
@@ -74,15 +76,19 @@ func getHistory(w http.ResponseWriter, r *http.Request) {
 	var history []AuditEntry
 	for rows.Next() {
 		var h AuditEntry
-		var changesStr string
-		if err := rows.Scan(&h.ID, &changesStr, &h.ChangedAt); err != nil {
+		var beforeStr, afterStr string
+		if err := rows.Scan(&h.ID, &beforeStr, &afterStr, &h.OperationType, &h.ChangedAt); err != nil {
 			log.Println(err)
 			continue
 		}
 		// Parse JSON string into interface{}
-		if err := json.Unmarshal([]byte(changesStr), &h.Changes); err != nil {
-			log.Println("Error parsing changes JSON:", err)
-			h.Changes = changesStr // Fallback to raw string
+		if err := json.Unmarshal([]byte(beforeStr), &h.Before); err != nil {
+			log.Println("Error parsing before JSON:", err)
+			h.Before = beforeStr // Fallback to raw string
+		}
+		if err := json.Unmarshal([]byte(afterStr), &h.After); err != nil {
+			log.Println("Error parsing after JSON:", err)
+			h.After = afterStr // Fallback to raw string
 		}
 		history = append(history, h)
 	}

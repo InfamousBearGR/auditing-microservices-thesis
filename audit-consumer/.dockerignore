@@ -1,0 +1,30 @@
+# Gradle
+.gradle/
+build/
+!build/libs/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Maven (legacy)
+target/
+pom.xml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Logs
+*.log
+
+# Other
+README.md
+config.yaml

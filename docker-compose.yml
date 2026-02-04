@@ -12,6 +12,11 @@ services:
     command: ["postgres", "-c", "wal_level=logical"]
     volumes:
       - ./mainDb/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d mainDb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   # 2. Kafka (KRaft mode - No Zookeeper)
   kafka:
@@ -32,6 +37,11 @@ services:
       - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
       - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
       - CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
 
   # 3. Debezium Connect
   debezium:
@@ -46,8 +56,10 @@ services:
       - OFFSET_STORAGE_TOPIC=my_connect_offsets
       - STATUS_STORAGE_TOPIC=my_connect_statuses
     depends_on:
-      - kafka
-      - mainDb
+      kafka:
+        condition: service_healthy
+      mainDb:
+        condition: service_healthy
 
   # 4. Connector Registration Script (Ephemeral)
   debezium-setup:
@@ -70,17 +82,27 @@ services:
       - POSTGRES_DB=auditdb
     volumes:
       - ./auditDb/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d auditdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  # 6. Redpanda Connect (ETL)
-  auditConsumer:
-    image: redpandadata/connect:latest
-    container_name: auditConsumer
-    volumes:
-      - ./auditConsumer/config.yaml:/connect.yaml
-    command: ["-c", "/connect.yaml"]
+  # 6. Audit Consumer (Java 21)
+  audit-consumer:
+    build: ./audit-consumer
+    container_name: audit-consumer
     depends_on:
-      - kafka
-      - auditDb
+      kafka:
+        condition: service_healthy
+      auditDb:
+        condition: service_healthy
+    restart: unless-stopped
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./audit-consumer/src
+          target: /app/src
 
   # 7. Spring WebFlux SSE Bridge
   sse-bridge:
@@ -90,13 +112,13 @@ services:
     environment:
       - KAFKA_BROKER=kafka:9092
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
     develop:
       watch:
-        - action: rebuild
+        - action: sync+restart
           path: ./sse-bridge/src
-        - action: rebuild
-          path: ./sse-bridge/build.gradle.kts
+          target: /app/src
 
   # 8. Go History API
   history-api:
@@ -109,14 +131,12 @@ services:
       - DB_PASSWORD=admin
       - DB_NAME=auditdb
     depends_on:
-      - auditDb
+      auditDb:
+        condition: service_healthy
     develop:
       watch:
-        - action: rebuild
+        - action: sync+restart
           path: ./history-api
           ignore:
             - ./history-api/Dockerfile
-        - action: rebuild
-          path: ./history-api/go.mod
-        - action: rebuild
-          path: ./history-api/go.sum
+          target: /app

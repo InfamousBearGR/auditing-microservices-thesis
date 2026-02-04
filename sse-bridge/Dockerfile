@@ -1,25 +1,28 @@
-# --- Stage 1: Build (JDK 21) ---
-FROM gradle:9.0.0-jdk21 AS builder
+# Build stage
+FROM eclipse-temurin:21-jdk-alpine AS build
 
-WORKDIR /home/gradle/src
+WORKDIR /app
 
-# Copy build config first to cache dependencies
-COPY build.gradle.kts settings.gradle.kts ./
+# Copy Gradle wrapper and build files
+COPY gradle ./gradle
+COPY gradlew settings.gradle build.gradle gradle.properties ./
 
-# Copy source code
+# Download dependencies
+RUN ./gradlew dependencies --no-daemon
+
+# Copy source code and build
 COPY src ./src
+RUN ./gradlew bootJar -x test --no-daemon
 
-# Build the JAR (skipping tests for speed)
-RUN gradle bootJar -x test --no-daemon
-
-# --- Stage 2: Run (JRE 21) ---
+# Runtime stage
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-# Copy the built JAR from the builder stage
-COPY --from=builder /home/gradle/src/build/libs/*.jar app.jar
+# Copy the fat JAR from build stage
+COPY --from=build /app/build/libs/*.jar /app/sse-bridge.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run the application
+CMD ["java", "-jar", "/app/sse-bridge.jar"]
