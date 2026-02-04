@@ -1,0 +1,50 @@
+basePath: /
+definitions:
+  main.AuditEntry:
+    properties:
+      changed_at:
+        type: string
+      changes: {}
+      id:
+        type: integer
+    type: object
+schemes:
+  - http
+info:
+  contact: {}
+  description: Get audit logs for company changes from TimescaleDB
+  title: Company History API
+  version: "1.0"
+paths:
+  /history:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves all audit entries for company changes on a specific date
+      parameters:
+      - description: Date in YYYY-MM-DD format
+        in: query
+        name: date
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved audit entries
+          schema:
+            items:
+              $ref: '#/definitions/main.AuditEntry'
+            type: array
+        "400":
+          description: Bad Request - date parameter required
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get audit history for a specific date
+      tags:
+      - history
+swagger: "2.0"
