@@ -1,5 +1,6 @@
 plugins {
     id 'groovy'
+    id 'application'
     id 'org.springframework.boot' version '3.4.1'
     id 'io.spring.dependency-management' version '1.1.7'
 }
@@ -19,8 +20,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'io.projectreactor.kafka:reactor-kafka'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
+}
+
+application {
+    mainClass = 'sseBridge.SseApplication'
 }
 
 test {

@@ -1,0 +1,22 @@
+FROM eclipse-temurin:21-jdk-alpine
+
+WORKDIR /app
+
+# Copy Gradle wrapper and build files
+COPY gradle ./gradle
+COPY gradlew settings.gradle build.gradle gradle.properties ./
+
+# Ensure gradlew is executable
+RUN chmod +x gradlew
+
+# Download dependencies
+RUN ./gradlew dependencies --no-daemon
+
+# Copy source code
+COPY src ./src
+
+EXPOSE 8080
+
+# Run the application in development mode
+# Spring DevTools will handle hot reload when files change
+CMD ["./gradlew", "bootRun"]

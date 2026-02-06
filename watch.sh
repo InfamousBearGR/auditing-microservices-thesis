@@ -12,7 +12,7 @@ echo "  - Rebuild services when source files change"
 echo "  - Restart containers as needed"
 echo ""
 echo "Watching services:"
-echo "  - sse-bridge (Kotlin/Spring)"
+echo "  - sse-bridge (Groovy/Spring)"
 echo "  - history-api (Go)"
 echo "  - audit-consumer (Groovy)"
 echo ""
@@ -20,14 +20,5 @@ echo "Press Ctrl+C to stop watching"
 echo "=========================================="
 echo ""
 
-# First, ensure services are up
-echo "Starting services..."
-docker-compose up -d
-
-echo ""
-echo "Starting watch mode..."
-echo "=========================================="
-echo ""
-
-# Start docker compose watch
-docker compose watch
+# Start docker compose watch with build
+docker compose -f docker-compose.dev.yml watch

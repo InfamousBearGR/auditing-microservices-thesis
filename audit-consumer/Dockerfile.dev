@@ -1,0 +1,20 @@
+FROM eclipse-temurin:21-jdk-alpine
+
+WORKDIR /app
+
+# Copy Gradle wrapper and build files
+COPY gradle ./gradle
+COPY gradlew settings.gradle build.gradle gradle.properties ./
+
+# Ensure gradlew is executable
+RUN chmod +x gradlew
+
+# Download dependencies
+RUN ./gradlew dependencies --no-daemon
+
+# Copy source code
+COPY src ./src
+
+# Run the application in development mode
+# Docker Compose watch will handle restart on file changes
+CMD ["./gradlew", "run", "--no-daemon"]
