@@ -26,7 +26,7 @@ class KafkaService {
                     event.setSourceTopic(consumerRecord.topic())
                     return event
                 })
-                .publish()
+                .replay()
         eventPublisher.connect()
     }
 

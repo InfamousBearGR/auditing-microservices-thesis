@@ -17,7 +17,7 @@ import java.time.Duration
 @RestController
 class StreamController {
 
-    private static final Logger logger = LoggerFactory.getLogger(StreamController.class)
+    private static final Logger log = LoggerFactory.getLogger(StreamController.class)
 
     private final KafkaService kafkaService
 
@@ -44,7 +44,7 @@ class StreamController {
         Flux<ServerSentEvent<EventBaseModel>> heartbeatStream = Flux.interval(Duration.ofSeconds(10))
                 .map(sequence -> toHeartBeatServerSentEvent())
 
-        logger.info("[STARTED] for table: {}", tableName)
+        log.info("[STARTED] for table: {}", tableName)
 
         return kafkaService.getEventPublisher()
                 .filter(event -> {
@@ -53,9 +53,9 @@ class StreamController {
                 })
                 .map(this::clientEventToServerSentEvent)
                 .mergeWith(heartbeatStream) // heart-beat to keep connection alive
-                .doOnSubscribe(subscription -> logger.info("[ON_SUBSCRIBE]"))
-                .doOnCancel(() -> logger.info("[ON_CANCEL]"))
-                .doOnError(e -> logger.error("[ON_ERROR= {}]", e.message))
-                .doFinally(signalType -> logger.info("[FINALLY] [SIGNAL_TYPE= {}]", signalType.name()))
+                .doOnSubscribe(subscription -> log.info("[ON_SUBSCRIBE]"))
+                .doOnCancel(() -> log.info("[ON_CANCEL]"))
+                .doOnError(e -> log.error("[ON_ERROR= {}]", e.message))
+                .doFinally(signalType -> log.info("[FINALLY] [SIGNAL_TYPE= {}]", signalType.name()))
     }
 }

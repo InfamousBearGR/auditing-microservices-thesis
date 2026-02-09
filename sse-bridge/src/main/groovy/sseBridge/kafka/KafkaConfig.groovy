@@ -16,7 +16,7 @@ import java.util.regex.Pattern
 @Configuration
 class KafkaConfig {
 
-    private static final Logger logger = LoggerFactory.getLogger(KafkaConfig.class)
+    private static final Logger log = LoggerFactory.getLogger(KafkaConfig.class)
 
     @Value('${kafka.bootstrap.servers}')
     private String bootstrapServers
@@ -67,8 +67,8 @@ class KafkaConfig {
         configProps.put(ConsumerConfig.RECONNECT_BACKOFF_MS_CONFIG, reconnectBackOffMs)
         configProps.put(ConsumerConfig.RETRY_BACKOFF_MS_CONFIG, retryBackOffMs)
 
-        logger.info("Configuring Kafka receiver with broker: {}", effectiveBootstrapServers)
-        logger.debug("Kafka consumer configuration: clientId={}, groupId={}, topicPattern={}", kafkaClientId, uuid, "server.public.*")
+        log.info("Configuring Kafka receiver with broker: {}", effectiveBootstrapServers)
+        log.debug("Kafka consumer configuration: clientId={}, groupId={}, topicPattern={}", kafkaClientId, uuid, "server.public.*")
 
         return KafkaReceiver.create(
                 ReceiverOptions.create(configProps).subscription(Pattern.compile(topicName))

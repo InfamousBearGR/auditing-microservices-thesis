@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import groovy.transform.ToString
+import java.time.Instant
 
 @ToString(includeNames = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -21,7 +22,9 @@ class EventBaseModel implements Serializable {
 
     long timestamp
 
-    long changed_at
+    String changed_at
+
+    Long change_id
     
     String sourceTopic
 
@@ -60,7 +63,8 @@ class EventBaseModel implements Serializable {
     }
 
     @JsonSetter("ts_ms")
-    void setChangedAt(long ts_ms) {
-        this.changed_at = ts_ms
+    void setChangedIdAndChangedAt(long ts_ms) {
+        this.change_id = ts_ms
+        this.changed_at = Instant.ofEpochMilli(ts_ms).toString()
     }
 }

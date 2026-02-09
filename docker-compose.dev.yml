@@ -121,8 +121,13 @@ services:
     environment:
       - KAFKA_BROKER=kafka:9092
       - SPRING_DEVTOOLS_RESTART_ENABLED=true
+      - SPRING_R2DBC_URL=r2dbc:postgresql://auditDb:5432/auditdb
+      - SPRING_R2DBC_USERNAME=admin
+      - SPRING_R2DBC_PASSWORD=admin
     depends_on:
       kafka:
+        condition: service_healthy
+      auditDb:
         condition: service_healthy
     develop:
       watch:

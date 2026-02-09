@@ -6,7 +6,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class EventDeserializer implements Deserializer<EventBaseModel> {
-    private static final Logger logger = LoggerFactory.getLogger(EventDeserializer.class)
+    private static final Logger log = LoggerFactory.getLogger(EventDeserializer.class)
 
     @Override
     void configure(Map<String, ?> configs, boolean isKey) {
@@ -22,7 +22,7 @@ class EventDeserializer implements Deserializer<EventBaseModel> {
             return EventFactory.getEvent(data)
         } catch (Exception e) {
             // Log the error and return null (or a specific ErrorEvent) to prevent consumer crash
-            logger.error("Failed to deserialize event from topic " + topic + ": " + e.getMessage())
+            log.error("Failed to deserialize event from topic " + topic + ": " + e.getMessage())
             return null
         }
     }

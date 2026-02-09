@@ -7,7 +7,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class EventFactory {
-    private static final Logger logger = LoggerFactory.getLogger(EventFactory.class)
+    private static final Logger log = LoggerFactory.getLogger(EventFactory.class)
     private static final ObjectMapper objectMapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
@@ -17,7 +17,7 @@ class EventFactory {
 
     static EventBaseModel getEvent(byte[] data) throws IOException {
         JsonNode node = objectMapper.readTree(data)
-        logger.info("Raw JSON node: " + node.toString())
+        log.info("Raw JSON node: " + node.toString())
         if (node.has("payload")) {
             node = node.get("payload")
         }

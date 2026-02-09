@@ -45,7 +45,7 @@ class DatabaseService {
     static insertAuditLog(Connection connection, String table, String beforeJson, String afterJson, String operationType, Timestamp operationTimestamp, int changedByUserId, int parentId) {
         PreparedStatement auditStmt = null
         try {
-            String sql = 'INSERT INTO ' + table + ' (before, after, operation_type, changed_at, changed_by_user_id, parent_id) VALUES (?::jsonb, ?::jsonb, ?, ?, ?, ?)'
+            String sql = 'INSERT INTO ' + table + ' (before, after, operation_type, changed_at, changed_by_user_id, parent_id, change_id) VALUES (?::jsonb, ?::jsonb, ?, ?, ?, ?, ?)'
             auditStmt = connection.prepareStatement(sql)
             auditStmt.setString(1, beforeJson)
             auditStmt.setString(2, afterJson)
@@ -53,6 +53,7 @@ class DatabaseService {
             auditStmt.setTimestamp(4, operationTimestamp)
             auditStmt.setInt(5, changedByUserId)
             auditStmt.setInt(6, parentId)
+            auditStmt.setLong(7, operationTimestamp.getTime())
             int rowsAffected = auditStmt.executeUpdate()
 
             if (rowsAffected < 0) {
