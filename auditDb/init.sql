@@ -26,7 +26,10 @@ CREATE TRIGGER update_user_account_last_updated
 EXECUTE PROCEDURE update_last_updated_column();
 
 INSERT INTO user_account (api_key, access, last_updated, date_created)
-VALUES ('sample_api_key_123', '{"company": true, "person": true}', now(), now());
+VALUES ('sample_api_key_123', '{
+  "company": true,
+  "person": true
+}', now(), now());
 
 CREATE TABLE company_audit
 (
@@ -37,7 +40,9 @@ CREATE TABLE company_audit
     changed_at         TIMESTAMPTZ NOT NULL,
     changed_by_user_id INT         NOT NULL,
     parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL
+    change_id          BIGINT      NOT NULL,
+    business_change_id BIGINT      NOT NULL,
+    change_reason      VARCHAR(255) NOT NULL
 );
 
 -- Convert to hypertable for time-series efficiency
@@ -58,7 +63,9 @@ CREATE TABLE person_audit
     changed_at         TIMESTAMPTZ NOT NULL,
     changed_by_user_id INT         NOT NULL,
     parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL
+    change_id          BIGINT      NOT NULL,
+    business_change_id BIGINT      NOT NULL,
+    change_reason      VARCHAR(255) NOT NULL
 );
 
 -- Convert to hypertable for time-series efficiency

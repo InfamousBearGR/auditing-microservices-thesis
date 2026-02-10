@@ -3,6 +3,7 @@ package utils
 import auditConsumer.AuditConsumer
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.ObjectNode
 import groovy.util.logging.Slf4j
 
 @Slf4j
@@ -12,6 +13,21 @@ class Utils {
 
     static String getEnv(String key, String defaultValue) {
         System.getenv(key) ?: defaultValue
+    }
+
+    static JsonNode removeItemFromJsonNode(JsonNode node, String fieldName) {
+        if (node != null && node.has(fieldName) && node instanceof ObjectNode) {
+            ((ObjectNode) node).remove(fieldName)
+            return node
+        }
+        return node
+    }
+
+    static String getStringFromJsonNode(JsonNode node, String fieldName) {
+        if (node != null && node.has(fieldName) && !node.get(fieldName).isNull()) {
+            return node.get(fieldName).asText()
+        }
+        return null
     }
 
     static Integer getIntFromJsonNode(JsonNode node, String fieldName) {
@@ -46,7 +62,22 @@ class Utils {
 
     static Properties getProperties() {
         try {
-            InputStream input = AuditConsumer.class.getClassLoader().getResourceAsStream("application.properties")
+            String envProfile = getEnv('GROOVY_PROFILES_ACTIVE', 'dev')
+            String applicationFile
+            switch (envProfile) {
+                case 'dev':
+                    log.info("Loading application-dev.properties")
+                    applicationFile = "application-dev.properties"
+                    break
+                case 'prod':
+                    log.info("Loading application-prod.properties")
+                    applicationFile = "application-prod.properties"
+                    break
+                default:
+                    log.warn("Unknown environment profile: ${getEnv('GROOVY_PROFILES_ACTIVE', 'dev')}, defaulting to dev")
+                    applicationFile = "application-dev.properties"
+            }
+            InputStream input = AuditConsumer.class.getClassLoader().getResourceAsStream(applicationFile)
             if (input != null) {
                 properties.load(input)
             } else {

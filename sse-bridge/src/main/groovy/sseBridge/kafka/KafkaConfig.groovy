@@ -45,9 +45,11 @@ class KafkaConfig {
     @Value('${kafka.retry.backoff.ms}')
     private String retryBackOffMs
 
+    @Value('${kafka.group}')
+    private String kafkaGroupId
+
     @Bean
     KafkaReceiver receiverOptions() {
-        UUID uuid = UUID.randomUUID()
         // Use environment variable if set, otherwise use property
         String effectiveBootstrapServers = System.getenv("KAFKA_BROKER") ?: bootstrapServers
         
@@ -56,7 +58,7 @@ class KafkaConfig {
         configProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class)
         configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, EventDeserializer.class)
         configProps.put(ConsumerConfig.CLIENT_ID_CONFIG, kafkaClientId)
-        configProps.put(ConsumerConfig.GROUP_ID_CONFIG, uuid.toString())
+        configProps.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaGroupId)
         configProps.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true)
         configProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
 
@@ -68,7 +70,7 @@ class KafkaConfig {
         configProps.put(ConsumerConfig.RETRY_BACKOFF_MS_CONFIG, retryBackOffMs)
 
         log.info("Configuring Kafka receiver with broker: {}", effectiveBootstrapServers)
-        log.debug("Kafka consumer configuration: clientId={}, groupId={}, topicPattern={}", kafkaClientId, uuid, "server.public.*")
+        log.debug("Kafka consumer configuration: clientId={}, groupId={}, topicPattern={}", kafkaClientId, kafkaGroupId, "server.public.*")
 
         return KafkaReceiver.create(
                 ReceiverOptions.create(configProps).subscription(Pattern.compile(topicName))

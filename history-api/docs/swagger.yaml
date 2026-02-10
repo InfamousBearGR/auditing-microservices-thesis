@@ -1,30 +1,65 @@
 basePath: /
 definitions:
-  main.AuditEntry:
+  models.AuditEntry:
     properties:
-      changed_at:
+      after:
+        description: Can be null for DELETE operations
+        type: object
+      before:
+        description: Can be null for CREATE operations
+        type: object
+      change_id:
+        description: Unique identifier for the change, useful for tracing related
+          changes
         type: string
-      changes: {}
+      change_reason:
+        description: Field to capture the reason for the change
+        type: string
+      changed_at:
+        description: Date of change in ISO 8601 format
+        type: string
       id:
+        description: Identifier for the audit entry
+        type: integer
+      operation_type:
+        description: e.g., "INSERT", "UPDATE", "DELETE"
+        type: string
+      parent_id:
+        description: ID of the topic record that was changed
         type: integer
     type: object
-schemes:
-  - http
+host: localhost:8081
 info:
   contact: {}
-  description: Get audit logs for company changes from TimescaleDB
+  description: Get audit logs for company changes from auditDb
   title: Company History API
   version: "1.0"
 paths:
-  /history:
+  /getHistoryByChangeIdRange:
     get:
       consumes:
       - application/json
-      description: Retrieves all audit entries for company changes on a specific date
+      description: Retrieves all audit entries within a specific change_id range
       parameters:
-      - description: Date in YYYY-MM-DD format
+      - description: Starting change_id (inclusive)
+        example: 1
         in: query
-        name: date
+        name: changeIdFrom
+        required: true
+        type: integer
+      - description: Ending change_id (inclusive)
+        example: 100
+        in: query
+        name: changeIdTo
+        required: true
+        type: integer
+      - description: Topic name
+        enum:
+        - company
+        - person
+        example: company
+        in: query
+        name: topic
         required: true
         type: string
       produces:
@@ -34,14 +69,69 @@ paths:
           description: Successfully retrieved audit entries
           schema:
             items:
-              $ref: '#/definitions/main.AuditEntry'
+              $ref: '#/definitions/models.AuditEntry'
             type: array
         "400":
-          description: Bad Request - date parameter required
+          description: changeIdFrom parameter required or invalid
+          schema:
+            type: string
+        "404":
+          description: No audit entries found for the specified change_id range
           schema:
             type: string
         "500":
-          description: Internal Server Error
+          description: Error fetching audit entries
+          schema:
+            type: string
+      summary: Get audit history for a specific change_id range
+      tags:
+      - history
+  /getHistoryByDateRange:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves all audit entries for company changes on a specific date
+      parameters:
+      - description: Date in YYYY-MM-DD format
+        example: "2026-02-10"
+        in: query
+        name: dateFrom
+        required: true
+        type: string
+      - description: Date in YYYY-MM-DD format
+        example: "2026-02-10"
+        in: query
+        name: dateTo
+        required: true
+        type: string
+      - description: Topic name
+        enum:
+        - company
+        - person
+        example: company
+        in: query
+        name: topic
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved audit entries
+          schema:
+            items:
+              $ref: '#/definitions/models.AuditEntry'
+            type: array
+        "400":
+          description: dateFrom parameter required
+          schema:
+            type: string
+        "404":
+          description: No audit entries found for the specified date range
+          schema:
+            type: string
+        "500":
+          description: Error fetching audit entries
           schema:
             type: string
       summary: Get audit history for a specific date

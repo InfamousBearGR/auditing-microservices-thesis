@@ -1,5 +1,6 @@
 package sseBridge.event
 
+import com.fasterxml.jackson.annotation.JsonGetter
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.databind.JsonNode
@@ -22,11 +23,23 @@ class EventBaseModel implements Serializable {
 
     long timestamp
 
-    String changed_at
+    String changedAt
 
-    Long change_id
-    
+    Long changeId
+
     String sourceTopic
+
+    String changeReason
+
+    @JsonGetter("changedAt")
+    String getChangedAt() {
+        return changedAt
+    }
+
+    @JsonGetter("changeId")
+    Long getChangeId() {
+        return changeId
+    }
 
     @JsonSetter("op")
     void setOp(String op) {
@@ -49,7 +62,10 @@ class EventBaseModel implements Serializable {
     @JsonSetter("before")
     void setBefore(JsonNode before) {
         if (before instanceof ObjectNode) {
+            this.changeReason = before.has("change_reason") ? before.get("change_reason").asText() : null
             ((ObjectNode) before).remove("last_user_id")
+            ((ObjectNode) before).remove("id")
+            ((ObjectNode) before).remove("change_reason")
         }
         this.before = before
     }
@@ -57,14 +73,21 @@ class EventBaseModel implements Serializable {
     @JsonSetter("after")
     void setAfter(JsonNode after) {
         if (after instanceof ObjectNode) {
+            this.changeReason = after.has("change_reason") ? after.get("change_reason").asText() : null
             ((ObjectNode) after).remove("last_user_id")
+            ((ObjectNode) after).remove("id")
+            ((ObjectNode) after).remove("change_reason")
         }
         this.after = after
     }
 
     @JsonSetter("ts_ms")
-    void setChangedIdAndChangedAt(long ts_ms) {
-        this.change_id = ts_ms
-        this.changed_at = Instant.ofEpochMilli(ts_ms).toString()
+    void setChangedAt(long ts_ms) {
+        this.changedAt = Instant.ofEpochMilli(ts_ms).toString()
+    }
+
+    @JsonSetter("source")
+    void setChangeId(JsonNode source) {
+        this.changeId = source.has("lsn") ? source.get("lsn").asLong() : null
     }
 }

@@ -1,0 +1,28 @@
+kafka:
+  clusters:
+    - name: local
+      bootstrapServers: kafka:9092
+      kafkaConnect:
+        - name: debezium
+          address: http://debezium:8083
+
+auth:
+  type: DISABLED
+
+management:
+  health:
+    ldap:
+      enabled: false
+
+spring:
+  jmx:
+    enabled: true
+
+logging:
+  level:
+    root: INFO
+    com.provectus: INFO
+
+server:
+  port: 8080
+

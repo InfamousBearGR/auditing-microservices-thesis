@@ -9,11 +9,11 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=mainDb
-    command: ["postgres", "-c", "wal_level=logical"]
+    command: [ "postgres", "-c", "wal_level=logical" ]
     volumes:
       - ./mainDb/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d mainDb"]
+      test: [ "CMD-SHELL", "pg_isready -U admin -d mainDb" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -38,12 +38,26 @@ services:
       - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
       - CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk
     healthcheck:
-      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list"]
+      test: [ "CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list" ]
       interval: 5s
       timeout: 10s
       retries: 5
 
-  # 3. Debezium Connect
+  # 3. Kafka UI (kraft-ui)
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8082:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+      - DYNAMIC_CONFIG_ENABLED=true
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  # 4. Debezium Connect
   debezium:
     image: quay.io/debezium/connect:latest
     container_name: debezium
@@ -61,7 +75,7 @@ services:
       mainDb:
         condition: service_healthy
 
-  # 4. Connector Registration Script (Ephemeral)
+  # 5. Connector Registration Script (Ephemeral)
   debezium-setup:
     image: curlimages/curl:latest
     volumes:
@@ -70,7 +84,7 @@ services:
     depends_on:
       - debezium
 
-  # 5. TimescaleDB (Audit Store)
+  # 6. TimescaleDB (Audit Store)
   auditDb:
     image: timescale/timescaledb:latest-pg15
     container_name: timescaledb
@@ -83,17 +97,19 @@ services:
     volumes:
       - ./auditDb/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d auditdb"]
+      test: [ "CMD-SHELL", "pg_isready -U admin -d auditdb" ]
       interval: 5s
       timeout: 5s
       retries: 5
 
-  # 6. Audit Consumer (Java 21)
+  # 7. Audit Consumer (Java 21)
   audit-consumer:
     build:
       context: ./audit-consumer
       dockerfile: Dockerfile
     container_name: audit-consumer
+    environment:
+      - GROOVY_PROFILES_ACTIVE=prod
     depends_on:
       kafka:
         condition: service_healthy
@@ -101,7 +117,7 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
-  # 7. Spring WebFlux SSE Bridge
+  # 8. Spring WebFlux SSE Bridge
   sse-bridge:
     build:
       context: ./sse-bridge
@@ -109,17 +125,14 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - KAFKA_BROKER=kafka:9092
-      - SPRING_R2DBC_URL=r2dbc:postgresql://auditDb:5432/auditdb
-      - SPRING_R2DBC_USERNAME=admin
-      - SPRING_R2DBC_PASSWORD=admin
+      - SPRING_PROFILES_ACTIVE=prod
     depends_on:
       kafka:
         condition: service_healthy
       auditDb:
         condition: service_healthy
 
-  # 8. Go History API
+  # 9. Go History API
   history-api:
     build:
       context: ./history-api
@@ -127,10 +140,7 @@ services:
     ports:
       - "8081:8081"
     environment:
-      - DB_HOST=auditDb
-      - DB_USER=admin
-      - DB_PASSWORD=admin
-      - DB_NAME=auditdb
+      - ENV_FILE=.env.prod
     depends_on:
       auditDb:
         condition: service_healthy

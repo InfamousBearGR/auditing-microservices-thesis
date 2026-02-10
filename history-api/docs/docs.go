@@ -15,7 +15,81 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/history": {
+        "/getHistoryByChangeIdRange": {
+            "get": {
+                "description": "Retrieves all audit entries within a specific change_id range",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "history"
+                ],
+                "summary": "Get audit history for a specific change_id range",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "example": 1,
+                        "description": "Starting change_id (inclusive)",
+                        "name": "changeIdFrom",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "example": 100,
+                        "description": "Ending change_id (inclusive)",
+                        "name": "changeIdTo",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "company",
+                            "person"
+                        ],
+                        "type": "string",
+                        "example": "company",
+                        "description": "Topic name",
+                        "name": "topic",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved audit entries",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.AuditEntry"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "changeIdFrom parameter required or invalid",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "No audit entries found for the specified change_id range",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Error fetching audit entries",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/getHistoryByDateRange": {
             "get": {
                 "description": "Retrieves all audit entries for company changes on a specific date",
                 "consumes": [
@@ -31,8 +105,29 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "example": "2026-02-10",
                         "description": "Date in YYYY-MM-DD format",
-                        "name": "date",
+                        "name": "dateFrom",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "example": "2026-02-10",
+                        "description": "Date in YYYY-MM-DD format",
+                        "name": "dateTo",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "company",
+                            "person"
+                        ],
+                        "type": "string",
+                        "example": "company",
+                        "description": "Topic name",
+                        "name": "topic",
                         "in": "query",
                         "required": true
                     }
@@ -43,18 +138,24 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/main.AuditEntry"
+                                "$ref": "#/definitions/models.AuditEntry"
                             }
                         }
                     },
                     "400": {
-                        "description": "Bad Request - date parameter required",
+                        "description": "dateFrom parameter required",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "No audit entries found for the specified date range",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Error fetching audit entries",
                         "schema": {
                             "type": "string"
                         }
@@ -64,14 +165,39 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "main.AuditEntry": {
+        "models.AuditEntry": {
             "type": "object",
             "properties": {
-                "changed_at": {
+                "after": {
+                    "description": "Can be null for DELETE operations",
+                    "type": "object"
+                },
+                "before": {
+                    "description": "Can be null for CREATE operations",
+                    "type": "object"
+                },
+                "change_id": {
+                    "description": "Unique identifier for the change, useful for tracing related changes",
                     "type": "string"
                 },
-                "changes": {},
+                "change_reason": {
+                    "description": "Field to capture the reason for the change",
+                    "type": "string"
+                },
+                "changed_at": {
+                    "description": "Date of change in ISO 8601 format",
+                    "type": "string"
+                },
                 "id": {
+                    "description": "Identifier for the audit entry",
+                    "type": "integer"
+                },
+                "operation_type": {
+                    "description": "e.g., \"INSERT\", \"UPDATE\", \"DELETE\"",
+                    "type": "string"
+                },
+                "parent_id": {
+                    "description": "ID of the topic record that was changed",
                     "type": "integer"
                 }
             }
@@ -86,7 +212,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Company History API",
-	Description:      "Get audit logs for company changes from TimescaleDB",
+	Description:      "Get audit logs for company changes from auditDb",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

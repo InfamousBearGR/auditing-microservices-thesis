@@ -20,9 +20,9 @@ import java.util.regex.Pattern
 @Slf4j
 class KafkaService {
     private static final Properties properties = Utils.getProperties()
-    private static final String KAFKA_GROUP = Utils.getEnv('KAFKA_GROUP', properties.getProperty('kafka.group'))
-    private static final String KAFKA_BROKER = Utils.getEnv('KAFKA_BROKER', properties.getProperty('kafka.broker'))
-    private static final String KAFKA_TOPIC = Utils.getEnv('KAFKA_TOPIC', properties.getProperty('kafka.topic'))
+    private static final String KAFKA_GROUP = properties.getProperty('kafka.group', 'audit-consumer-group')
+    private static final String KAFKA_BROKER = properties.getProperty('kafka.broker', 'localhost:9092')
+    private static final String KAFKA_TOPIC = properties.getProperty('kafka.topic', '^server.public\\..*')
 
     static KafkaConsumer<String, String> createKafkaConsumer() {
         log.info('Kafka Broker: {}', KAFKA_BROKER)
@@ -64,15 +64,22 @@ class KafkaService {
         Integer changedByUserId = Utils.getIntFromJsonNode(after, "last_user_id") ?: Utils.getIntFromJsonNode(before, "last_user_id") ?: 0
         Integer parentId = Utils.getIntFromJsonNode(after, "id") ?: Utils.getIntFromJsonNode(before, "id") ?: 0
         Timestamp operationTimestamp = new Timestamp(Utils.getLongFromJsonNode(payload.get("source"), "ts_ms"))
-        // Insert into audit table
+        Long lsn = Utils.getLongFromJsonNode(payload.get("source"), "lsn")
+        String change_reason = Utils.getStringFromJsonNode(after, "change_reason") ?: ""
 
-        String beforeJson = Utils.jsonNodeToString(before)
-        String afterJson = Utils.jsonNodeToString(after)
+        // Insert into audit table
+        before = Utils.removeItemFromJsonNode(before, "change_reason")
+        before = Utils.removeItemFromJsonNode(before, "id")
+
+        after = Utils.removeItemFromJsonNode(after, "change_reason")
+        after = Utils.removeItemFromJsonNode(after, "id")
 
         String topic = record.topic()
         String tableName = topic.substring(topic.lastIndexOf('.') + 1)
         String auditTableName = tableName + "_audit"
 
+        String beforeJson = Utils.jsonNodeToString(before)
+        String afterJson = Utils.jsonNodeToString(after)
         DatabaseService.insertAuditLog(
                 connection,
                 auditTableName,
@@ -81,7 +88,9 @@ class KafkaService {
                 operationType,
                 operationTimestamp,
                 changedByUserId,
-                parentId
+                parentId,
+                lsn,
+                change_reason
         )
     }
 

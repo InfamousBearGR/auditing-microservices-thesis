@@ -1,10 +1,11 @@
 CREATE TABLE company
 (
-    id           SERIAL PRIMARY KEY,
-    name         VARCHAR(255) NOT NULL,
-    last_user_id INT,
-    date_created TIMESTAMP DEFAULT now(),
-    last_updated TIMESTAMP DEFAULT now()
+    id            SERIAL PRIMARY KEY,
+    name          VARCHAR(255) NOT NULL,
+    last_user_id  INT,
+    change_reason VARCHAR(255) NOT NULL,
+    date_created  TIMESTAMP DEFAULT now(),
+    last_updated  TIMESTAMP DEFAULT now()
 );
 ALTER TABLE company
     REPLICA IDENTITY FULL;
@@ -42,13 +43,14 @@ EXECUTE PROCEDURE set_creation_timestamps();
 
 CREATE TABLE person
 (
-    id           SERIAL PRIMARY KEY,
-    name         VARCHAR(255) NOT NULL,
-    surname      VARCHAR(255) NOT NULL,
-    afm          VARCHAR(20)  NOT NULL,
-    last_user_id INT,
-    date_created TIMESTAMP DEFAULT now(),
-    last_updated TIMESTAMP DEFAULT now()
+    id            SERIAL PRIMARY KEY,
+    name          VARCHAR(255) NOT NULL,
+    surname       VARCHAR(255) NOT NULL,
+    afm           VARCHAR(20)  NOT NULL,
+    last_user_id  INT,
+    change_reason VARCHAR(255) NOT NULL,
+    date_created  TIMESTAMP DEFAULT now(),
+    last_updated  TIMESTAMP DEFAULT now()
 );
 ALTER TABLE person
     REPLICA IDENTITY FULL;
@@ -65,16 +67,16 @@ CREATE TRIGGER insert_person_timestamps
     FOR EACH ROW
 EXECUTE PROCEDURE set_creation_timestamps();
 
-INSERT INTO company (name, last_user_id, date_created, last_updated)
-VALUES ('Acme Corp', 1, now(), now()),
-       ('Globex Inc', 2, now(), now()),
-       ('Soylent Corp', 3, now(), now()),
-       ('Initech', 4, now(), now()),
-       ('Umbrella Corp', 5, now(), now());
+INSERT INTO company (name, last_user_id, change_reason, date_created, last_updated)
+VALUES ('Acme Corp', 1, 'Initialization', now(), now()),
+       ('Globex Inc', 2, 'Initialization', now(), now()),
+       ('Soylent Corp', 3, 'Initialization', now(), now()),
+       ('Initech', 4, 'Initialization', now(), now()),
+       ('Umbrella Corp', 5, 'Initialization', now(), now());
 
-INSERT INTO person (name, surname, afm, last_user_id, date_created, last_updated)
-VALUES ('John', 'Doe', '123456789', 1, now(), now()),
-       ('Jane', 'Smith', '987654321', 2, now(), now()),
-       ('Alice', 'Johnson', '456789123', 3, now(), now()),
-       ('Bob', 'Brown', '789123456', 4, now(), now()),
-       ('Charlie', 'Davis', '321654987', 5, now(), now());
+INSERT INTO person (name, surname, afm, last_user_id, change_reason, date_created, last_updated)
+VALUES ('John', 'Doe', '123456789', 1, 'Initialization', now(), now()),
+       ('Jane', 'Smith', '987654321', 2, 'Initialization', now(), now()),
+       ('Alice', 'Johnson', '456789123', 3, 'Initialization', now(), now()),
+       ('Bob', 'Brown', '789123456', 4, 'Initialization', now(), now()),
+       ('Charlie', 'Davis', '321654987', 5, 'Initialization', now(), now());
