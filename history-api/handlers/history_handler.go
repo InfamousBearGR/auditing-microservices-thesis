@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"history-api/database"
+	"history-api/middleware"
 	"history-api/models"
 )
 
@@ -44,28 +45,6 @@ func respondWithError(w http.ResponseWriter, statusCode int, message string) {
 	http.Error(w, message, statusCode)
 }
 
-// respondWithJSON sends a JSON response with the given data
-func respondWithJSON(w http.ResponseWriter, data interface{}) error {
-	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(data); err != nil {
-		log.Println("Error encoding response:", err)
-		return err
-	}
-	return nil
-}
-
-// handleHistoryResponse handles the common response logic for history endpoints
-func handleHistoryResponse(w http.ResponseWriter, history []models.AuditEntry, notFoundMessage string) {
-	if len(history) == 0 {
-		respondWithError(w, http.StatusNotFound, notFoundMessage)
-		return
-	}
-
-	if err := respondWithJSON(w, history); err != nil {
-		respondWithError(w, http.StatusInternalServerError, "Error encoding response")
-	}
-}
-
 // GetHistoryByDateRange godoc
 // @Summary Get audit history for a specific date
 // @Description Retrieves all audit entries for company changes on a specific date
@@ -74,9 +53,12 @@ func handleHistoryResponse(w http.ResponseWriter, history []models.AuditEntry, n
 // @Produce json
 // @Param dateFrom query string true "Date in YYYY-MM-DD format" example(2026-02-10)
 // @Param dateTo query string true "Date in YYYY-MM-DD format" example(2026-02-10)
-// @Param topic query string true "Topic name" Enums(company, person) example(company)
+// @Param topic query string true "Topic name" Enums(company, person, legal_entity, member) example(company)
+// @Security ApiKeyAuth
 // @Success 200 {array} models.AuditEntry "Successfully retrieved audit entries"
 // @Failure 400 {string} string "dateFrom parameter required"
+// @Failure 401 {string} string "Unauthorized - Invalid API key"
+// @Failure 403 {string} string "Forbidden - Access denied to topic"
 // @Failure 404 {string} string "No audit entries found for the specified date range"
 // @Failure 500 {string} string "Error fetching audit entries"
 // @Router /getHistoryByDateRange [get]
@@ -109,14 +91,52 @@ func (h *HistoryHandler) GetHistoryByDateRange(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	history, err := h.dbService.GetAuditEntriesByDate(dateFrom, dateTo, topic)
-	if err != nil {
-		log.Println("Error fetching audit entries:", err)
-		respondWithError(w, http.StatusInternalServerError, "Error fetching audit entries")
+	// Check if user has access to the requested topic
+	if !middleware.CheckTopicAccess(r, topic) {
+		respondWithError(w, http.StatusForbidden, "Access denied to topic: "+topic)
 		return
 	}
 
-	handleHistoryResponse(w, history, "No audit entries found for the specified date range")
+	// Stream the response as JSON array
+	w.Header().Set("Content-Type", "application/json")
+	encoder := json.NewEncoder(w)
+
+	// Write the opening bracket
+	if _, err := w.Write([]byte("[")); err != nil {
+		log.Println("Error writing opening bracket:", err)
+		return
+	}
+
+	first := true
+	hasRows, err := h.dbService.StreamAuditEntriesByDate(dateFrom, dateTo, topic, func(entry *models.AuditEntry) error {
+		// Add comma before subsequent entries
+		if !first {
+			if _, err := w.Write([]byte(",")); err != nil {
+				return fmt.Errorf("error writing comma: %w", err)
+			}
+		}
+		first = false
+
+		// Encode and write the entry
+		return encoder.Encode(entry)
+	})
+
+	// Write the closing bracket
+	if _, err := w.Write([]byte("]")); err != nil {
+		log.Println("Error writing closing bracket:", err)
+		return
+	}
+
+	if err != nil {
+		log.Println("Error streaming audit entries:", err)
+		// Can't send error response after starting to write body
+		return
+	}
+
+	if !hasRows {
+		// Already wrote "[]", which is correct for empty result
+		log.Println("No audit entries found for the specified date range")
+	}
 }
 
 // GetHistoryByChangeIdRange godoc
@@ -127,9 +147,12 @@ func (h *HistoryHandler) GetHistoryByDateRange(w http.ResponseWriter, r *http.Re
 // @Produce json
 // @Param changeIdFrom query integer true "Starting change_id (inclusive)" example(1)
 // @Param changeIdTo query integer true "Ending change_id (inclusive)" example(100)
-// @Param topic query string true "Topic name" Enums(company, person) example(company)
+// @Param topic query string true "Topic name" Enums(company, person, legal_entity, member) example(company)
+// @Security ApiKeyAuth
 // @Success 200 {array} models.AuditEntry "Successfully retrieved audit entries"
 // @Failure 400 {string} string "changeIdFrom parameter required or invalid"
+// @Failure 401 {string} string "Unauthorized - Invalid API key"
+// @Failure 403 {string} string "Forbidden - Access denied to topic"
 // @Failure 404 {string} string "No audit entries found for the specified change_id range"
 // @Failure 500 {string} string "Error fetching audit entries"
 // @Router /getHistoryByChangeIdRange [get]
@@ -169,12 +192,50 @@ func (h *HistoryHandler) GetHistoryByChangeIdRange(w http.ResponseWriter, r *htt
 		return
 	}
 
-	history, err := h.dbService.GetAuditEntriesByChangeIdRange(changeIdFrom, changeIdTo, topic)
-	if err != nil {
-		log.Println("Error fetching audit entries:", err)
-		respondWithError(w, http.StatusInternalServerError, "Error fetching audit entries")
+	// Check if user has access to the requested topic
+	if !middleware.CheckTopicAccess(r, topic) {
+		respondWithError(w, http.StatusForbidden, "Access denied to topic: "+topic)
 		return
 	}
 
-	handleHistoryResponse(w, history, "No audit entries found for the specified change_id range")
+	// Stream the response as JSON array
+	w.Header().Set("Content-Type", "application/json")
+	encoder := json.NewEncoder(w)
+
+	// Write the opening bracket
+	if _, err := w.Write([]byte("[")); err != nil {
+		log.Println("Error writing opening bracket:", err)
+		return
+	}
+
+	first := true
+	hasRows, err := h.dbService.StreamAuditEntriesByChangeIdRange(changeIdFrom, changeIdTo, topic, func(entry *models.AuditEntry) error {
+		// Add comma before subsequent entries
+		if !first {
+			if _, err := w.Write([]byte(",")); err != nil {
+				return fmt.Errorf("error writing comma: %w", err)
+			}
+		}
+		first = false
+
+		// Encode and write the entry
+		return encoder.Encode(entry)
+	})
+
+	// Write the closing bracket
+	if _, err := w.Write([]byte("]")); err != nil {
+		log.Println("Error writing closing bracket:", err)
+		return
+	}
+
+	if err != nil {
+		log.Println("Error streaming audit entries:", err)
+		// Can't send error response after starting to write body
+		return
+	}
+
+	if !hasRows {
+		// Already wrote "[]", which is correct for empty result
+		log.Println("No audit entries found for the specified change_id range")
+	}
 }

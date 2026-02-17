@@ -15,8 +15,193 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/exportHistoryByChangeIdRange": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Downloads audit entries for a change ID range as a Parquet file (optimized for high-volume data)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "export"
+                ],
+                "summary": "Export audit history as Parquet file by change ID range",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "example": 1,
+                        "description": "Starting change_id (inclusive)",
+                        "name": "changeIdFrom",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "example": 100,
+                        "description": "Ending change_id (inclusive)",
+                        "name": "changeIdTo",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "company",
+                            "person",
+                            "legal_entity",
+                            "member"
+                        ],
+                        "type": "string",
+                        "example": "company",
+                        "description": "Topic name",
+                        "name": "topic",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Parquet file download",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "changeIdFrom parameter required",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid API key",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - Access denied to topic",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "No audit entries found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Error generating Parquet file",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exportHistoryByDateRange": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Downloads audit entries for a date range as a Parquet file (optimized for high-volume data)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "export"
+                ],
+                "summary": "Export audit history as Parquet file by date range",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "example": "2026-02-10",
+                        "description": "Date in YYYY-MM-DD format",
+                        "name": "dateFrom",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "example": "2026-02-10",
+                        "description": "Date in YYYY-MM-DD format",
+                        "name": "dateTo",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "company",
+                            "person",
+                            "legal_entity",
+                            "member"
+                        ],
+                        "type": "string",
+                        "example": "company",
+                        "description": "Topic name",
+                        "name": "topic",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Parquet file download",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "dateFrom parameter required",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid API key",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - Access denied to topic",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "No audit entries found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Error generating Parquet file",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/getHistoryByChangeIdRange": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Retrieves all audit entries within a specific change_id range",
                 "consumes": [
                     "application/json"
@@ -48,7 +233,9 @@ const docTemplate = `{
                     {
                         "enum": [
                             "company",
-                            "person"
+                            "person",
+                            "legal_entity",
+                            "member"
                         ],
                         "type": "string",
                         "example": "company",
@@ -74,6 +261,18 @@ const docTemplate = `{
                             "type": "string"
                         }
                     },
+                    "401": {
+                        "description": "Unauthorized - Invalid API key",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - Access denied to topic",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     "404": {
                         "description": "No audit entries found for the specified change_id range",
                         "schema": {
@@ -91,6 +290,11 @@ const docTemplate = `{
         },
         "/getHistoryByDateRange": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Retrieves all audit entries for company changes on a specific date",
                 "consumes": [
                     "application/json"
@@ -122,7 +326,9 @@ const docTemplate = `{
                     {
                         "enum": [
                             "company",
-                            "person"
+                            "person",
+                            "legal_entity",
+                            "member"
                         ],
                         "type": "string",
                         "example": "company",
@@ -144,6 +350,18 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "dateFrom parameter required",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid API key",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - Access denied to topic",
                         "schema": {
                             "type": "string"
                         }
@@ -201,6 +419,14 @@ const docTemplate = `{
                     "type": "integer"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "description": "Enter your API key in the format: Bearer \u003capi_key\u003e",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

@@ -1,7 +1,7 @@
 kafka:
   clusters:
     - name: local
-      bootstrapServers: kafka:9092
+      bootstrapServers: kafka-1:9092, kafka-2:9092, kafka-3:9092
       kafkaConnect:
         - name: debezium
           address: http://debezium:8083

@@ -7,13 +7,15 @@ const (
 	// TopicCompany represents the company audit topic
 	TopicCompany Topic = "company"
 	// TopicPerson represents the person audit topic
-	TopicPerson Topic = "person"
+	TopicPerson      Topic = "person"
+	TopicLegalEntity Topic = "legal_entity"
+	TopicMember      Topic = "member"
 )
 
 // IsValid checks if the topic is a valid enum value
 func (t Topic) IsValid() bool {
 	switch t {
-	case TopicCompany, TopicPerson:
+	case TopicCompany, TopicPerson, TopicLegalEntity, TopicMember:
 		return true
 	}
 	return false
@@ -26,10 +28,10 @@ func (t Topic) String() string {
 
 // AllTopics returns all valid topic values
 func AllTopics() []Topic {
-	return []Topic{TopicCompany, TopicPerson}
+	return []Topic{TopicCompany, TopicPerson, TopicLegalEntity, TopicMember}
 }
 
 // AllTopicStrings returns all valid topic values as strings
 func AllTopicStrings() []string {
-	return []string{string(TopicCompany), string(TopicPerson)}
+	return []string{string(TopicCompany), string(TopicPerson), string(TopicLegalEntity), string(TopicMember)}
 }

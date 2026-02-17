@@ -6,7 +6,7 @@ done
 
 echo "Registering Postgres Connector..."
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" http://debezium:8083/connectors/ -d '{
-  "name": "company-connector",
+  "name": "audit-connector",
   "config": {
     "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
     "database.hostname": "mainDb",

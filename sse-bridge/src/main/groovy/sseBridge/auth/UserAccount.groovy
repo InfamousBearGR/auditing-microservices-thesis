@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
 import com.fasterxml.jackson.databind.JsonNode
 
-@Table("user_account")
+@Table("user_api_account")
 class UserAccount {
 
     @Id

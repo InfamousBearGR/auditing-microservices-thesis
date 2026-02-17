@@ -122,16 +122,20 @@ This system demonstrates a modern event-driven architecture that:
 ### 7. **history-api** (Go + Gorilla Mux)
 - **Purpose**: REST API for querying historical audit data
 - **Port**: 8081
-- **Technology**: Go, Gorilla Mux, PostgreSQL driver
+- **Technology**: Go, Gorilla Mux, PostgreSQL driver, Apache Arrow Parquet
 - **Endpoints**:
-  - `GET /getHistoryByDateRange?dateFrom=YYYY-MM-DD&dateTo=YYYY-MM-DD&topic=company` - Query audit logs by date range
-  - `GET /getHistoryByChangeIdRange?changeIdFrom=N&changeIdTo=M&topic=company|person` - Query audit logs by change ID range
+  - `GET /getHistoryByDateRange?dateFrom=YYYY-MM-DD&dateTo=YYYY-MM-DD&topic=company` - Stream audit logs as JSON by date range
+  - `GET /getHistoryByChangeIdRange?changeIdFrom=N&changeIdTo=M&topic=company|person` - Stream audit logs as JSON by change ID range
+  - `GET /exportHistoryByDateRange?dateFrom=YYYY-MM-DD&dateTo=YYYY-MM-DD&topic=company` - Export audit logs as Parquet file by date range
+  - `GET /exportHistoryByChangeIdRange?changeIdFrom=N&changeIdTo=M&topic=company|person` - Export audit logs as Parquet file by change ID range
   - `GET /swagger/` - Interactive API documentation
 - **Features**:
   - Swagger/OpenAPI documentation
-  - JSON response format
+  - **Dual format support**: JSON streaming (real-time queries) and Parquet export (bulk downloads)
+  - **Parquet benefits**: 2-10x smaller files, optimized for analytics tools (Pandas, Spark, Excel, etc.)
   - Time-based and change ID-based queries on TimescaleDB
   - Supports both `company_audit` and `person_audit` tables via topic parameter
+  - API key authentication and resource-level authorization
 
 ## 🚀 Quick Start
 
@@ -343,12 +347,12 @@ Access: {"company": true, "person": true}
 ```
 
 ### Adding New Users
-```sql
+```bash
 -- Connect to auditDb
 docker exec -it timescaledb psql -U admin -d auditdb
 
 -- Insert new user
-INSERT INTO user_account (api_key, access, date_created, last_updated)
+INSERT INTO user_api_account (api_key, access, date_created, last_updated)
 VALUES ('your_new_api_key', '{"company": true, "person": false}', now(), now());
 ```
 
