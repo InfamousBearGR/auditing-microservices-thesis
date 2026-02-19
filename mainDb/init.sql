@@ -1,8 +1,8 @@
 CREATE TABLE roles
 (
-    id            SERIAL PRIMARY KEY,
+    id            BIGSERIAL PRIMARY KEY,
     description   VARCHAR(255) NOT NULL UNIQUE,
-    last_user_id  INT,
+    last_user_id  BIGINT,
     change_reason VARCHAR(255) NOT NULL,
     date_created  TIMESTAMP DEFAULT now(),
     last_updated  TIMESTAMP DEFAULT now()
@@ -12,11 +12,11 @@ ALTER TABLE roles
 
 CREATE TABLE user_account
 (
-    id            SERIAL PRIMARY KEY,
+    id            BIGSERIAL PRIMARY KEY,
     username      VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    role_id       INT          NOT NULL,
-    last_user_id  INT,
+    role_id       BIGINT       NOT NULL,
+    last_user_id  BIGINT,
     change_reason VARCHAR(255) NOT NULL,
     date_created  TIMESTAMP DEFAULT now(),
     last_updated  TIMESTAMP DEFAULT now(),
@@ -27,9 +27,10 @@ ALTER TABLE user_account
 
 CREATE TABLE languages
 (
-    id            SERIAL PRIMARY KEY,
+    id            BIGSERIAL PRIMARY KEY,
     description   VARCHAR(255) NOT NULL UNIQUE,
-    last_user_id  INT,
+    code          VARCHAR(10)  NOT NULL UNIQUE,
+    last_user_id  BIGINT,
     change_reason VARCHAR(255) NOT NULL,
     date_created  TIMESTAMP DEFAULT now(),
     last_updated  TIMESTAMP DEFAULT now(),
@@ -40,8 +41,8 @@ ALTER TABLE languages
 
 CREATE TABLE countries
 (
-    id            SERIAL PRIMARY KEY,
-    last_user_id  INT,
+    id            BIGSERIAL PRIMARY KEY,
+    last_user_id  BIGINT,
     change_reason VARCHAR(255) NOT NULL,
     date_created  TIMESTAMP DEFAULT now(),
     last_updated  TIMESTAMP DEFAULT now(),
@@ -53,11 +54,11 @@ ALTER TABLE countries
 
 CREATE TABLE countriesI18n
 (
-    id            SERIAL PRIMARY KEY,
-    country_id    INT          NOT NULL,
+    id            BIGSERIAL PRIMARY KEY,
+    country_id    BIGINT       NOT NULL,
     description   VARCHAR(255) NOT NULL,
-    language_id   INT          NOT NULL,
-    last_user_id  INT,
+    language_id   BIGINT       NOT NULL,
+    last_user_id  BIGINT,
     change_reason VARCHAR(255) NOT NULL,
     date_created  TIMESTAMP DEFAULT now(),
     last_updated  TIMESTAMP DEFAULT now(),
@@ -72,8 +73,8 @@ ALTER TABLE countriesI18n
 
 CREATE TABLE regions
 (
-    id            SERIAL PRIMARY KEY,
-    last_user_id  INT,
+    id            BIGSERIAL PRIMARY KEY,
+    last_user_id  BIGINT,
     change_reason VARCHAR(255) NOT NULL,
     date_created  TIMESTAMP DEFAULT now(),
     last_updated  TIMESTAMP DEFAULT now(),
@@ -85,11 +86,11 @@ ALTER TABLE regions
 
 CREATE TABLE regionsI18n
 (
-    id            SERIAL PRIMARY KEY,
-    region_id     INT          NOT NULL,
+    id            BIGSERIAL PRIMARY KEY,
+    region_id     BIGINT       NOT NULL,
     description   VARCHAR(255) NOT NULL,
-    language_id   INT          NOT NULL,
-    last_user_id  INT,
+    language_id   BIGINT       NOT NULL,
+    last_user_id  BIGINT,
     change_reason VARCHAR(255) NOT NULL,
     date_created  TIMESTAMP DEFAULT now(),
     last_updated  TIMESTAMP DEFAULT now(),
@@ -104,9 +105,9 @@ ALTER TABLE regionsI18n
 
 CREATE TABLE prefectures
 (
-    id            SERIAL PRIMARY KEY,
-    region_id     INT          NOT NULL,
-    last_user_id  INT,
+    id            BIGSERIAL PRIMARY KEY,
+    region_id     BIGINT       NOT NULL,
+    last_user_id  BIGINT,
     change_reason VARCHAR(255) NOT NULL,
     date_created  TIMESTAMP DEFAULT now(),
     last_updated  TIMESTAMP DEFAULT now(),
@@ -119,11 +120,11 @@ ALTER TABLE prefectures
 
 CREATE TABLE prefecturesI18n
 (
-    id            SERIAL PRIMARY KEY,
-    prefecture_id INT          NOT NULL,
+    id            BIGSERIAL PRIMARY KEY,
+    prefecture_id BIGINT       NOT NULL,
     description   VARCHAR(255) NOT NULL,
-    language_id   INT          NOT NULL,
-    last_user_id  INT,
+    language_id   BIGINT       NOT NULL,
+    last_user_id  BIGINT,
     change_reason VARCHAR(255) NOT NULL,
     date_created  TIMESTAMP DEFAULT now(),
     last_updated  TIMESTAMP DEFAULT now(),
@@ -138,9 +139,9 @@ ALTER TABLE prefecturesI18n
 
 CREATE TABLE municipalities
 (
-    id            SERIAL PRIMARY KEY,
-    prefecture_id INT          NOT NULL,
-    last_user_id  INT,
+    id            BIGSERIAL PRIMARY KEY,
+    prefecture_id BIGINT       NOT NULL,
+    last_user_id  BIGINT,
     change_reason VARCHAR(255) NOT NULL,
     date_created  TIMESTAMP DEFAULT now(),
     last_updated  TIMESTAMP DEFAULT now(),
@@ -153,11 +154,11 @@ ALTER TABLE municipalities
 
 CREATE TABLE municipalitiesI18n
 (
-    id              SERIAL PRIMARY KEY,
-    municipality_id INT          NOT NULL,
+    id              BIGSERIAL PRIMARY KEY,
+    municipality_id BIGINT       NOT NULL,
     description     VARCHAR(255) NOT NULL,
-    language_id     INT          NOT NULL,
-    last_user_id    INT,
+    language_id     BIGINT       NOT NULL,
+    last_user_id    BIGINT,
     change_reason   VARCHAR(255) NOT NULL,
     date_created    TIMESTAMP DEFAULT now(),
     last_updated    TIMESTAMP DEFAULT now(),
@@ -172,8 +173,8 @@ ALTER TABLE municipalitiesI18n
 
 CREATE TABLE company_statuses
 (
-    id            SERIAL PRIMARY KEY,
-    last_user_id  INT,
+    id            BIGSERIAL PRIMARY KEY,
+    last_user_id  BIGINT,
     change_reason VARCHAR(255) NOT NULL,
     date_created  TIMESTAMP DEFAULT now(),
     last_updated  TIMESTAMP DEFAULT now(),
@@ -185,11 +186,11 @@ ALTER TABLE company_statuses
 
 CREATE TABLE company_statusesI18n
 (
-    id                SERIAL PRIMARY KEY,
-    company_status_id INT          NOT NULL,
+    id                BIGSERIAL PRIMARY KEY,
+    company_status_id BIGINT       NOT NULL,
     description       VARCHAR(255) NOT NULL,
-    language_id       INT          NOT NULL,
-    last_user_id      INT,
+    language_id       BIGINT       NOT NULL,
+    last_user_id      BIGINT,
     change_reason     VARCHAR(255) NOT NULL,
     date_created      TIMESTAMP DEFAULT now(),
     last_updated      TIMESTAMP DEFAULT now(),
@@ -204,8 +205,8 @@ ALTER TABLE company_statusesI18n
 
 CREATE TABLE legal_types
 (
-    id            SERIAL PRIMARY KEY,
-    last_user_id  INT,
+    id            BIGSERIAL PRIMARY KEY,
+    last_user_id  BIGINT,
     change_reason VARCHAR(255) NOT NULL,
     date_created  TIMESTAMP DEFAULT now(),
     last_updated  TIMESTAMP DEFAULT now(),
@@ -217,11 +218,11 @@ ALTER TABLE legal_types
 
 CREATE TABLE legal_typesI18n
 (
-    id            SERIAL PRIMARY KEY,
-    legal_type_id INT          NOT NULL,
+    id            BIGSERIAL PRIMARY KEY,
+    legal_type_id BIGINT       NOT NULL,
     description   VARCHAR(255) NOT NULL,
-    language_id   INT          NOT NULL,
-    last_user_id  INT,
+    language_id   BIGINT       NOT NULL,
+    last_user_id  BIGINT,
     change_reason VARCHAR(255) NOT NULL,
     date_created  TIMESTAMP DEFAULT now(),
     last_updated  TIMESTAMP DEFAULT now(),
@@ -236,8 +237,8 @@ ALTER TABLE legal_typesI18n
 
 CREATE TABLE member_relations
 (
-    id            SERIAL PRIMARY KEY,
-    last_user_id  INT,
+    id            BIGSERIAL PRIMARY KEY,
+    last_user_id  BIGINT,
     change_reason VARCHAR(255) NOT NULL,
     date_created  TIMESTAMP DEFAULT now(),
     last_updated  TIMESTAMP DEFAULT now(),
@@ -249,11 +250,11 @@ ALTER TABLE member_relations
 
 CREATE TABLE member_relationsI18n
 (
-    id                 SERIAL PRIMARY KEY,
-    member_relation_id INT          NOT NULL,
+    id                 BIGSERIAL PRIMARY KEY,
+    member_relation_id BIGINT       NOT NULL,
     description        VARCHAR(255) NOT NULL,
-    language_id        INT          NOT NULL,
-    last_user_id       INT,
+    language_id        BIGINT       NOT NULL,
+    last_user_id       BIGINT,
     change_reason      VARCHAR(255) NOT NULL,
     date_created       TIMESTAMP DEFAULT now(),
     last_updated       TIMESTAMP DEFAULT now(),
@@ -268,22 +269,22 @@ ALTER TABLE member_relationsI18n
 
 CREATE TABLE company
 (
-    id                SERIAL PRIMARY KEY,
+    id                BIGSERIAL PRIMARY KEY,
     name              VARCHAR(255) NOT NULL,
     city              VARCHAR(255),
     street            VARCHAR(255),
-    country_id        INT,
-    prefecture_id     INT,
-    municipality_id   INT,
+    country_id        BIGINT,
+    prefecture_id     BIGINT,
+    municipality_id   BIGINT,
     street_number     VARCHAR(50),
-    region_id         INT,
+    region_id         BIGINT,
     postal_code       VARCHAR(20),
     afm               VARCHAR(9)   NOT NULL,
-    legal_type_id     INT          NOT NULL,
+    legal_type_id     BIGINT       NOT NULL,
     date_incorporated DATE         NOT NULL,
     gemi_number       VARCHAR(12)  NOT NULL,
-    company_status_id INT          NOT NULL,
-    last_user_id      INT,
+    company_status_id BIGINT       NOT NULL,
+    last_user_id      BIGINT,
     change_reason     VARCHAR(255) NOT NULL,
     date_created      TIMESTAMP DEFAULT now(),
     last_updated      TIMESTAMP DEFAULT now(),
@@ -300,23 +301,23 @@ ALTER TABLE company
 
 CREATE TABLE person
 (
-    id              SERIAL PRIMARY KEY,
+    id              BIGSERIAL PRIMARY KEY,
     name            VARCHAR(255) NOT NULL,
     surname         VARCHAR(255) NOT NULL,
     afm             VARCHAR(9)   NOT NULL,
     city            VARCHAR(255),
     street          VARCHAR(255),
-    country_id      INT,
-    prefecture_id   INT,
-    municipality_id INT,
+    country_id      BIGINT,
+    prefecture_id   BIGINT,
+    municipality_id BIGINT,
     street_number   VARCHAR(50),
-    region_id       INT,
+    region_id       BIGINT,
     postal_code     VARCHAR(20),
     birth_date      DATE         NOT NULL,
     birth_place     VARCHAR(255) NOT NULL,
     identity_number VARCHAR(20)  NOT NULL,
     phone_number    VARCHAR(20),
-    last_user_id    INT,
+    last_user_id    BIGINT,
     change_reason   VARCHAR(255) NOT NULL,
     date_created    TIMESTAMP DEFAULT now(),
     last_updated    TIMESTAMP DEFAULT now(),
@@ -331,20 +332,20 @@ ALTER TABLE person
 
 CREATE TABLE legal_entity
 (
-    id              SERIAL PRIMARY KEY,
+    id              BIGSERIAL PRIMARY KEY,
     gemi_number     VARCHAR(12)  NOT NULL,
     business_name   VARCHAR(255) NOT NULL,
     phone_number    VARCHAR(20),
     afm             VARCHAR(9)   NOT NULL,
     city            VARCHAR(255),
     street          VARCHAR(255),
-    country_id      INT,
-    prefecture_id   INT,
-    municipality_id INT,
+    country_id      BIGINT,
+    prefecture_id   BIGINT,
+    municipality_id BIGINT,
     street_number   VARCHAR(50),
-    region_id       INT,
+    region_id       BIGINT,
     postal_code     VARCHAR(20),
-    last_user_id    INT,
+    last_user_id    BIGINT,
     change_reason   VARCHAR(255) NOT NULL,
     date_created    TIMESTAMP DEFAULT now(),
     last_updated    TIMESTAMP DEFAULT now(),
@@ -359,19 +360,19 @@ ALTER TABLE legal_entity
 
 CREATE TABLE member
 (
-    id                       SERIAL PRIMARY KEY,
+    id                       BIGSERIAL PRIMARY KEY,
     active                   BOOLEAN      NOT NULL,
     date_from                DATE         NOT NULL,
     date_to                  DATE         NOT NULL,
     percentage_of_ownership  VARCHAR(10)  NOT NULL,
-    person_id                INT          NULL,
-    legal_entity_id          INT          NULL,
-    company_id               INT          NOT NULL,
-    representative_of_member INT          NULL,
+    person_id                BIGINT       NULL,
+    legal_entity_id          BIGINT       NULL,
+    company_id               BIGINT       NOT NULL,
+    representative_of_member BIGINT       NULL,
     represented_individual   BOOLEAN      NOT NULL,
     represented_together     BOOLEAN      NOT NULL,
-    member_relation_id       INT          NOT NULL,
-    last_user_id             INT,
+    member_relation_id       BIGINT       NOT NULL,
+    last_user_id             BIGINT,
     change_reason            VARCHAR(255) NOT NULL,
     date_created             TIMESTAMP DEFAULT now(),
     last_updated             TIMESTAMP DEFAULT now(),
@@ -662,15 +663,15 @@ VALUES ('Admin', 'Initialization'),
        ('User', 'Initialization');
 
 INSERT INTO user_account (username, password_hash, role_id, change_reason)
-VALUES ('admin', 'hashed_password_1', 1, 'Initialization'),
-       ('user1', 'hashed_password_2', 2, 'Initialization'),
-       ('user2', 'hashed_password_3', 2, 'Initialization'),
-       ('user3', 'hashed_password_4', 2, 'Initialization'),
-       ('user4', 'hashed_password_5', 2, 'Initialization');
+VALUES ('admin', 'ud4k9Q7SrDX/IoDhB95m3Q==:Y0AD/f7morva6T4Ru7PFZEMPTY5rneTBe+SO9oNSX4g=', 1, 'Initialization'),
+       ('user1', 'ud4k9Q7SrDX/IoDhB95m3Q==:Y0AD/f7morva6T4Ru7PFZEMPTY5rneTBe+SO9oNSX4g=', 2, 'Initialization'),
+       ('user2', 'ud4k9Q7SrDX/IoDhB95m3Q==:Y0AD/f7morva6T4Ru7PFZEMPTY5rneTBe+SO9oNSX4g=', 2, 'Initialization'),
+       ('user3', 'ud4k9Q7SrDX/IoDhB95m3Q==:Y0AD/f7morva6T4Ru7PFZEMPTY5rneTBe+SO9oNSX4g=', 2, 'Initialization'),
+       ('user4', 'ud4k9Q7SrDX/IoDhB95m3Q==:Y0AD/f7morva6T4Ru7PFZEMPTY5rneTBe+SO9oNSX4g=', 2, 'Initialization');
 
-INSERT INTO languages (description, last_user_id, change_reason, date_created, last_updated)
-VALUES ('Ελληνικά', 1, 'Initialization', now(), now()),
-       ('English', 1, 'Initialization', now(), now());
+INSERT INTO languages (description, code, last_user_id, change_reason, date_created, last_updated)
+VALUES ('Ελληνικά', 'el', 1, 'Initialization', now(), now()),
+       ('English', 'en', 1, 'Initialization', now(), now());
 
 -- Insert base legal_types records
 INSERT INTO legal_types (last_user_id, change_reason)

@@ -61,8 +61,8 @@ class KafkaService {
         }
 
         // Extract changed_by_user_id
-        Integer changedByUserId = Utils.getIntFromJsonNode(after, "last_user_id") ?: Utils.getIntFromJsonNode(before, "last_user_id") ?: 0
-        Integer parentId = Utils.getIntFromJsonNode(after, "id") ?: Utils.getIntFromJsonNode(before, "id") ?: 0
+        Long changedByUserId = Utils.getLongFromJsonNode(after, "last_user_id") ?: Utils.getLongFromJsonNode(before, "last_user_id") ?: 0
+        Long parentId = Utils.getLongFromJsonNode(after, "id") ?: Utils.getLongFromJsonNode(before, "id") ?: 0
         Timestamp operationTimestamp = new Timestamp(Utils.getLongFromJsonNode(payload.get("source"), "ts_ms"))
         Long lsn = Utils.getLongFromJsonNode(payload.get("source"), "lsn")
         String change_reason = Utils.getStringFromJsonNode(after, "change_reason") ?: ""

@@ -1,6 +1,6 @@
 CREATE TABLE user_api_account
 (
-    id           SERIAL PRIMARY KEY,
+    id           BIGSERIAL PRIMARY KEY,
     api_key      VARCHAR(255) NOT NULL,
     access       JSONB        NOT NULL,
     date_created TIMESTAMP    NOT NULL DEFAULT now(),
@@ -33,15 +33,15 @@ VALUES ('sample_api_key_123', '{
 
 CREATE TABLE company_audit
 (
-    id                 SERIAL,               -- Auto increment ID
+    id                 BIGSERIAL,             -- Auto increment ID
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL, -- 'INSERT', 'UPDATE', 'DELETE'
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL, -- 'INSERT', 'UPDATE', 'DELETE'
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
@@ -56,15 +56,15 @@ CREATE INDEX idx_company_audit_change_id
 
 CREATE TABLE person_audit
 (
-    id                 SERIAL,               -- Auto increment ID
+    id                 BIGSERIAL,             -- Auto increment ID
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL, -- 'INSERT', 'UPDATE', 'DELETE'
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL, -- 'INSERT', 'UPDATE', 'DELETE'
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
@@ -79,20 +79,21 @@ CREATE INDEX idx_person_audit_change_id
 
 CREATE TABLE legal_entity_audit
 (
-    id                 SERIAL,               -- Auto increment ID
+    id                 BIGSERIAL,             -- Auto increment ID
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL, -- 'INSERT', 'UPDATE', 'DELETE'
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL, -- 'INSERT', 'UPDATE', 'DELETE'
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
 -- Convert to hypertable for time-series efficiency
-SELECT create_hypertable('legal_entity_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+SELECT create_hypertable('legal_entity_audit', 'changed_at', partitioning_column => 'change_id',
+                         number_partitions => 4);
 
 CREATE INDEX idx_legal_entity_audit_changed_at
     ON legal_entity_audit (changed_at DESC);
@@ -102,15 +103,15 @@ CREATE INDEX idx_legal_entity_audit_change_id
 
 CREATE TABLE member_audit
 (
-    id                 SERIAL,               -- Auto increment ID
+    id                 BIGSERIAL,             -- Auto increment ID
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL, -- 'INSERT', 'UPDATE', 'DELETE'
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL, -- 'INSERT', 'UPDATE', 'DELETE'
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
@@ -125,15 +126,15 @@ CREATE INDEX idx_member_audit_change_id
 
 CREATE TABLE roles_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
@@ -147,19 +148,20 @@ CREATE INDEX idx_roles_audit_change_id
 
 CREATE TABLE user_account_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
-SELECT create_hypertable('user_account_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+SELECT create_hypertable('user_account_audit', 'changed_at', partitioning_column => 'change_id',
+                         number_partitions => 4);
 
 CREATE INDEX idx_user_account_audit_changed_at
     ON user_account_audit (changed_at DESC);
@@ -169,15 +171,15 @@ CREATE INDEX idx_user_account_audit_change_id
 
 CREATE TABLE languages_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
@@ -191,15 +193,15 @@ CREATE INDEX idx_languages_audit_change_id
 
 CREATE TABLE countries_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
@@ -213,15 +215,15 @@ CREATE INDEX idx_countries_audit_change_id
 
 CREATE TABLE regions_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
@@ -235,15 +237,15 @@ CREATE INDEX idx_regions_audit_change_id
 
 CREATE TABLE prefectures_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
@@ -257,19 +259,20 @@ CREATE INDEX idx_prefectures_audit_change_id
 
 CREATE TABLE municipalities_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
-SELECT create_hypertable('municipalities_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+SELECT create_hypertable('municipalities_audit', 'changed_at', partitioning_column => 'change_id',
+                         number_partitions => 4);
 
 CREATE INDEX idx_municipalities_audit_changed_at
     ON municipalities_audit (changed_at DESC);
@@ -279,19 +282,20 @@ CREATE INDEX idx_municipalities_audit_change_id
 
 CREATE TABLE company_statuses_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
-SELECT create_hypertable('company_statuses_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+SELECT create_hypertable('company_statuses_audit', 'changed_at', partitioning_column => 'change_id',
+                         number_partitions => 4);
 
 CREATE INDEX idx_company_statuses_audit_changed_at
     ON company_statuses_audit (changed_at DESC);
@@ -301,15 +305,15 @@ CREATE INDEX idx_company_statuses_audit_change_id
 
 CREATE TABLE legal_types_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
@@ -323,19 +327,20 @@ CREATE INDEX idx_legal_types_audit_change_id
 
 CREATE TABLE member_relations_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
-SELECT create_hypertable('member_relations_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+SELECT create_hypertable('member_relations_audit', 'changed_at', partitioning_column => 'change_id',
+                         number_partitions => 4);
 
 CREATE INDEX idx_member_relations_audit_changed_at
     ON member_relations_audit (changed_at DESC);
@@ -345,19 +350,20 @@ CREATE INDEX idx_member_relations_audit_change_id
 
 CREATE TABLE countriesi18n_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
-SELECT create_hypertable('countriesi18n_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+SELECT create_hypertable('countriesi18n_audit', 'changed_at', partitioning_column => 'change_id',
+                         number_partitions => 4);
 
 CREATE INDEX idx_countriesi18n_audit_changed_at
     ON countriesi18n_audit (changed_at DESC);
@@ -367,15 +373,15 @@ CREATE INDEX idx_countriesi18n_audit_change_id
 
 CREATE TABLE regionsi18n_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
@@ -389,19 +395,20 @@ CREATE INDEX idx_regionsi18n_audit_change_id
 
 CREATE TABLE prefecturesi18n_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
-SELECT create_hypertable('prefecturesi18n_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+SELECT create_hypertable('prefecturesi18n_audit', 'changed_at', partitioning_column => 'change_id',
+                         number_partitions => 4);
 
 CREATE INDEX idx_prefecturesi18n_audit_changed_at
     ON prefecturesi18n_audit (changed_at DESC);
@@ -411,19 +418,20 @@ CREATE INDEX idx_prefecturesi18n_audit_change_id
 
 CREATE TABLE municipalitiesi18n_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
-SELECT create_hypertable('municipalitiesi18n_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+SELECT create_hypertable('municipalitiesi18n_audit', 'changed_at', partitioning_column => 'change_id',
+                         number_partitions => 4);
 
 CREATE INDEX idx_municipalitiesi18n_audit_changed_at
     ON municipalitiesi18n_audit (changed_at DESC);
@@ -433,19 +441,20 @@ CREATE INDEX idx_municipalitiesi18n_audit_change_id
 
 CREATE TABLE company_statusesi18n_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
-SELECT create_hypertable('company_statusesi18n_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+SELECT create_hypertable('company_statusesi18n_audit', 'changed_at', partitioning_column => 'change_id',
+                         number_partitions => 4);
 
 CREATE INDEX idx_company_statusesi18n_audit_changed_at
     ON company_statusesi18n_audit (changed_at DESC);
@@ -455,19 +464,20 @@ CREATE INDEX idx_company_statusesi18n_audit_change_id
 
 CREATE TABLE legal_typesi18n_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
-SELECT create_hypertable('legal_typesi18n_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+SELECT create_hypertable('legal_typesi18n_audit', 'changed_at', partitioning_column => 'change_id',
+                         number_partitions => 4);
 
 CREATE INDEX idx_legal_typesi18n_audit_changed_at
     ON legal_typesi18n_audit (changed_at DESC);
@@ -477,19 +487,20 @@ CREATE INDEX idx_legal_typesi18n_audit_change_id
 
 CREATE TABLE member_relationsi18n_audit
 (
-    id                 SERIAL,
+    id                 BIGSERIAL,
     before             JSONB,
     after              JSONB,
-    operation_type     VARCHAR(10) NOT NULL,
-    changed_at         TIMESTAMPTZ NOT NULL,
-    changed_by_user_id INT         NOT NULL,
-    parent_id          INT         NOT NULL,
-    change_id          BIGINT      NOT NULL,
-    business_change_id BIGINT      NOT NULL,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
     change_reason      VARCHAR(255) NOT NULL
 );
 
-SELECT create_hypertable('member_relationsi18n_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+SELECT create_hypertable('member_relationsi18n_audit', 'changed_at', partitioning_column => 'change_id',
+                         number_partitions => 4);
 
 CREATE INDEX idx_member_relationsi18n_audit_changed_at
     ON member_relationsi18n_audit (changed_at DESC);

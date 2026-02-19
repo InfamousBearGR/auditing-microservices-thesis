@@ -30,13 +30,6 @@ class Utils {
         return null
     }
 
-    static Integer getIntFromJsonNode(JsonNode node, String fieldName) {
-        if (node != null && node.has(fieldName) && !node.get(fieldName).isNull()) {
-            return node.get(fieldName).asInt()
-        }
-        return null
-    }
-
     static Long getLongFromJsonNode(JsonNode node, String fieldName) {
         if (node != null && node.has(fieldName) && !node.get(fieldName).isNull()) {
             return node.get(fieldName).asLong()

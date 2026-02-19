@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import groovy.transform.ToString
+
 import java.time.Instant
 
 @ToString(includeNames = true)
