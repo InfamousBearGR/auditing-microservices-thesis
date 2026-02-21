@@ -22,7 +22,7 @@ class LegalEntityMapper {
         }
         new LegalEntityResponseDto(
                 id: legalEntity.id,
-                gemiNumber: legalEntity.gemiNumber,
+                registryNumber: legalEntity.registryNumber,
                 businessName: legalEntity.businessName,
                 phoneNumber: legalEntity.phoneNumber,
                 afm: legalEntity.afm,

@@ -1,14 +1,12 @@
 package com.business.registry.service
 
+import com.business.registry.dao.MemberRelationDao
+import com.business.registry.dao.MemberRelationI18nDao
 import com.business.registry.dto.util.ParametricDto
 import com.business.registry.mapper.i18n.MemberRelationI18nMapper
-import com.business.registry.model.Language
 import com.business.registry.model.MemberRelation
 import com.business.registry.model.MemberRelationI18n
-import com.business.registry.repository.MemberRelationI18nRepository
-import com.business.registry.repository.MemberRelationRepository
 import groovy.transform.CompileStatic
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,34 +15,29 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class MemberRelationService {
 
-    private final MemberRelationRepository memberRelationRepository
-    private final MemberRelationI18nRepository memberRelationI18nRepository
+    private final MemberRelationDao memberRelationDao
+    private final MemberRelationI18nDao memberRelationI18nDao
     private final MemberRelationI18nMapper memberRelationI18nMapper
 
-    @Autowired
-    LanguageService languageService
-
-    MemberRelationService(MemberRelationRepository memberRelationRepository,
-                          MemberRelationI18nRepository memberRelationI18nRepository,
+    MemberRelationService(MemberRelationDao memberRelationDao,
+                          MemberRelationI18nDao memberRelationI18nDao,
                           MemberRelationI18nMapper memberRelationI18nMapper) {
-        this.memberRelationRepository = memberRelationRepository
-        this.memberRelationI18nRepository = memberRelationI18nRepository
+        this.memberRelationDao = memberRelationDao
+        this.memberRelationI18nDao = memberRelationI18nDao
         this.memberRelationI18nMapper = memberRelationI18nMapper
     }
 
     List<ParametricDto> findAllMemberRelationTranslationsByLocale(Locale locale) {
-        Language language = languageService.getLanguageFromLocale(locale)
-        List<MemberRelationI18n> i18nEntities = memberRelationI18nRepository.findByLanguage(language)
+        List<MemberRelationI18n> i18nEntities = memberRelationI18nDao.findAllMemberRelationTranslationsByLocale(locale)
         return memberRelationI18nMapper.toParametricDtoList(i18nEntities)
     }
 
     ParametricDto findMemberRelationTranslationByLocaleAndMemberRelation(Locale locale, MemberRelation memberRelation) {
-        Language language = languageService.getLanguageFromLocale(locale)
-        MemberRelationI18n i18nEntity = memberRelationI18nRepository.findByMemberRelationAndLanguage(memberRelation, language)
+        MemberRelationI18n i18nEntity = memberRelationI18nDao.findMemberRelationTranslationByLocaleAndMemberRelation(memberRelation, locale)
         return memberRelationI18nMapper.toParametricDto(i18nEntity)
     }
 
     MemberRelation findMemberRelationById(Long id) {
-        return memberRelationRepository.findById(id).orElse(null)
+        return memberRelationDao.findMemberRelationById(id)
     }
 }

@@ -16,7 +16,7 @@ class CompanyRequestDto {
     String afm
     Long legalTypeId
     String dateIncorporated
-    String gemiNumber
+    String registryNumber
     Long companyStatusId
     String changeReason
 }

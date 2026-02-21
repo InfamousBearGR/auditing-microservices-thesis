@@ -36,7 +36,7 @@ class CompanyMapper {
                 afm: company.afm,
                 legalType: legalType,
                 dateIncorporated: company.dateIncorporated?.toString(),
-                gemiNumber: company.gemiNumber,
+                registryNumber: company.registryNumber,
                 companyStatus: companyStatus
         )
     }

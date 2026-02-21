@@ -267,6 +267,70 @@ CREATE TABLE member_relationsI18n
 ALTER TABLE member_relationsI18n
     REPLICA IDENTITY FULL;
 
+CREATE TABLE stock_types
+(
+    id            BIGSERIAL PRIMARY KEY,
+    last_user_id  BIGINT,
+    change_reason VARCHAR(255) NOT NULL,
+    date_created  TIMESTAMP DEFAULT now(),
+    last_updated  TIMESTAMP DEFAULT now(),
+    CONSTRAINT fk_stock_types_last_user_id FOREIGN KEY (last_user_id) REFERENCES user_account (id)
+);
+
+ALTER TABLE stock_types
+    REPLICA IDENTITY FULL;
+
+CREATE TABLE stock_typesI18n
+(
+    id            BIGSERIAL PRIMARY KEY,
+    stock_type_id BIGINT       NOT NULL,
+    description   VARCHAR(255) NOT NULL,
+    language_id   BIGINT       NOT NULL,
+    last_user_id  BIGINT,
+    change_reason VARCHAR(255) NOT NULL,
+    date_created  TIMESTAMP DEFAULT now(),
+    last_updated  TIMESTAMP DEFAULT now(),
+    CONSTRAINT fk_stock_typesI18n_language_id FOREIGN KEY (language_id) REFERENCES languages (id),
+    CONSTRAINT fk_stock_typesI18n_stock_type_id FOREIGN KEY (stock_type_id) REFERENCES stock_types (id),
+    CONSTRAINT fk_stock_typesI18n_last_user_id FOREIGN KEY (last_user_id) REFERENCES user_account (id),
+    UNIQUE (stock_type_id, language_id)
+);
+
+ALTER TABLE stock_typesI18n
+    REPLICA IDENTITY FULL;
+
+CREATE TABLE currency
+(
+    id            BIGSERIAL PRIMARY KEY,
+    last_user_id  BIGINT,
+    change_reason VARCHAR(255) NOT NULL,
+    date_created  TIMESTAMP DEFAULT now(),
+    last_updated  TIMESTAMP DEFAULT now(),
+    CONSTRAINT fk_currency_last_user_id FOREIGN KEY (last_user_id) REFERENCES user_account (id)
+);
+
+ALTER TABLE currency
+    REPLICA IDENTITY FULL;
+
+CREATE TABLE currencyI18n
+(
+    id            BIGSERIAL PRIMARY KEY,
+    currency_id   BIGINT       NOT NULL,
+    description   VARCHAR(255) NOT NULL,
+    language_id   BIGINT       NOT NULL,
+    last_user_id  BIGINT,
+    change_reason VARCHAR(255) NOT NULL,
+    date_created  TIMESTAMP DEFAULT now(),
+    last_updated  TIMESTAMP DEFAULT now(),
+    CONSTRAINT fk_currencyI18n_language_id FOREIGN KEY (language_id) REFERENCES languages (id),
+    CONSTRAINT fk_currencyI18n_currency_id FOREIGN KEY (currency_id) REFERENCES currency (id),
+    CONSTRAINT fk_currencyI18n_last_user_id FOREIGN KEY (last_user_id) REFERENCES user_account (id),
+    UNIQUE (currency_id, language_id)
+);
+
+ALTER TABLE currencyI18n
+    REPLICA IDENTITY FULL;
+
 CREATE TABLE company
 (
     id                BIGSERIAL PRIMARY KEY,
@@ -383,6 +447,43 @@ CREATE TABLE member
     CONSTRAINT fk_member_representative_of_member FOREIGN KEY (representative_of_member) REFERENCES person (id),
     CONSTRAINT fk_member_member_relation_id FOREIGN KEY (member_relation_id) REFERENCES member_relations (id)
 );
+
+CREATE TABLE company_stocks
+(
+    id            BIGSERIAL PRIMARY KEY,
+    company_id    BIGINT         NOT NULL,
+    stock_type_id BIGINT         NOT NULL,
+    amount        BIGINT         NOT NULL,
+    nominal_price NUMERIC(15, 2) NOT NULL,
+    last_user_id  BIGINT,
+    change_reason VARCHAR(255)   NOT NULL,
+    date_created  TIMESTAMP DEFAULT now(),
+    last_updated  TIMESTAMP DEFAULT now(),
+    CONSTRAINT fk_company_stocks_company_id FOREIGN KEY (company_id) REFERENCES company (id),
+    CONSTRAINT fk_company_stocks_stock_type_id FOREIGN KEY (stock_type_id) REFERENCES stock_types (id),
+    CONSTRAINT fk_company_stocks_last_user_id FOREIGN KEY (last_user_id) REFERENCES user_account (id)
+);
+
+ALTER TABLE company_stocks
+    REPLICA IDENTITY FULL;
+
+CREATE TABLE company_capital
+(
+    id            BIGSERIAL PRIMARY KEY,
+    company_id    BIGINT         NOT NULL,
+    total_amount  NUMERIC(15, 2) NOT NULL,
+    currency_id   BIGINT         NOT NULL,
+    last_user_id  BIGINT,
+    change_reason VARCHAR(255)   NOT NULL,
+    date_created  TIMESTAMP DEFAULT now(),
+    last_updated  TIMESTAMP DEFAULT now(),
+    CONSTRAINT fk_company_capital_company_id FOREIGN KEY (company_id) REFERENCES company (id),
+    CONSTRAINT fk_company_capital_last_user_id FOREIGN KEY (last_user_id) REFERENCES user_account (id),
+    CONSTRAINT fk_company_capital_currency_id FOREIGN KEY (currency_id) REFERENCES currency (id)
+);
+
+ALTER TABLE company_capital
+    REPLICA IDENTITY FULL;
 
 ALTER TABLE member
     REPLICA IDENTITY FULL;
@@ -655,6 +756,54 @@ EXECUTE PROCEDURE update_last_updated_column();
 CREATE TRIGGER insert_member_relationsI18n_timestamps
     BEFORE INSERT
     ON member_relationsI18n
+    FOR EACH ROW
+EXECUTE PROCEDURE set_creation_timestamps();
+
+CREATE TRIGGER update_stock_types_last_updated
+    BEFORE UPDATE
+    ON stock_types
+    FOR EACH ROW
+EXECUTE PROCEDURE update_last_updated_column();
+
+CREATE TRIGGER insert_stock_types_timestamps
+    BEFORE INSERT
+    ON stock_types
+    FOR EACH ROW
+EXECUTE PROCEDURE set_creation_timestamps();
+
+CREATE TRIGGER update_stock_typesI18n_last_updated
+    BEFORE UPDATE
+    ON stock_typesI18n
+    FOR EACH ROW
+EXECUTE PROCEDURE update_last_updated_column();
+
+CREATE TRIGGER insert_stock_typesI18n_timestamps
+    BEFORE INSERT
+    ON stock_typesI18n
+    FOR EACH ROW
+EXECUTE PROCEDURE set_creation_timestamps();
+
+CREATE TRIGGER update_company_stocks_last_updated
+    BEFORE UPDATE
+    ON company_stocks
+    FOR EACH ROW
+EXECUTE PROCEDURE update_last_updated_column();
+
+CREATE TRIGGER insert_company_stocks_timestamps
+    BEFORE INSERT
+    ON company_stocks
+    FOR EACH ROW
+EXECUTE PROCEDURE set_creation_timestamps();
+
+CREATE TRIGGER update_company_capital_last_updated
+    BEFORE UPDATE
+    ON company_capital
+    FOR EACH ROW
+EXECUTE PROCEDURE update_last_updated_column();
+
+CREATE TRIGGER insert_company_capital_timestamps
+    BEFORE INSERT
+    ON company_capital
     FOR EACH ROW
 EXECUTE PROCEDURE set_creation_timestamps();
 
@@ -2810,3 +2959,161 @@ VALUES (true, '2015-03-15', '2099-12-31', '45.00', 1, NULL, 1, NULL, false, fals
         now()),
        (true, '2021-06-09', '2099-12-31', '25.00', NULL, 12, 15, 1, false, false, 10, 5, 'Initialization', now(),
         now());
+
+INSERT INTO stock_types (last_user_id, change_reason, date_created, last_updated)
+VALUES (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now());
+
+INSERT INTO stock_typesI18n (stock_type_id, language_id, description, last_user_id, change_reason, date_created,
+                             last_updated)
+VALUES (1, 1, 'Ονομαστικές, Κοινές', 1, 'Initialization', now(), now()),
+       (2, 1, 'Ονομαστικές, Προνομιούχες, με Δικαίωμα Ψήφου', 1, 'Initialization', now(), now()),
+       (3, 1, 'Ονομαστικές, Προνομιούχες, χωρίς Δικαίωμα Ψήφου', 1, 'Initialization', now(), now()),
+       (4, 1, 'Κεφαλαιικές', 1, 'Initialization', now(), now()),
+       (5, 1, 'Εξωκεφαλαιικές', 1, 'Initialization', now(), now()),
+       (6, 1, 'Εγγυητικές', 1, 'Initialization', now(), now()),
+       (1, 2, 'Nominal, Ordinary', 1, 'Initialization', now(), now()),
+       (2, 2, 'Nominal, Preferred, Voting', 1, 'Initialization', now(), now()),
+       (3, 2, 'Nominal, Preferred, non-Voting', 1, 'Initialization', now(), now()),
+       (4, 2, 'Capital', 1, 'Initialization', now(), now()),
+       (5, 2, 'Non-Capital', 1, 'Initialization', now(), now()),
+       (6, 2, 'Guarantee', 1, 'Initialization', now(), now());
+INSERT INTO currency (last_user_id, change_reason, date_created, last_updated)
+VALUES (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now()),
+       (1, 'Initialization', now(), now());
+
+INSERT INTO currencyI18n (currency_id, description, language_id, last_user_id, change_reason, date_created,
+                          last_updated)
+VALUES (1, 'Euro', 1, 1, 'Initialization', now(), now()),
+       (2, 'United States Dollar', 1, 1, 'Initialization', now(), now()),
+       (3, 'Great Britain Pounds', 1, 1, 'Initialization', now(), now()),
+       (4, 'Canadian Dollar', 1, 1, 'Initialization', now(), now()),
+       (5, 'Australian Dollar', 1, 1, 'Initialization', now(), now()),
+       (6, 'Turkish Lira', 1, 1, 'Initialization', now(), now()),
+       (7, 'Albanian Lek', 1, 1, 'Initialization', now(), now()),
+       (8, 'Bulgarian Lev', 1, 1, 'Initialization', now(), now()),
+       (9, 'FYROM Denar', 1, 1, 'Initialization', now(), now()),
+       (10, 'Russian Rouble', 1, 1, 'Initialization', now(), now()),
+       (11, 'Romanian New Leu', 1, 1, 'Initialization', now(), now()),
+       (12, 'Ελληνικές Δραχμές', 1, 1, 'Initialization', now(), now()),
+       (13, 'Swiss Franc', 1, 1, 'Initialization', now(), now()),
+       (14, 'Danish Krone', 1, 1, 'Initialization', now(), now()),
+       (15, 'Cayman Islands dollar', 1, 1, 'Initialization', now(), now()),
+       (16, 'Norwegian Krone', 1, 1, 'Initialization', now(), now()),
+       (17, 'Serbian Dinar', 1, 1, 'Initialization', now(), now()),
+       (18, 'Philippine Peso', 1, 1, 'Initialization', now(), now()),
+       (1, 'Euro', 2, 1, 'Initialization', now(), now()),
+       (2, 'United States Dollar', 2, 1, 'Initialization', now(), now()),
+       (3, 'Great Britain Pounds', 2, 1, 'Initialization', now(), now()),
+       (4, 'Canadian Dollar', 2, 1, 'Initialization', now(), now()),
+       (5, 'Australian Dollar', 2, 1, 'Initialization', now(), now()),
+       (6, 'Turkish Lira', 2, 1, 'Initialization', now(), now()),
+       (7, 'Albanian Lek', 2, 1, 'Initialization', now(), now()),
+       (8, 'Bulgarian Lev', 2, 1, 'Initialization', now(), now()),
+       (9, 'FYROM Denarius', 2, 1, 'Initialization', now(), now()),
+       (10, 'Russian Rouble', 2, 1, 'Initialization', now(), now()),
+       (11, 'Romanian New Leu', 2, 1, 'Initialization', now(), now()),
+       (12, 'Greek drachmas', 2, 1, 'Initialization', now(), now()),
+       (13, 'Swiss Franc', 2, 1, 'Initialization', now(), now()),
+       (14, 'Danish Krone', 2, 1, 'Initialization', now(), now()),
+       (15, 'Cayman Islands dollar', 2, 1, 'Initialization', now(), now()),
+       (16, 'Norwegian Krone', 2, 1, 'Initialization', now(), now()),
+       (17, 'Serbian Dinar', 2, 1, 'Initialization', now(), now()),
+       (18, 'Philippine Peso', 2, 1, 'Initialization', now(), now());
+
+-- Insert company_capital rows (one per company)
+-- total_amount must equal SUM(amount * nominal_price) of the matching company_stocks rows
+INSERT INTO company_capital (company_id, total_amount, currency_id, last_user_id, change_reason, date_created,
+                             last_updated)
+VALUES (1, 1000000.00, 1, 1, 'Initialization', now(), now()),  -- Παπαδόπουλος Εμπορική ΑΕ
+       (2, 50000.00, 1, 2, 'Initialization', now(), now()),    -- Νικολαΐδης & Συνεργάτες ΙΚΕ
+       (3, 18000.00, 1, 3, 'Initialization', now(), now()),    -- Γεωργίου Τεχνική ΕΠΕ
+       (4, 2500000.00, 1, 4, 'Initialization', now(), now()),  -- Δημητρίου Logistics ΑΕ
+       (5, 30000.00, 1, 5, 'Initialization', now(), now()),    -- Κωνσταντίνου Αγροτική ΟΕ
+       (6, 5000000.00, 1, 1, 'Initialization', now(), now()),  -- Αντωνίου Τεχνολογίες ΑΕ
+       (7, 75000.00, 1, 2, 'Initialization', now(), now()),    -- Μιχαηλίδης Ναυτιλιακή ΙΚΕ
+       (8, 24000.00, 1, 3, 'Initialization', now(), now()),    -- Χριστοδούλου Οικοδομική ΕΠΕ
+       (9, 1500000.00, 1, 4, 'Initialization', now(), now()),  -- Σταυρίδης Τρόφιμα ΑΕ
+       (10, 100000.00, 1, 5, 'Initialization', now(), now()),  -- Βασιλείου Φαρμακευτική ΙΚΕ
+       (11, 3000000.00, 1, 1, 'Initialization', now(), now()), -- Ιωάννου Συμβουλευτική ΑΕ
+       (12, 60000.00, 1, 2, 'Initialization', now(), now()),   -- Ανδρέου Ενέργεια ΕΠΕ
+       (13, 25000.00, 1, 3, 'Initialization', now(), now()),   -- Πετρίδης Μεταφορές ΙΚΕ
+       (14, 4000000.00, 1, 4, 'Initialization', now(), now()), -- Λαζάρου Ξενοδοχειακή ΑΕ
+       (15, 150000.00, 1, 5, 'Initialization', now(), now());
+-- Ευαγγέλου Πληροφορική ΙΚΕ
+
+-- Insert company_stocks rows
+-- SUM(amount * nominal_price) per company_id must equal the company_capital.total_amount of that company
+INSERT INTO company_stocks (company_id, stock_type_id, amount, nominal_price, last_user_id, change_reason, date_created,
+                            last_updated)
+VALUES
+-- Company 1: ΑΕ | total 1,000,000 = 90,000×10.00 + 10,000×10.00
+(1, 1, 90000, 10.00, 1, 'Initialization', now(), now()),   -- Ονομαστικές Κοινές
+(1, 2, 10000, 10.00, 1, 'Initialization', now(), now()),   -- Ονομαστικές Προνομιούχες με Δικαίωμα Ψήφου
+
+-- Company 2: ΙΚΕ | total 50,000 = 50,000×1.00
+(2, 4, 50000, 1.00, 2, 'Initialization', now(), now()),    -- Κεφαλαιικές
+
+-- Company 3: ΕΠΕ | total 18,000 = 600×30.00
+(3, 4, 600, 30.00, 3, 'Initialization', now(), now()),     -- Κεφαλαιικές
+
+-- Company 4: ΑΕ | total 2,500,000 = 200,000×10.00 + 50,000×10.00
+(4, 1, 200000, 10.00, 4, 'Initialization', now(), now()),  -- Ονομαστικές Κοινές
+(4, 2, 50000, 10.00, 4, 'Initialization', now(), now()),   -- Ονομαστικές Προνομιούχες με Δικαίωμα Ψήφου
+
+-- Company 5: ΟΕ | total 30,000 = 300×100.00
+(5, 4, 300, 100.00, 5, 'Initialization', now(), now()),    -- Κεφαλαιικές
+
+-- Company 6: ΑΕ | total 5,000,000 = 450,000×10.00 + 50,000×10.00
+(6, 1, 450000, 10.00, 1, 'Initialization', now(), now()),  -- Ονομαστικές Κοινές
+(6, 2, 50000, 10.00, 1, 'Initialization', now(), now()),   -- Ονομαστικές Προνομιούχες με Δικαίωμα Ψήφου
+
+-- Company 7: ΙΚΕ | total 75,000 = 75,000×1.00
+(7, 4, 75000, 1.00, 2, 'Initialization', now(), now()),    -- Κεφαλαιικές
+
+-- Company 8: ΕΠΕ | total 24,000 = 800×30.00
+(8, 4, 800, 30.00, 3, 'Initialization', now(), now()),     -- Κεφαλαιικές
+
+-- Company 9: ΑΕ | total 1,500,000 = 120,000×10.00 + 30,000×10.00
+(9, 1, 120000, 10.00, 4, 'Initialization', now(), now()),  -- Ονομαστικές Κοινές
+(9, 3, 30000, 10.00, 4, 'Initialization', now(), now()),   -- Ονομαστικές Προνομιούχες χωρίς Δικαίωμα Ψήφου
+
+-- Company 10: ΙΚΕ | total 100,000 = 100,000×1.00
+(10, 4, 100000, 1.00, 5, 'Initialization', now(), now()),  -- Κεφαλαιικές
+
+-- Company 11: ΑΕ | total 3,000,000 = 270,000×10.00 + 30,000×10.00
+(11, 1, 270000, 10.00, 1, 'Initialization', now(), now()), -- Ονομαστικές Κοινές
+(11, 2, 30000, 10.00, 1, 'Initialization', now(), now()),  -- Ονομαστικές Προνομιούχες με Δικαίωμα Ψήφου
+
+-- Company 12: ΕΠΕ | total 60,000 = 2,000×30.00
+(12, 4, 2000, 30.00, 2, 'Initialization', now(), now()),   -- Κεφαλαιικές
+
+-- Company 13: ΙΚΕ | total 25,000 = 25,000×1.00
+(13, 4, 25000, 1.00, 3, 'Initialization', now(), now()),   -- Κεφαλαιικές
+
+-- Company 14: ΑΕ | total 4,000,000 = 350,000×10.00 + 50,000×10.00
+(14, 1, 350000, 10.00, 4, 'Initialization', now(), now()), -- Ονομαστικές Κοινές
+(14, 2, 50000, 10.00, 4, 'Initialization', now(), now()),  -- Ονομαστικές Προνομιούχες με Δικαίωμα Ψήφου
+
+-- Company 15: ΙΚΕ | total 150,000 = 150,000×1.00
+(15, 4, 150000, 1.00, 5, 'Initialization', now(), now()); -- Κεφαλαιικές

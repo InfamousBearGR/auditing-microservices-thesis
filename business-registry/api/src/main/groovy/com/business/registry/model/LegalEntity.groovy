@@ -15,7 +15,7 @@ class LegalEntity {
 
     @NotBlank
     @Column(name = "gemi_number", nullable = false, length = 12)
-    String gemiNumber
+    String registryNumber
 
     @NotBlank
     @Column(name = "business_name", nullable = false)

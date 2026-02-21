@@ -6,7 +6,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class LegalEntityResponseDto {
     Long id
-    String gemiNumber
+    String registryNumber
     String businessName
     String phoneNumber
     String afm

@@ -508,3 +508,134 @@ CREATE INDEX idx_member_relationsi18n_audit_changed_at
 CREATE INDEX idx_member_relationsi18n_audit_change_id
     ON member_relationsi18n_audit (change_id);
 
+CREATE TABLE stock_types_audit
+(
+    id                 BIGSERIAL,
+    before             JSONB,
+    after              JSONB,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
+    change_reason      VARCHAR(255) NOT NULL
+);
+
+SELECT create_hypertable('stock_types_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+
+CREATE INDEX idx_stock_types_audit_changed_at
+    ON stock_types_audit (changed_at DESC);
+
+CREATE INDEX idx_stock_types_audit_change_id
+    ON stock_types_audit (change_id);
+
+CREATE TABLE stock_typesi18n_audit
+(
+    id                 BIGSERIAL,
+    before             JSONB,
+    after              JSONB,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
+    change_reason      VARCHAR(255) NOT NULL
+);
+
+SELECT create_hypertable('stock_typesi18n_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+
+CREATE INDEX idx_stock_typesi18n_audit_changed_at
+    ON stock_typesi18n_audit (changed_at DESC);
+
+CREATE INDEX idx_stock_typesi18n_audit_change_id
+    ON stock_typesi18n_audit (change_id);
+
+CREATE TABLE currency_audit
+(
+    id                 BIGSERIAL,
+    before             JSONB,
+    after              JSONB,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
+    change_reason      VARCHAR(255) NOT NULL
+);
+
+SELECT create_hypertable('currency_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+
+CREATE INDEX idx_currency_audit_changed_at
+    ON currency_audit (changed_at DESC);
+
+CREATE INDEX idx_currency_audit_change_id
+    ON currency_audit (change_id);
+
+CREATE TABLE currencyi18n_audit
+(
+    id                 BIGSERIAL,
+    before             JSONB,
+    after              JSONB,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
+    change_reason      VARCHAR(255) NOT NULL
+);
+
+SELECT create_hypertable('currencyi18n_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+
+CREATE INDEX idx_currencyi18n_audit_changed_at
+    ON currencyi18n_audit (changed_at DESC);
+
+CREATE INDEX idx_currencyi18n_audit_change_id
+    ON currencyi18n_audit (change_id);
+
+CREATE TABLE company_stocks_audit
+(
+    id                 BIGSERIAL,
+    before             JSONB,
+    after              JSONB,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
+    change_reason      VARCHAR(255) NOT NULL
+);
+
+SELECT create_hypertable('company_stocks_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+
+CREATE INDEX idx_company_stocks_audit_changed_at
+    ON company_stocks_audit (changed_at DESC);
+
+CREATE INDEX idx_company_stocks_audit_change_id
+    ON company_stocks_audit (change_id);
+
+CREATE TABLE company_capital_audit
+(
+    id                 BIGSERIAL,
+    before             JSONB,
+    after              JSONB,
+    operation_type     VARCHAR(10)  NOT NULL,
+    changed_at         TIMESTAMPTZ  NOT NULL,
+    changed_by_user_id BIGINT       NOT NULL,
+    parent_id          BIGINT       NOT NULL,
+    change_id          BIGINT       NOT NULL,
+    business_change_id BIGINT       NOT NULL,
+    change_reason      VARCHAR(255) NOT NULL
+);
+
+SELECT create_hypertable('company_capital_audit', 'changed_at', partitioning_column => 'change_id', number_partitions => 4);
+
+CREATE INDEX idx_company_capital_audit_changed_at
+    ON company_capital_audit (changed_at DESC);
+
+CREATE INDEX idx_company_capital_audit_change_id
+    ON company_capital_audit (change_id);

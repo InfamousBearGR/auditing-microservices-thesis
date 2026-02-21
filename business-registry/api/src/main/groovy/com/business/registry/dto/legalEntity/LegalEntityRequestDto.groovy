@@ -4,7 +4,7 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 class LegalEntityRequestDto {
-    String gemiNumber
+    String registryNumber
     String businessName
     String phoneNumber
     String afm

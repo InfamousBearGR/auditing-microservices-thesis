@@ -1,19 +1,16 @@
-package com.business.registry.service
+package com.business.registry.dao
 
 import com.business.registry.model.Language
 import com.business.registry.repository.LanguageRepository
 import groovy.transform.CompileStatic
-import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
+import org.springframework.stereotype.Repository
 
-@Service
 @CompileStatic
-@Transactional(readOnly = true)
-class LanguageService {
-
+@Repository
+class LanguageDao {
     private final LanguageRepository languageRepository
 
-    LanguageService(LanguageRepository languageRepository) {
+    LanguageDao(LanguageRepository languageRepository) {
         this.languageRepository = languageRepository
     }
 
@@ -21,4 +18,3 @@ class LanguageService {
         return languageRepository.findByCode(locale?.language)
     }
 }
-

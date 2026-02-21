@@ -18,6 +18,6 @@ class CompanyResponseDto {
     String afm
     ParametricDto legalType
     String dateIncorporated
-    String gemiNumber
+    String registryNumber
     ParametricDto companyStatus
 }

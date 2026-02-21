@@ -1,14 +1,12 @@
 package com.business.registry.service
 
+import com.business.registry.dao.CompanyStatusDao
+import com.business.registry.dao.CompanyStatusI18nDao
 import com.business.registry.dto.util.ParametricDto
 import com.business.registry.mapper.i18n.CompanyStatusI18nMapper
 import com.business.registry.model.CompanyStatus
 import com.business.registry.model.CompanyStatusI18n
-import com.business.registry.model.Language
-import com.business.registry.repository.CompanyStatusI18nRepository
-import com.business.registry.repository.CompanyStatusRepository
 import groovy.transform.CompileStatic
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,35 +15,33 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class CompanyStatusService {
 
-    private final CompanyStatusRepository companyStatusRepository
-    private final CompanyStatusI18nRepository companyStatusI18nRepository
+    private final CompanyStatusI18nDao companyStatusI18nDao
+    private final CompanyStatusDao companyStatusDao
     private final CompanyStatusI18nMapper companyStatusI18nMapper
 
-    @Autowired
-    LanguageService languageService
 
-    CompanyStatusService(CompanyStatusRepository companyStatusRepository,
-                         CompanyStatusI18nRepository companyStatusI18nRepository,
-                         CompanyStatusI18nMapper companyStatusI18nMapper) {
-        this.companyStatusRepository = companyStatusRepository
-        this.companyStatusI18nRepository = companyStatusI18nRepository
+    CompanyStatusService(
+            CompanyStatusI18nMapper companyStatusI18nMapper,
+            CompanyStatusI18nDao companyStatusI18nDao,
+            CompanyStatusDao companyStatusDao
+    ) {
         this.companyStatusI18nMapper = companyStatusI18nMapper
+        this.companyStatusI18nDao = companyStatusI18nDao
+        this.companyStatusDao = companyStatusDao
     }
 
     List<ParametricDto> findAllCompanyStatusTranslationsByLocale(Locale locale) {
-        Language language = languageService.getLanguageFromLocale(locale)
-        List<CompanyStatusI18n> i18nEntities = companyStatusI18nRepository.findByLanguage(language)
+        List<CompanyStatusI18n> i18nEntities = companyStatusI18nDao.findAllCompanyStatusTranslationsByLocale(locale)
         return companyStatusI18nMapper.toParametricDtoList(i18nEntities)
     }
 
     ParametricDto findCompanyStatusTranslationByLocaleAndCompanyStatus(Locale locale, CompanyStatus companyStatus) {
-        Language language = languageService.getLanguageFromLocale(locale)
-        CompanyStatusI18n i18nEntity = companyStatusI18nRepository.findByCompanyStatusAndLanguage(companyStatus, language)
+        CompanyStatusI18n i18nEntity = companyStatusI18nDao.findCompanyStatusTranslationByLocaleAndCompanyStatus(companyStatus, locale)
         return companyStatusI18nMapper.toParametricDto(i18nEntity)
     }
 
     CompanyStatus findCompanyStatusById(Long id) {
-        return companyStatusRepository.findById(id).orElse(null)
+        return companyStatusDao.findCompanyStatusById(id)
     }
 }
 

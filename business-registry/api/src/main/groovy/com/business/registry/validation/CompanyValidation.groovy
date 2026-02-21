@@ -54,8 +54,11 @@ class CompanyValidation {
         if (!Utils.validateDate(companyDto.dateIncorporated)) {
             throw new IllegalArgumentException(messageService.getMessage("Η.Ημερομηνία.Ίδρυσης.δεν.είναι.έγκυρη"))
         }
-        if (companyDto.gemiNumber == null || companyDto.gemiNumber.trim().isEmpty()) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Αριθμός.ΓΕΜΗ.είναι.υποχρεωτικό"))
+        if (companyDto.registryNumber == null || companyDto.registryNumber.trim().isEmpty()) {
+            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Αριθμός.Μητρώου.είναι.υποχρεωτικό"))
+        }
+        if (companyDto.registryNumber.length() != 12) {
+            throw new IllegalArgumentException(messageService.getMessage("Ο.Αριθμός.Μητρώου.πρέπει.να.έχει.12.ψηφία"))
         }
         if (companyDto.countryId == null || companyDto.countryId <= 0) {
             throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Χώρα.είναι.υποχρεωτικό"))

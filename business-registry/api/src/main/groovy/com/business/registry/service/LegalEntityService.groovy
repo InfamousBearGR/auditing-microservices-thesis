@@ -1,12 +1,12 @@
 package com.business.registry.service
 
+import com.business.registry.dao.LegalEntityDao
 import com.business.registry.dto.legalEntity.LegalEntityRequestDto
 import com.business.registry.dto.legalEntity.LegalEntityResponseDto
 import com.business.registry.dto.util.ParametricDto
 import com.business.registry.exception.NotFoundException
 import com.business.registry.mapper.legalEntity.LegalEntityMapper
 import com.business.registry.model.*
-import com.business.registry.repository.LegalEntityRepository
 import com.business.registry.validation.LegalEntityValidation
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,12 +16,9 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @CompileStatic
 class LegalEntityService {
-    private final LegalEntityRepository legalEntityRepository
+    private final LegalEntityDao legalEntityDao
     private final LegalEntityMapper legalEntityMapper
     private final LegalEntityValidation legalEntityValidation
-
-    @Autowired
-    LanguageService languageService
 
     @Autowired
     CountryService countryService
@@ -39,9 +36,8 @@ class LegalEntityService {
     MessageService messageService
 
     LegalEntityService(
-            LegalEntityRepository legalEntityRepository,
+            LegalEntityDao legalEntityDao,
             LegalEntityMapper legalEntityMapper,
-            LanguageService languageService,
             CountryService countryService,
             PrefectureService prefectureService,
             MunicipalityService municipalityService,
@@ -49,9 +45,8 @@ class LegalEntityService {
             MessageService messageService,
             LegalEntityValidation legalEntityValidation
     ) {
-        this.legalEntityRepository = legalEntityRepository
+        this.legalEntityDao = legalEntityDao
         this.legalEntityMapper = legalEntityMapper
-        this.languageService = languageService
         this.countryService = countryService
         this.prefectureService = prefectureService
         this.municipalityService = municipalityService
@@ -62,7 +57,7 @@ class LegalEntityService {
 
     @Transactional(readOnly = true)
     List<LegalEntityResponseDto> getAllLegalEntities(Locale locale) {
-        return legalEntityRepository.findAll().collect { legalEntity ->
+        return legalEntityDao.findAllLegalEntities().collect { legalEntity ->
             mapToLegalEntityResponseDto(legalEntity, locale)
         }
     }
@@ -70,7 +65,7 @@ class LegalEntityService {
     @Transactional(readOnly = true)
     LegalEntityResponseDto getLegalEntityById(Long id, Locale locale) {
         legalEntityValidation.validateFindById(id)
-        LegalEntity legalEntity = legalEntityRepository.findById(id).orElse(null)
+        LegalEntity legalEntity = legalEntityDao.findLegalEntityById(id)
         if (legalEntity == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Νομικό.Πρόσωπο.με.id.", [id] as Object[]))
         }
@@ -79,18 +74,18 @@ class LegalEntityService {
 
     @Transactional(readOnly = true)
     LegalEntity findLegalEntityById(Long id) {
-        return legalEntityRepository.findById(id).orElse(null)
+        return legalEntityDao.findLegalEntityById(id)
     }
 
     @Transactional
     void updateLegalEntity(LegalEntityRequestDto legalEntityDto, Long id) {
         legalEntityValidation.validateUpdate(legalEntityDto, id)
-        LegalEntity legalEntity = legalEntityRepository.findById(id).orElse(null)
+        LegalEntity legalEntity = legalEntityDao.findLegalEntityById(id)
         if (legalEntity == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Νομικό.Πρόσωπο.με.id.", [id] as Object[]))
         }
         populateLegalEntityFromDto(legalEntity, legalEntityDto)
-        legalEntityRepository.save(legalEntity)
+        legalEntityDao.saveLegalEntity(legalEntity)
     }
 
     @Transactional
@@ -98,16 +93,16 @@ class LegalEntityService {
         legalEntityValidation.validateLegalEntityRequestDto(legalEntityDto)
         LegalEntity legalEntity = new LegalEntity()
         populateLegalEntityFromDto(legalEntity, legalEntityDto)
-        legalEntityRepository.save(legalEntity)
+        legalEntityDao.saveLegalEntity(legalEntity)
     }
 
     @Transactional
     void deleteLegalEntityById(Long id) {
         legalEntityValidation.validateDeleteById(id)
-        if (!legalEntityRepository.existsById(id)) {
+        if (!legalEntityDao.existsById(id)) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Νομικό.Πρόσωπο.με.id.", [id] as Object[]))
         }
-        legalEntityRepository.deleteById(id)
+        legalEntityDao.deleteLegalEntityById(id)
     }
 
     private LegalEntityResponseDto mapToLegalEntityResponseDto(LegalEntity legalEntity, Locale locale) {
@@ -135,7 +130,7 @@ class LegalEntityService {
         if (region == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.περιφέρεια.με.id.", [legalEntityDto.regionId] as Object[]))
         }
-        legalEntity.gemiNumber = legalEntityDto.gemiNumber
+        legalEntity.registryNumber = legalEntityDto.registryNumber
         legalEntity.businessName = legalEntityDto.businessName
         legalEntity.phoneNumber = legalEntityDto.phoneNumber
         legalEntity.afm = legalEntityDto.afm
@@ -150,3 +145,4 @@ class LegalEntityService {
         legalEntity.changeReason = legalEntityDto.changeReason
     }
 }
+

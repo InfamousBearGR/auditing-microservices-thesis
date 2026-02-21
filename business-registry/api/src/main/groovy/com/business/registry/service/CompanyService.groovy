@@ -1,12 +1,12 @@
 package com.business.registry.service
 
+import com.business.registry.dao.CompanyDao
 import com.business.registry.dto.company.CompanyRequestDto
 import com.business.registry.dto.company.CompanyResponseDto
 import com.business.registry.dto.util.ParametricDto
 import com.business.registry.exception.NotFoundException
 import com.business.registry.mapper.company.CompanyMapper
 import com.business.registry.model.*
-import com.business.registry.repository.CompanyRepository
 import com.business.registry.validation.CompanyValidation
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,12 +18,9 @@ import java.time.LocalDate
 @Service
 @CompileStatic
 class CompanyService {
-    private final CompanyRepository companyRepository
+    private final CompanyDao companyDao
     private final CompanyMapper companyMapper
     private final CompanyValidation companyValidation
-
-    @Autowired
-    LanguageService languageService
 
     @Autowired
     CountryService countryService
@@ -47,9 +44,8 @@ class CompanyService {
     MessageService messageService
 
     CompanyService(
-            CompanyRepository companyRepository,
+            CompanyDao companyDao,
             CompanyMapper companyMapper,
-            LanguageService languageService,
             CountryService countryService,
             PrefectureService prefectureService,
             MunicipalityService municipalityService,
@@ -59,9 +55,8 @@ class CompanyService {
             MessageService messageService,
             CompanyValidation companyValidation
     ) {
-        this.companyRepository = companyRepository
+        this.companyDao = companyDao
         this.companyMapper = companyMapper
-        this.languageService = languageService
         this.countryService = countryService
         this.prefectureService = prefectureService
         this.municipalityService = municipalityService
@@ -74,7 +69,7 @@ class CompanyService {
 
     @Transactional(readOnly = true)
     List<CompanyResponseDto> getAllCompanies(Locale locale) {
-        return companyRepository.findAll().collect { company ->
+        return companyDao.findAllCompanies().collect { company ->
             mapToCompanyResponseDto(company, locale)
         }
     }
@@ -82,7 +77,7 @@ class CompanyService {
     @Transactional(readOnly = true)
     CompanyResponseDto getCompanyById(Long id, Locale locale) {
         companyValidation.validateFindById(id)
-        Company company = companyRepository.findById(id).orElse(null)
+        Company company = companyDao.findCompanyById(id)
         if (company == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Επιχείρηση.με.id.", [id] as Object[]))
         }
@@ -91,18 +86,18 @@ class CompanyService {
 
     @Transactional(readOnly = true)
     Company findCompanyById(Long id) {
-        return companyRepository.findById(id).orElse(null)
+        return companyDao.findCompanyById(id)
     }
 
     @Transactional
     void updateCompany(CompanyRequestDto companyDto, Long id) {
         companyValidation.validateUpdate(companyDto, id)
-        Company company = companyRepository.findById(id).orElse(null)
+        Company company = companyDao.findCompanyById(id)
         if (company == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Επιχείρηση.με.id.", [id] as Object[]))
         }
         populateCompanyFromDto(company, companyDto)
-        companyRepository.save(company)
+        companyDao.saveCompany(company)
     }
 
     @Transactional
@@ -110,16 +105,16 @@ class CompanyService {
         companyValidation.validateCompanyRequestDto(companyDto)
         Company company = new Company()
         populateCompanyFromDto(company, companyDto)
-        companyRepository.save(company)
+        companyDao.saveCompany(company)
     }
 
     @Transactional
     void deleteCompanyById(Long id) {
         companyValidation.validateDeleteById(id)
-        if (!companyRepository.existsById(id)) {
+        if (!companyDao.existsById(id)) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Επιχείρηση.με.id.", [id] as Object[]))
         }
-        companyRepository.deleteById(id)
+        companyDao.deleteCompanyById(id)
     }
 
     private CompanyResponseDto mapToCompanyResponseDto(Company company, Locale locale) {
@@ -164,7 +159,7 @@ class CompanyService {
         company.postalCode = companyDto.postalCode
         company.afm = companyDto.afm
         company.dateIncorporated = companyDto.dateIncorporated ? LocalDate.parse(companyDto.dateIncorporated) : null
-        company.gemiNumber = companyDto.gemiNumber
+        company.registryNumber = companyDto.registryNumber
         company.country = country
         company.prefecture = prefecture
         company.municipality = municipality

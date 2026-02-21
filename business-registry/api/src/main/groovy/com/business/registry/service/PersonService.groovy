@@ -1,12 +1,12 @@
 package com.business.registry.service
 
+import com.business.registry.dao.PersonDao
 import com.business.registry.dto.person.PersonRequestDto
 import com.business.registry.dto.person.PersonResponseDto
 import com.business.registry.dto.util.ParametricDto
 import com.business.registry.exception.NotFoundException
 import com.business.registry.mapper.person.PersonMapper
 import com.business.registry.model.*
-import com.business.registry.repository.PersonRepository
 import com.business.registry.validation.PersonValidation
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,12 +18,9 @@ import java.time.LocalDate
 @Service
 @CompileStatic
 class PersonService {
-    private final PersonRepository personRepository
+    private final PersonDao personDao
     private final PersonMapper personMapper
     private final PersonValidation personValidation
-
-    @Autowired
-    LanguageService languageService
 
     @Autowired
     CountryService countryService
@@ -41,9 +38,8 @@ class PersonService {
     MessageService messageService
 
     PersonService(
-            PersonRepository personRepository,
+            PersonDao personDao,
             PersonMapper personMapper,
-            LanguageService languageService,
             CountryService countryService,
             PrefectureService prefectureService,
             MunicipalityService municipalityService,
@@ -51,9 +47,8 @@ class PersonService {
             MessageService messageService,
             PersonValidation personValidation
     ) {
-        this.personRepository = personRepository
+        this.personDao = personDao
         this.personMapper = personMapper
-        this.languageService = languageService
         this.countryService = countryService
         this.prefectureService = prefectureService
         this.municipalityService = municipalityService
@@ -64,7 +59,7 @@ class PersonService {
 
     @Transactional(readOnly = true)
     List<PersonResponseDto> getAllPersons(Locale locale) {
-        return personRepository.findAll().collect { person ->
+        return personDao.findAllPersons().collect { person ->
             mapToPersonResponseDto(person, locale)
         }
     }
@@ -72,7 +67,7 @@ class PersonService {
     @Transactional(readOnly = true)
     PersonResponseDto getPersonById(Long id, Locale locale) {
         personValidation.validateFindById(id)
-        Person person = personRepository.findById(id).orElse(null)
+        Person person = personDao.findPersonById(id)
         if (person == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Φυσικό.Πρόσωπο.με.id.", [id] as Object[]))
         }
@@ -81,18 +76,18 @@ class PersonService {
 
     @Transactional(readOnly = true)
     Person findPersonById(Long id) {
-        return personRepository.findById(id).orElse(null)
+        return personDao.findPersonById(id)
     }
 
     @Transactional
     void updatePerson(PersonRequestDto personDto, Long id) {
         personValidation.validateUpdate(personDto, id)
-        Person person = personRepository.findById(id).orElse(null)
+        Person person = personDao.findPersonById(id)
         if (person == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Φυσικό.Πρόσωπο.με.id.", [id] as Object[]))
         }
         populatePersonFromDto(person, personDto)
-        personRepository.save(person)
+        personDao.savePerson(person)
     }
 
     @Transactional
@@ -100,16 +95,16 @@ class PersonService {
         personValidation.validatePersonRequestDto(personDto)
         Person person = new Person()
         populatePersonFromDto(person, personDto)
-        personRepository.save(person)
+        personDao.savePerson(person)
     }
 
     @Transactional
     void deletePersonById(Long id) {
         personValidation.validateDeleteById(id)
-        if (!personRepository.existsById(id)) {
+        if (!personDao.existsById(id)) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Φυσικό.Πρόσωπο.με.id.", [id] as Object[]))
         }
-        personRepository.deleteById(id)
+        personDao.deletePersonById(id)
     }
 
     private PersonResponseDto mapToPersonResponseDto(Person person, Locale locale) {
@@ -155,3 +150,4 @@ class PersonService {
         person.region = region
     }
 }
+

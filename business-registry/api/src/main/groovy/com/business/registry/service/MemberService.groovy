@@ -1,6 +1,6 @@
 package com.business.registry.service
 
-
+import com.business.registry.dao.MemberDao
 import com.business.registry.dto.member.LegalEntityDto
 import com.business.registry.dto.member.MemberRequestDto
 import com.business.registry.dto.member.MemberResponseDto
@@ -9,7 +9,6 @@ import com.business.registry.dto.util.ParametricDto
 import com.business.registry.exception.NotFoundException
 import com.business.registry.mapper.member.MemberMapper
 import com.business.registry.model.*
-import com.business.registry.repository.MemberRepository
 import com.business.registry.validation.MemberValidation
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,7 +20,7 @@ import java.time.LocalDate
 @Service
 @CompileStatic
 class MemberService {
-    private final MemberRepository memberRepository
+    private final MemberDao memberDao
     private final MemberMapper memberMapper
     private final MemberValidation memberValidation
 
@@ -41,7 +40,7 @@ class MemberService {
     MessageService messageService
 
     MemberService(
-            MemberRepository memberRepository,
+            MemberDao memberDao,
             MemberMapper memberMapper,
             PersonService personService,
             LegalEntityService legalEntityService,
@@ -50,7 +49,7 @@ class MemberService {
             MessageService messageService,
             MemberValidation memberValidation
     ) {
-        this.memberRepository = memberRepository
+        this.memberDao = memberDao
         this.memberMapper = memberMapper
         this.personService = personService
         this.legalEntityService = legalEntityService
@@ -66,7 +65,7 @@ class MemberService {
         if (company == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Επιχείρηση.με.id.", [companyId] as Object[]))
         }
-        return memberRepository.findAllByCompany(company).collect { member ->
+        return memberDao.findAllMembersByCompany(company).collect { member ->
             mapToMemberResponseDto(member, locale)
         }
     }
@@ -74,7 +73,7 @@ class MemberService {
     @Transactional(readOnly = true)
     MemberResponseDto getMemberById(Long id, Locale locale) {
         memberValidation.validateFindById(id)
-        Member member = memberRepository.findById(id).orElse(null)
+        Member member = memberDao.findMemberById(id)
         if (member == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Εταίρος.με.id.", [id] as Object[]))
         }
@@ -84,12 +83,12 @@ class MemberService {
     @Transactional
     void updateMember(MemberRequestDto memberDto, Long id) {
         memberValidation.validateUpdate(memberDto, id)
-        Member member = memberRepository.findById(id).orElse(null)
+        Member member = memberDao.findMemberById(id)
         if (member == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Εταίρος.με.id.", [id] as Object[]))
         }
         populateMemberFromDto(member, memberDto)
-        memberRepository.save(member)
+        memberDao.saveMember(member)
     }
 
     @Transactional
@@ -97,16 +96,16 @@ class MemberService {
         memberValidation.validateMemberRequestDto(memberDto)
         Member member = new Member()
         populateMemberFromDto(member, memberDto)
-        memberRepository.save(member)
+        memberDao.saveMember(member)
     }
 
     @Transactional
     void deleteMemberById(Long id) {
         memberValidation.validateDeleteById(id)
-        if (!memberRepository.existsById(id)) {
+        if (!memberDao.existsById(id)) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Εταίρος.με.id.", [id] as Object[]))
         }
-        memberRepository.deleteById(id)
+        memberDao.deleteMemberById(id)
     }
 
     private MemberResponseDto mapToMemberResponseDto(Member member, Locale locale) {

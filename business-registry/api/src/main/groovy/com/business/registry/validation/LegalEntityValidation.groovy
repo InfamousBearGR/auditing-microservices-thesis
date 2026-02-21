@@ -27,8 +27,8 @@ class LegalEntityValidation {
         if (legalEntityDto == null) {
             throw new IllegalArgumentException(messageService.getMessage("Το.αίτημα.είναι.κενό"))
         }
-        if (legalEntityDto.gemiNumber == null || legalEntityDto.gemiNumber.trim().isEmpty()) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Αριθμός.ΓΕΜΗ.είναι.υποχρεωτικό"))
+        if (legalEntityDto.registryNumber == null || legalEntityDto.registryNumber.trim().isEmpty()) {
+            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Αριθμός.Μητρώου.είναι.υποχρεωτικό"))
         }
         if (legalEntityDto.businessName == null || legalEntityDto.businessName.trim().isEmpty()) {
             throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Επωνυμία.Νομικού.Προσώπου.είναι.υποχρεωτικό"))
