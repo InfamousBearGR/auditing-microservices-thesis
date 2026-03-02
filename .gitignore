@@ -71,6 +71,9 @@ replay_pid*
 *.seed
 *.pid.lock
 
+# Node
+node_modules/
+
 # Logs
 logs/
 npm-debug.log*
@@ -81,12 +84,6 @@ lerna-debug.log*
 
 # Runtime data
 pids/
-
-# Environment variables
-.env
-.env.local
-.env.*.local
-*.env
 
 # Temporary files
 *.tmp
