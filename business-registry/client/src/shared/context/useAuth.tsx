@@ -16,15 +16,16 @@ interface IUseAuth {
   userCantAccess: boolean;
   setUserCantAccess: Dispatch<SetStateAction<boolean>>;
   isLoading: boolean;
+  userHomePath: string;
 }
 
 const AuthContext = createContext<IUseAuth | null>(null);
 
-export function useAuth(): IUseAuth {
-  return useContext(AuthContext as any);
-}
+export const useAuth = (): IUseAuth => {
+  return useContext(AuthContext) as IUseAuth;
+};
 
-export function AuthProvider({ children }: any) {
+export const AuthProvider = ({ children }: any) => {
   const { data, isLoading } = useCheckUserSession();
   const [userCantAccess, setUserCantAccess] = useState<boolean>(false);
 
@@ -46,9 +47,10 @@ export function AuthProvider({ children }: any) {
     userCantAccess,
     setUserCantAccess,
     isLoading,
+    userHomePath: data?.data?.authenticated ? "" : "/login",
   };
 
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
-}
+};

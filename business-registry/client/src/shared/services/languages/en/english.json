@@ -1,3 +1,14 @@
 {
-  "Τεστ": "Test"
+  "Επιχειρηματικό Μητρώο": "Business Registry",
+  "Είσοδος Χρήστη": "User Login",
+  "Όνομα Χρήστη": "Username",
+  "Κωδικός Χρήστη": "Password",
+  "Είσοδος": "Login",
+  "Το όνομα χρήστη είναι υποχρεωτικό": "Username is required",
+  "Ο κωδικός χρήστη είναι υποχρεωτικός": "Password is required",
+  "Ωχ! Η σελίδα δεν βρέθηκε.": "Oops! Page not found.",
+  "Ψάξαμε παντού, αλλά δεν μπορέσαμε να βρούμε τη σελίδα που ψάχνετε. Μπορεί να έχει αφαιρεθεί, να έχει αλλάξει το όνομά της ή να μην είναι προσωρινά διαθέσιμη.": "We searched everywhere, but we couldn't find the page you're looking for. It may have been removed, had its name changed, or is temporarily unavailable.",
+  "Μετάβαση στην Αρχική οθόνη": "Go to Home Screen",
+  "Το σύστημα είναι προσωρινά μη διαθέσιμο": "The system is temporarily unavailable",
+  "Αυτή την στιγμή πραγματοποιούνται εργασίες αναβάθμισης για τη βελτίωση των υπηρεσιών μας. Το σύστημα θα είναι και πάλι διαθέσιμο σύντομα.": "We are currently performing upgrade work to improve our services. The system will be available again soon."
 }

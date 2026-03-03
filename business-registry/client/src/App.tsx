@@ -14,8 +14,8 @@ import { enUS } from "date-fns/locale/en-US";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import { queryClient } from "src/shared/services/queryClient/reactQueryClient";
 import "src/shared/services/languages/i18n";
-import { AuthProvider } from "./shared/context/useAuth";
-import { configureHttpClient } from "./shared/services/httpClient";
+import { AuthProvider, useAuth } from "src/shared/context/useAuth";
+import { configureHttpClient } from "src/shared/services/httpClient";
 import "@mui/material/Button";
 import "@mui/material/Chip";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -23,9 +23,16 @@ import { RouterProvider } from "@tanstack/react-router";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import MySnackbarProvider from "src/shared/services/snackbarProvider/snackbarProvider";
 import { router } from "src/routes/router";
+import { useEffect } from "react";
 
 const ConfigurationContextComponent = () => {
-  configureHttpClient();
+  const { i18n } = useTranslation();
+  const { setUserCantAccess } = useAuth();
+
+  useEffect(() => {
+    configureHttpClient(i18n, setUserCantAccess);
+  }, []);
+
   return <></>;
 };
 type SupportedLanguage = "el" | "en";

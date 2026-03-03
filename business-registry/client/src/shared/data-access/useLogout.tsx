@@ -11,7 +11,7 @@ export const useLogout = () => {
     onSuccess: async () => {
       localStorage.removeItem("userInfo");
       await queryClient.invalidateQueries({ queryKey: ["checkUserSession"] });
-      await navigate({ to: "/" });
+      await navigate({ to: "/login" });
     },
   });
 };

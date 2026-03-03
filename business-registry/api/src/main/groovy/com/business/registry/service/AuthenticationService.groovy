@@ -146,11 +146,7 @@ class AuthenticationService {
      * @param session The HTTP session
      * @return ResponseEntity with appropriate response
      */
-    LoginResponseDto handleGetStatus(HttpSession session) {
-        if (!isAuthenticated(session)) {
-            throw new IllegalStateException(messageService.getMessage("Δεν.είστε.συνδεδεμένοι."))
-        }
-
+    static LoginResponseDto handleGetStatus(HttpSession session) {
         Long userId = getCurrentUserId(session)
         String username = getCurrentUsername(session)
         Long roleId = getCurrentUserRole(session)
@@ -158,7 +154,7 @@ class AuthenticationService {
         return new LoginResponseDto(
                 userId: userId,
                 username: username,
-                authenticated: true,
+                authenticated: isAuthenticated(session),
                 role: roleId
         )
     }

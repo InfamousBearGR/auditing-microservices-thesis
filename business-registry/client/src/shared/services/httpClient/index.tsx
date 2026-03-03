@@ -1,17 +1,17 @@
 import axios from "axios";
-import { useTranslation } from "react-i18next";
+import { i18n as I18nType } from "i18next";
 import { queryClient } from "src/shared/services/queryClient/reactQueryClient";
-import { useAuth } from "src/shared/context/useAuth";
+import { Dispatch, SetStateAction } from "react";
 
 const httpClient = axios.create({
   baseURL: import.meta.env.VITE_APP_API_URL,
   withCredentials: true,
 });
 
-const configureHttpClient = () => {
-  const { i18n } = useTranslation();
-  const { setUserCantAccess } = useAuth();
-
+const configureHttpClient = (
+  i18n: I18nType,
+  setUserCantAccess: Dispatch<SetStateAction<boolean>>,
+) => {
   httpClient.interceptors.response.use(
     (response) => {
       return response;
@@ -50,8 +50,18 @@ const configureHttpClient = () => {
 
   httpClient.interceptors.request.use(
     (config) => {
-      config.params = { ...config.params, lang: i18n?.language ?? "el" };
-
+      let language: string;
+      switch (i18n?.language) {
+        case "el":
+          language = "el-GR";
+          break;
+        case "en":
+          language = "en-US";
+          break;
+        default:
+          language = "el-GR";
+      }
+      config.headers.set("Accept-Language", language);
       return config;
     },
     (error) => {

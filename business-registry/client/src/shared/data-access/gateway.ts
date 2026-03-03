@@ -30,9 +30,6 @@ export const login = ({
     },
     {
       withCredentials: true,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
     },
   );
 };
