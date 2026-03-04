@@ -16,7 +16,7 @@ import static jakarta.persistence.TemporalType.TIMESTAMP
         @Index(columnList = "stock_type_id")
 ])
 @CompileStatic
-class CompanyStock {
+class CompanyStock implements Auditable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

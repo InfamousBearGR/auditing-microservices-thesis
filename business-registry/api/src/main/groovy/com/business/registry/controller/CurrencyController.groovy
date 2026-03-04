@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @CompileStatic
 @RestController
-@RequestMapping("/currencies")
+@RequestMapping("/currency")
 class CurrencyController {
 
     private final CurrencyService currencyService

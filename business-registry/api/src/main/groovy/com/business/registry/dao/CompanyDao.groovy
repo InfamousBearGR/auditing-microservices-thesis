@@ -23,12 +23,12 @@ class CompanyDao {
         return companyRepository.findById(id).orElse(null)
     }
 
-    boolean existsById(Long id) {
-        return companyRepository.existsById(id)
+    Company save(Company company) {
+        return companyRepository.save(company)
     }
 
-    Company saveCompany(Company company) {
-        return companyRepository.save(company)
+    Company saveAndFlush(Company company) {
+        return companyRepository.saveAndFlush(company)
     }
 
     void deleteCompanyById(Long id) {

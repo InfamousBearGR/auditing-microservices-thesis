@@ -10,7 +10,7 @@ import java.time.LocalDate
 @Entity
 @Table(name = "company")
 @CompileStatic
-class Company {
+class Company implements Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id

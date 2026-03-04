@@ -8,7 +8,7 @@ const langMapper: Record<string, MRT_Localization> = {
   en: MRT_Localization_EN,
 };
 
-export default function getTableLang(): MRT_Localization {
+export const getTableLang = (): MRT_Localization => {
   const currentLang = i18n.language;
   return langMapper[currentLang] || MRT_Localization_EN;
-}
+};

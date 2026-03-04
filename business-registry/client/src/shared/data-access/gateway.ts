@@ -1,11 +1,6 @@
-import { httpClient } from "src/shared/services/httpClient";
+import { httpClient } from "src/shared/services/httpClient/httpClient";
 import { AxiosResponse } from "axios";
-
-type UserSessionResponse = {
-  authenticated: boolean;
-  username: string;
-  role: number;
-};
+import { ParametricDto, UserSessionResponse } from "src/shared/types/types";
 
 type LogoutResponse = {
   message: string;
@@ -13,26 +8,38 @@ type LogoutResponse = {
 
 export const checkUserSession = (): Promise<
   AxiosResponse<UserSessionResponse>
-> => httpClient.get("/auth/status");
-
-export const login = ({
-  username,
-  password,
-}: {
-  username: string;
-  password: string;
-}): Promise<AxiosResponse<UserSessionResponse>> => {
-  return httpClient.post(
-    "/auth/login",
-    {
-      username,
-      password,
-    },
-    {
-      withCredentials: true,
-    },
-  );
-};
+> => httpClient.get("/api/auth/status");
 
 export const logout = (): Promise<AxiosResponse<LogoutResponse>> =>
-  httpClient.post("/auth/logout");
+  httpClient.post("/api/auth/logout");
+
+export const getCompanyStatuses = (): Promise<AxiosResponse<ParametricDto[]>> =>
+  httpClient.get("/api/companyStatus/translations");
+
+export const getCountries = (): Promise<AxiosResponse<ParametricDto[]>> =>
+  httpClient.get("/api/country/translations");
+
+export const getCurrencies = (): Promise<AxiosResponse<ParametricDto[]>> =>
+  httpClient.get("/api/currency/translations");
+
+export const getLegalTypes = (): Promise<AxiosResponse<ParametricDto[]>> =>
+  httpClient.get("/api/legalType/translations");
+
+export const getMemberRelations = (): Promise<AxiosResponse<ParametricDto[]>> =>
+  httpClient.get("/api/memberRelation/translations");
+
+export const getMunicipalities = (
+  prefectureId: number,
+): Promise<AxiosResponse<ParametricDto[]>> =>
+  httpClient.get(`/api/municipality/translations/${prefectureId}`);
+
+export const getPrefectures = (
+  regionId: number,
+): Promise<AxiosResponse<ParametricDto[]>> =>
+  httpClient.get(`/api/prefecture/translations${regionId}`);
+
+export const getRegions = (): Promise<AxiosResponse<ParametricDto[]>> =>
+  httpClient.get("/api/region/translations");
+
+export const getStockTypes = (): Promise<AxiosResponse<ParametricDto[]>> =>
+  httpClient.get("/api/stockType/translations");

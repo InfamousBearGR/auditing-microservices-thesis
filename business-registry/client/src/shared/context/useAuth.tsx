@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: any) => {
     userCantAccess,
     setUserCantAccess,
     isLoading,
-    userHomePath: data?.data?.authenticated ? "" : "/login",
+    userHomePath: data?.data?.authenticated ? "/company/index" : "/login",
   };
 
   return (

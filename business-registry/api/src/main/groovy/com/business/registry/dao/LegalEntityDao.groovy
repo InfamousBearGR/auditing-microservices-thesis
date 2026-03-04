@@ -27,8 +27,12 @@ class LegalEntityDao {
         return legalEntityRepository.existsById(id)
     }
 
-    LegalEntity saveLegalEntity(LegalEntity legalEntity) {
+    LegalEntity save(LegalEntity legalEntity) {
         return legalEntityRepository.save(legalEntity)
+    }
+
+    LegalEntity saveAndFlush(LegalEntity legalEntity) {
+        return legalEntityRepository.saveAndFlush(legalEntity)
     }
 
     void deleteLegalEntityById(Long id) {

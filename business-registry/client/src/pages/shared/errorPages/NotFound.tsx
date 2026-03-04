@@ -7,7 +7,7 @@ import { useAuth } from "src/shared/context/useAuth";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "@tanstack/react-router";
 
-function NotFoundPage() {
+export const NotFound = () => {
   const { userHomePath } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -47,6 +47,4 @@ function NotFoundPage() {
       </Box>
     </>
   );
-}
-
-export default NotFoundPage;
+};

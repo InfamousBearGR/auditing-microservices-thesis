@@ -42,6 +42,10 @@ bootJar {
     archiveFileName = "${project.name}.jar"
 }
 
+compileGroovy {
+    groovyOptions.parameters = true
+}
+
 test {
     useJUnitPlatform()
     jvmArgs '-XX:+EnableDynamicAgentLoading'

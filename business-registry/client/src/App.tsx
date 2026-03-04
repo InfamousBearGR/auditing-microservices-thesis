@@ -15,7 +15,7 @@ import { I18nextProvider, useTranslation } from "react-i18next";
 import { queryClient } from "src/shared/services/queryClient/reactQueryClient";
 import "src/shared/services/languages/i18n";
 import { AuthProvider, useAuth } from "src/shared/context/useAuth";
-import { configureHttpClient } from "src/shared/services/httpClient";
+import { configureHttpClient } from "src/shared/services/httpClient/httpClient";
 import "@mui/material/Button";
 import "@mui/material/Chip";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -51,7 +51,7 @@ const muiLocaleTextLanguages: Record<SupportedLanguage, object> = {
   en: pickersEn.components.MuiLocalizationProvider.defaultProps.localeText,
 };
 
-function App() {
+const App = () => {
   const { i18n } = useTranslation();
   const theme = createTheme(
     {
@@ -104,7 +104,7 @@ function App() {
               <ThemeProvider theme={theme}>
                 <MySnackbarProvider>
                   <ConfigurationContextComponent />
-                  <RouterProvider router={router()} />
+                  <RouterProvider router={router} />
                 </MySnackbarProvider>
               </ThemeProvider>
             </I18nextProvider>
@@ -113,6 +113,6 @@ function App() {
       </QueryClientProvider>
     </>
   );
-}
+};
 
 export default App;

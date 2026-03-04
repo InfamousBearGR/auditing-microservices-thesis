@@ -2,8 +2,10 @@ package com.business.registry.controller
 
 import com.business.registry.dto.company.CompanyRequestDto
 import com.business.registry.dto.company.CompanyResponseDto
+import com.business.registry.dto.util.DeleteRequestDto
 import com.business.registry.service.CompanyService
 import groovy.transform.CompileStatic
+import jakarta.servlet.http.HttpSession
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -34,20 +36,20 @@ class CompanyController {
     }
 
     @PostMapping("/create")
-    ResponseEntity<Void> createCompany(@RequestBody CompanyRequestDto companyDto) {
-        companyService.createCompany(companyDto)
+    ResponseEntity<Void> createCompany(@RequestBody CompanyRequestDto companyDto, HttpSession session) {
+        companyService.createCompany(companyDto, session)
         ResponseEntity.ok().build()
     }
 
     @PutMapping("/update/{id}")
-    ResponseEntity<Void> updateCompany(@RequestBody CompanyRequestDto companyDto, @PathVariable Long id) {
-        companyService.updateCompany(companyDto, id)
+    ResponseEntity<Void> updateCompany(@RequestBody CompanyRequestDto companyDto, @PathVariable Long id, HttpSession session) {
+        companyService.updateCompany(companyDto, id, session)
         ResponseEntity.ok().build()
     }
 
     @DeleteMapping("/delete/{id}")
-    ResponseEntity<Void> deleteCompanyById(@PathVariable Long id) {
-        companyService.deleteCompanyById(id)
+    ResponseEntity<Void> deleteCompanyById(@PathVariable Long id, @RequestBody DeleteRequestDto deleteRequest, HttpSession session) {
+        companyService.deleteCompanyById(id, deleteRequest.changeReason, session)
         ResponseEntity.ok().build()
     }
 }

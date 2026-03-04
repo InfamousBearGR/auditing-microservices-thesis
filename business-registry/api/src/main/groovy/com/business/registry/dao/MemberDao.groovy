@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 
 @CompileStatic
 @Repository
-class MemberDao {
+class MemberDao implements CascadableDao<Member> {
 
     private final MemberRepository memberRepository
 
@@ -28,12 +28,18 @@ class MemberDao {
         return memberRepository.existsById(id)
     }
 
-    Member saveMember(Member member) {
+    @Override
+    Member save(Member member) {
         return memberRepository.save(member)
     }
 
-    void deleteMemberById(Long id) {
+    @Override
+    Member saveAndFlush(Member member) {
+        return memberRepository.saveAndFlush(member)
+    }
+
+    @Override
+    void deleteById(Long id) {
         memberRepository.deleteById(id)
     }
 }
-

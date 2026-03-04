@@ -2,13 +2,17 @@ import {
   createRootRoute,
   createRoute,
   createRouter,
+  redirect,
+  useNavigate,
 } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { Main } from "src/shared/layout/main";
 import { WelcomePage } from "src/pages/welcome/features/WelcomePage/WelcomePage";
 import { Error502 } from "src/pages/shared/errorPages/Error502";
-import NotFound from "src/pages/shared/errorPages/NotFound";
+import { NotFound } from "src/pages/shared/errorPages/NotFound";
+import { createCompanyRoutes } from "src/routes/companyRoutes";
 
-export const router = () => {
+const createAppRouter = () => {
   const rootRoute = createRootRoute({
     component: Main,
   });
@@ -17,6 +21,14 @@ export const router = () => {
     getParentRoute: () => rootRoute,
     path: "/login",
     component: WelcomePage,
+  });
+
+  const indexRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/",
+    beforeLoad: () => {
+      throw redirect({ to: "/login" });
+    },
   });
 
   const error502Route = createRoute({
@@ -31,11 +43,28 @@ export const router = () => {
     component: NotFound,
   });
 
+  const companyRoutes = createCompanyRoutes(rootRoute);
+
   const routeTree = rootRoute.addChildren([
+    indexRoute,
     loginRoute,
     error502Route,
     notFoundRoute,
+    ...companyRoutes,
   ]);
 
-  return createRouter({ routeTree });
+  const NotFoundRedirect = () => {
+    const navigate = useNavigate();
+    useEffect(() => {
+      navigate({ to: "/404" });
+    }, []);
+    return null;
+  };
+
+  return createRouter({
+    routeTree,
+    defaultNotFoundComponent: NotFoundRedirect,
+  });
 };
+
+export const router = createAppRouter();

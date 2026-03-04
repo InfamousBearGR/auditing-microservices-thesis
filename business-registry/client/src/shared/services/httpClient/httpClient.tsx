@@ -1,5 +1,6 @@
 import axios from "axios";
 import { i18n as I18nType } from "i18next";
+import i18n from "src/shared/services/languages/i18n";
 import { queryClient } from "src/shared/services/queryClient/reactQueryClient";
 import { Dispatch, SetStateAction } from "react";
 
@@ -8,11 +9,21 @@ const httpClient = axios.create({
   withCredentials: true,
 });
 
+let responseInterceptorId: number | null = null;
+let requestInterceptorId: number | null = null;
+
 const configureHttpClient = (
-  i18n: I18nType,
+  _i18n: I18nType | undefined,
   setUserCantAccess: Dispatch<SetStateAction<boolean>>,
 ) => {
-  httpClient.interceptors.response.use(
+  if (responseInterceptorId !== null) {
+    httpClient.interceptors.response.eject(responseInterceptorId);
+  }
+  if (requestInterceptorId !== null) {
+    httpClient.interceptors.request.eject(requestInterceptorId);
+  }
+
+  responseInterceptorId = httpClient.interceptors.response.use(
     (response) => {
       return response;
     },
@@ -48,7 +59,7 @@ const configureHttpClient = (
     },
   );
 
-  httpClient.interceptors.request.use(
+  requestInterceptorId = httpClient.interceptors.request.use(
     (config) => {
       let language: string;
       switch (i18n?.language) {

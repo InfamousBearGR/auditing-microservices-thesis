@@ -10,7 +10,7 @@ import java.time.LocalDate
 @Entity
 @Table(name = "member")
 @CompileStatic
-class Member {
+class Member implements Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,8 +2,10 @@ package com.business.registry.controller
 
 import com.business.registry.dto.legalEntity.LegalEntityRequestDto
 import com.business.registry.dto.legalEntity.LegalEntityResponseDto
+import com.business.registry.dto.util.DeleteRequestDto
 import com.business.registry.service.LegalEntityService
 import groovy.transform.CompileStatic
+import jakarta.servlet.http.HttpSession
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -34,20 +36,20 @@ class LegalEntityController {
     }
 
     @PostMapping("/create")
-    ResponseEntity<Void> createLegalEntity(@RequestBody LegalEntityRequestDto legalEntityDto) {
-        legalEntityService.createLegalEntity(legalEntityDto)
+    ResponseEntity<Void> createLegalEntity(@RequestBody LegalEntityRequestDto legalEntityDto, HttpSession session) {
+        legalEntityService.createLegalEntity(legalEntityDto, session)
         ResponseEntity.ok().build()
     }
 
     @PutMapping("/update/{id}")
-    ResponseEntity<Void> updateLegalEntity(@RequestBody LegalEntityRequestDto legalEntityDto, @PathVariable Long id) {
-        legalEntityService.updateLegalEntity(legalEntityDto, id)
+    ResponseEntity<Void> updateLegalEntity(@RequestBody LegalEntityRequestDto legalEntityDto, @PathVariable Long id, HttpSession session) {
+        legalEntityService.updateLegalEntity(legalEntityDto, id, session)
         ResponseEntity.ok().build()
     }
 
     @DeleteMapping("/delete/{id}")
-    ResponseEntity<Void> deleteLegalEntityById(@PathVariable Long id) {
-        legalEntityService.deleteLegalEntityById(id)
+    ResponseEntity<Void> deleteLegalEntityById(@PathVariable Long id, @RequestBody DeleteRequestDto deleteRequest, HttpSession session) {
+        legalEntityService.deleteLegalEntityById(id, deleteRequest.changeReason, session)
         ResponseEntity.ok().build()
     }
 }

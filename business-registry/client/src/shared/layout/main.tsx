@@ -131,7 +131,7 @@ export const Main = ({ children }: { children?: ReactNode }) => {
               style={{ textDecoration: "none", color: "white" }}
               to={userHomePath}
             >
-              <Typography variant="h6" noWrap>
+              <Typography variant="h5" noWrap>
                 {t("Επιχειρηματικό Μητρώο")}
               </Typography>
             </Link>

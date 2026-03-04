@@ -22,5 +22,9 @@ class UserAccountDao {
     boolean existsByUsername(String username) {
         return userAccountRepository.existsByUsername(username)
     }
+
+    Optional<UserAccount> findById(Long id) {
+        return userAccountRepository.findById(id)
+    }
 }
 

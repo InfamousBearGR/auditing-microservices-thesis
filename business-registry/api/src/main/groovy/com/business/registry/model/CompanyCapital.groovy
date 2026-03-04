@@ -14,7 +14,7 @@ import static jakarta.persistence.TemporalType.TIMESTAMP
 @Entity
 @Table(name = "company_capital")
 @CompileStatic
-class CompanyCapital {
+class CompanyCapital implements Auditable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

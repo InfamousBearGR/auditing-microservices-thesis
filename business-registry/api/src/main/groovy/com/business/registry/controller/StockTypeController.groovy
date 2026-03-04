@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @CompileStatic
 @RestController
-@RequestMapping("/stock-types")
+@RequestMapping("/stockType")
 class StockTypeController {
 
     private final StockTypeService stockTypeService

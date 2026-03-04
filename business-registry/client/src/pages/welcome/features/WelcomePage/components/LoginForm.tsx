@@ -12,10 +12,13 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import PersonIcon from "@mui/icons-material/Person";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useLogin } from "src/shared/data-access/useLogin";
+import { useLogin } from "src/pages/welcome/features/data-access/useLogin";
+import { useAuth } from "src/shared/context/useAuth";
+import { useNavigate } from "@tanstack/react-router";
 
 export const LoginForm = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const loginSchema = z.object({
     username: z.string().min(1, t("Το όνομα χρήστη είναι υποχρεωτικό")),
     password: z.string().min(1, t("Ο κωδικός χρήστη είναι υποχρεωτικός")),
@@ -30,6 +33,12 @@ export const LoginForm = () => {
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { mutate, isPending } = useLogin();
+  const { authenticated, userHomePath } = useAuth();
+
+  if (authenticated) {
+    navigate({ to: userHomePath });
+  }
+
   return (
     <Box
       sx={{

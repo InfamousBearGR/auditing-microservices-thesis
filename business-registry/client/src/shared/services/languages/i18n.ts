@@ -22,7 +22,7 @@ const resources = {
   },
 };
 i18n.on("languageChanged", () => {
-  queryClient?.invalidateQueries();
+  queryClient?.invalidateQueries({ refetchType: "active" });
 });
 
 i18n.use(initReactI18next).init({

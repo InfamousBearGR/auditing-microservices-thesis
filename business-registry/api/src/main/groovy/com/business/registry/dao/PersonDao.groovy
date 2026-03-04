@@ -27,8 +27,12 @@ class PersonDao {
         return personRepository.existsById(id)
     }
 
-    Person savePerson(Person person) {
+    Person save(Person person) {
         return personRepository.save(person)
+    }
+
+    Person saveAndFlush(Person person) {
+        return personRepository.saveAndFlush(person)
     }
 
     void deletePersonById(Long id) {
