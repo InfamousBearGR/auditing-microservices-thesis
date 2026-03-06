@@ -93,8 +93,8 @@ class CompanyService {
     }
 
     @Transactional(readOnly = true)
-    List<CompanyResponseDto> getAllCompanies(Locale locale) {
-        return companyDao.findAllCompanies().collect { company ->
+    List<CompanyResponseDto> getAllCompanies(Locale locale, Long companyStatusId, Long legalTypeId) {
+        return companyDao.findAllByFilters(companyStatusId, legalTypeId).collect { company ->
             mapToCompanyResponseDto(company, locale)
         }
     }

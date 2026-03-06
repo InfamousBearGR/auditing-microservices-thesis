@@ -2,9 +2,10 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { useViewCompany } from "src/pages/company/data-access/useViewCompany";
 import { enqueueSnackbar } from "notistack";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Details } from "src/shared/components/Details/Details";
 import { stringToFormatDate } from "src/shared/utils";
+import { CustomCircularProgressBar } from "src/shared/components/CustomCircularProgressBar";
 
 export const View = () => {
   const { t } = useTranslation();
@@ -32,7 +33,7 @@ export const View = () => {
     { name: t("Νομική Μορφή"), value: data?.data?.legalType.description ?? "" },
     { name: t("ΑΦΜ"), value: data?.data?.afm ?? "" },
     {
-      name: t("Κατάσταση"),
+      name: t("Κατάσταση Επιχείρησης"),
       value: data?.data?.companyStatus.description ?? "",
     },
     {
@@ -83,13 +84,11 @@ export const View = () => {
       }}
     >
       {isLoading ? (
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <CircularProgress />
-        </Box>
+        <CustomCircularProgressBar />
       ) : (
         <>
           <Typography
-            variant={"h6"}
+            variant={"h5"}
           >{`${t("Επιχείρηση")}: ${data?.data?.registryNumber} ${data?.data?.name}`}</Typography>
           <Details rows={rows} />
         </>

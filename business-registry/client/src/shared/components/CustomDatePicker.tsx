@@ -39,6 +39,7 @@ export const CustomDatePicker = (props: CustomDatePickerProps) => {
   return (
     <DatePickerElement
       {...datePickerProps}
+      sx={{ width: "100%" }}
       name={name}
       format={datePickerProps?.format || displayPattern}
       slotProps={{

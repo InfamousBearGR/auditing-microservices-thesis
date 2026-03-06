@@ -73,6 +73,7 @@ const configureHttpClient = (
           language = "el-GR";
       }
       config.headers.set("Accept-Language", language);
+      config.headers.set("Content-Type", "application/json");
       return config;
     },
     (error) => {

@@ -64,6 +64,8 @@ export const DeleteModal = (props: DeleteModalProps) => {
             onChange={(e) => setChangeReason(e.target.value.trim())}
             label={t("Λόγος Διαγραφής")}
             fullWidth
+            multiline={true}
+            rows={5}
           />
         </Box>
       </DialogContent>

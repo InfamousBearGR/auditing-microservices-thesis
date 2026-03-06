@@ -36,7 +36,7 @@ export const getMunicipalities = (
 export const getPrefectures = (
   regionId: number,
 ): Promise<AxiosResponse<ParametricDto[]>> =>
-  httpClient.get(`/api/prefecture/translations${regionId}`);
+  httpClient.get(`/api/prefecture/translations/${regionId}`);
 
 export const getRegions = (): Promise<AxiosResponse<ParametricDto[]>> =>
   httpClient.get("/api/region/translations");

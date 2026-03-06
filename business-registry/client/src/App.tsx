@@ -55,6 +55,11 @@ const App = () => {
   const { i18n } = useTranslation();
   const theme = createTheme(
     {
+      palette: {
+        primary: {
+          main: "#1526c0",
+        },
+      },
       typography: {
         button: {
           textTransform: "none",

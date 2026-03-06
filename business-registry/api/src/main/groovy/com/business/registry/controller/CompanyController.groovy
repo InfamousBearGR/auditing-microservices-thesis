@@ -22,9 +22,11 @@ class CompanyController {
     }
 
     @GetMapping("/index")
-    ResponseEntity<List<CompanyResponseDto>> getAllCompanies() {
+    ResponseEntity<List<CompanyResponseDto>> getAllCompanies(
+            @RequestParam(required = false) Long companyStatusId,
+            @RequestParam(required = false) Long legalTypeId) {
         Locale locale = LocaleContextHolder.getLocale()
-        List<CompanyResponseDto> companies = companyService.getAllCompanies(locale)
+        List<CompanyResponseDto> companies = companyService.getAllCompanies(locale, companyStatusId, legalTypeId)
         ResponseEntity.ok(companies)
     }
 

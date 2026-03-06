@@ -13,3 +13,8 @@ export type UserSessionResponse = {
   username: string;
   role: number;
 };
+
+export type CustomAutocompleteProps = {
+  isRequired?: boolean;
+  idForSearch?: number;
+};

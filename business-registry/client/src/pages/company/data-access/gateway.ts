@@ -2,8 +2,16 @@ import { httpClient } from "src/shared/services/httpClient/httpClient";
 import { AxiosResponse } from "axios";
 import { CompanyRequestDto, CompanyResponseDto } from "src/pages/company/types";
 
-export const indexCompany = (): Promise<AxiosResponse<CompanyResponseDto[]>> =>
-  httpClient.get("/api/company/index");
+export const indexCompany = (
+  companyStatusId?: number,
+  legalTypeId?: number,
+): Promise<AxiosResponse<CompanyResponseDto[]>> =>
+  httpClient.get("/api/company/index", {
+    params: {
+      companyStatusId,
+      legalTypeId,
+    },
+  });
 
 export const viewCompany = (
   id: number,
@@ -15,11 +23,7 @@ export const createCompany = ({
 }: {
   data: CompanyRequestDto;
 }): Promise<AxiosResponse> => {
-  return httpClient.post("/api/company/create", data, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  return httpClient.post("/api/company/create", data);
 };
 
 export const updateCompany = ({
@@ -29,11 +33,7 @@ export const updateCompany = ({
   id: number;
   data: CompanyRequestDto;
 }): Promise<AxiosResponse> => {
-  return httpClient.put(`/api/company/update/${id}`, data, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  return httpClient.put(`/api/company/update/${id}`, data);
 };
 
 export const deleteCompany = ({
@@ -46,8 +46,5 @@ export const deleteCompany = ({
   httpClient.delete(`/api/company/delete/${id}`, {
     data: {
       changeReason,
-    },
-    headers: {
-      "Content-Type": "application/json",
     },
   });

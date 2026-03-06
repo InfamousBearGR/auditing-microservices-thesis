@@ -19,6 +19,10 @@ class CompanyDao {
         return companyRepository.findAll()
     }
 
+    List<Company> findAllByFilters(Long companyStatusId, Long legalTypeId) {
+        return companyRepository.findAllByFilters(companyStatusId, legalTypeId)
+    }
+
     Company findCompanyById(Long id) {
         return companyRepository.findById(id).orElse(null)
     }
