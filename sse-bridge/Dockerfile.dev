@@ -1,10 +1,20 @@
 FROM eclipse-temurin:21-jdk-alpine
 
+# Install Gradle to bootstrap the wrapper jar
+RUN apk add --no-cache wget unzip && \
+    wget -q https://services.gradle.org/distributions/gradle-9.0.0-bin.zip -O /tmp/gradle.zip && \
+    unzip -q /tmp/gradle.zip -d /opt && \
+    rm /tmp/gradle.zip
+ENV PATH="/opt/gradle-9.0.0/bin:${PATH}"
+
 WORKDIR /app
 
 # Copy Gradle wrapper and build files
 COPY gradle ./gradle
 COPY gradlew settings.gradle build.gradle gradle.properties ./
+
+# Generate the wrapper jar using the installed Gradle
+RUN gradle wrapper
 
 # Ensure gradlew is executable
 RUN chmod +x gradlew
