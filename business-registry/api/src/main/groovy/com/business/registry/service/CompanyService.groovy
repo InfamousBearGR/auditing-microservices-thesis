@@ -1,10 +1,6 @@
 package com.business.registry.service
 
-import com.business.registry.dao.CompanyCapitalDao
-import com.business.registry.dao.CompanyDao
-import com.business.registry.dao.CompanyStockDao
-import com.business.registry.dao.MemberDao
-import com.business.registry.dao.UserAccountDao
+import com.business.registry.dao.*
 import com.business.registry.dto.company.CompanyRequestDto
 import com.business.registry.dto.company.CompanyResponseDto
 import com.business.registry.dto.util.ParametricDto

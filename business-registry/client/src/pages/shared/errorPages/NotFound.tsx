@@ -1,11 +1,8 @@
-import { Box, Typography, Button, Stack } from "@mui/material";
-import {
-  Home as HomeIcon,
-  SearchOff as SearchOffIcon,
-} from "@mui/icons-material";
-import { useAuth } from "src/shared/context/useAuth";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "@tanstack/react-router";
+import {Box, Button, Stack, Typography} from "@mui/material";
+import {Home as HomeIcon, SearchOff as SearchOffIcon,} from "@mui/icons-material";
+import {useAuth} from "src/shared/context/useAuth";
+import {useTranslation} from "react-i18next";
+import {useNavigate} from "@tanstack/react-router";
 
 export const NotFound = () => {
   const { userHomePath } = useAuth();

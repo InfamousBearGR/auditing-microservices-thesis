@@ -1,16 +1,10 @@
-import {
-  createRootRoute,
-  createRoute,
-  createRouter,
-  redirect,
-  useNavigate,
-} from "@tanstack/react-router";
-import { useEffect } from "react";
-import { Main } from "src/shared/layout/main";
-import { WelcomePage } from "src/pages/welcome/features/WelcomePage/WelcomePage";
-import { Error502 } from "src/pages/shared/errorPages/Error502";
-import { NotFound } from "src/pages/shared/errorPages/NotFound";
-import { createCompanyRoutes } from "src/routes/companyRoutes";
+import {createRootRoute, createRoute, createRouter, redirect, useNavigate,} from "@tanstack/react-router";
+import {useEffect} from "react";
+import {Main} from "src/shared/layout/main";
+import {WelcomePage} from "src/pages/welcome/features/WelcomePage/WelcomePage";
+import {Error502} from "src/pages/shared/errorPages/Error502";
+import {NotFound} from "src/pages/shared/errorPages/NotFound";
+import {createCompanyRoutes} from "src/routes/companyRoutes";
 
 const createAppRouter = () => {
   const rootRoute = createRootRoute({

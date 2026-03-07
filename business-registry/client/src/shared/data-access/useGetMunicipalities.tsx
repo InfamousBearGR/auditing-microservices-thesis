@@ -1,5 +1,5 @@
-import { getMunicipalities } from "src/shared/data-access/gateway";
-import { useQuery } from "@tanstack/react-query";
+import {getMunicipalities} from "src/shared/data-access/gateway";
+import {useQuery} from "@tanstack/react-query";
 
 export const useGetMunicipalities = (prefectureId: number) => {
   return useQuery({

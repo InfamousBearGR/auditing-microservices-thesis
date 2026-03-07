@@ -1,8 +1,8 @@
 import i18n from "i18next";
 import translationEl from "src/shared/services/languages/el/greek.json";
 import translationEn from "src/shared/services/languages/en/english.json";
-import { initReactI18next } from "react-i18next";
-import { queryClient } from "src/shared/services/queryClient/reactQueryClient";
+import {initReactI18next} from "react-i18next";
+import {queryClient} from "src/shared/services/queryClient/reactQueryClient";
 
 const langSelect = () => {
   if (localStorage.getItem("lng")) {

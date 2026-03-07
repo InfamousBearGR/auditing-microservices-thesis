@@ -1,8 +1,8 @@
-import { Tooltip } from "@mui/material";
-import { useTranslation } from "react-i18next";
-import { useGetPrefectures } from "src/shared/data-access/useGetPrefectures";
-import { AutocompleteElement } from "react-hook-form-mui";
-import { CustomAutocompleteProps } from "src/shared/types/types";
+import {Tooltip} from "@mui/material";
+import {useTranslation} from "react-i18next";
+import {useGetPrefectures} from "src/shared/data-access/useGetPrefectures";
+import {AutocompleteElement} from "react-hook-form-mui";
+import {CustomAutocompleteProps} from "src/shared/types/types";
 
 export const PrefectureAutocomplete = (props: CustomAutocompleteProps) => {
   const { isRequired, idForSearch } = props;

@@ -1,7 +1,7 @@
-import { useTranslation } from "react-i18next";
-import { useGetCompanyStatuses } from "src/shared/data-access/useGetCompanyStatuses";
-import { AutocompleteElement } from "react-hook-form-mui";
-import { CustomAutocompleteProps } from "src/shared/types/types";
+import {useTranslation} from "react-i18next";
+import {useGetCompanyStatuses} from "src/shared/data-access/useGetCompanyStatuses";
+import {AutocompleteElement} from "react-hook-form-mui";
+import {CustomAutocompleteProps} from "src/shared/types/types";
 
 export const CompanyStatusAutocomplete = (props: CustomAutocompleteProps) => {
   const { isRequired } = props;

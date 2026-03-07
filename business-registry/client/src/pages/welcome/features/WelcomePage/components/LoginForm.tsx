@@ -1,20 +1,14 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  InputAdornment,
-  Typography,
-} from "@mui/material";
-import { useTranslation } from "react-i18next";
-import { FormContainer, TextFieldElement, useForm } from "react-hook-form-mui";
-import { useState } from "react";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import {Box, Button, IconButton, InputAdornment, Typography,} from "@mui/material";
+import {useTranslation} from "react-i18next";
+import {FormContainer, TextFieldElement, useForm} from "react-hook-form-mui";
+import {useState} from "react";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 import PersonIcon from "@mui/icons-material/Person";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useLogin } from "src/pages/welcome/features/data-access/useLogin";
-import { useAuth } from "src/shared/context/useAuth";
-import { useNavigate } from "@tanstack/react-router";
+import {z} from "zod";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {useLogin} from "src/pages/welcome/features/data-access/useLogin";
+import {useAuth} from "src/shared/context/useAuth";
+import {useNavigate} from "@tanstack/react-router";
 
 export const LoginForm = () => {
   const { t } = useTranslation();

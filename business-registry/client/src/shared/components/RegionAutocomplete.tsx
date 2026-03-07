@@ -1,8 +1,7 @@
-import { useTranslation } from "react-i18next";
-import { useGetRegions } from "src/shared/data-access/useGetRegions";
-import { CustomCircularProgressBar } from "src/shared/components/CustomCircularProgressBar";
-import { AutocompleteElement } from "react-hook-form-mui";
-import { CustomAutocompleteProps } from "src/shared/types/types";
+import {useTranslation} from "react-i18next";
+import {useGetRegions} from "src/shared/data-access/useGetRegions";
+import {AutocompleteElement} from "react-hook-form-mui";
+import {CustomAutocompleteProps} from "src/shared/types/types";
 
 export const RegionAutocomplete = (props: CustomAutocompleteProps) => {
   const { isRequired } = props;

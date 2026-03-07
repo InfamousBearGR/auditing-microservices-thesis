@@ -1,6 +1,6 @@
-import { httpClient } from "src/shared/services/httpClient/httpClient";
-import { AxiosResponse } from "axios";
-import { CompanyRequestDto, CompanyResponseDto } from "src/pages/company/types";
+import {httpClient} from "src/shared/services/httpClient/httpClient";
+import {AxiosResponse} from "axios";
+import {CompanyRequestDto, CompanyResponseDto} from "src/pages/company/types";
 
 export const indexCompany = (
   companyStatusId?: number,

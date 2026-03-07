@@ -1,6 +1,6 @@
-import { AxiosResponse } from "axios";
-import { UserSessionResponse } from "src/shared/types/types";
-import { httpClient } from "src/shared/services/httpClient/httpClient";
+import {AxiosResponse} from "axios";
+import {UserSessionResponse} from "src/shared/types/types";
+import {httpClient} from "src/shared/services/httpClient/httpClient";
 
 export const login = ({
   username,

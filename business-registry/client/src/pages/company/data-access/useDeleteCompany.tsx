@@ -1,7 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCompany } from "src/pages/company/data-access/gateway";
-import { useTranslation } from "react-i18next";
-import { enqueueSnackbar } from "notistack";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {deleteCompany} from "src/pages/company/data-access/gateway";
+import {useTranslation} from "react-i18next";
+import {enqueueSnackbar} from "notistack";
 
 export const useDeleteCompany = () => {
   const { t } = useTranslation();

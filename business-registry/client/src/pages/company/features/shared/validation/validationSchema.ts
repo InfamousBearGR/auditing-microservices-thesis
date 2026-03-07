@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { TFunction } from "i18next";
-import { validateAfm } from "src/shared/utils";
+import {z} from "zod";
+import {TFunction} from "i18next";
+import {validateAfm} from "src/shared/utils";
 
 export const getCompanyValidationSchema = (
   t: TFunction<"translation", undefined>,

@@ -1,17 +1,13 @@
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableCell, {tableCellClasses} from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
-import { Link, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import { DetailsProps, DetailsRow } from "./types";
-import React, { useMemo } from "react";
-import {
-  defaultRenderArray,
-  defaultRenderDates,
-  defaultRenderObject,
-} from "./utils";
+import {Link, Typography} from "@mui/material";
+import {Box} from "@mui/system";
+import {DetailsProps, DetailsRow} from "./types";
+import React, {useMemo} from "react";
+import {defaultRenderArray, defaultRenderDates, defaultRenderObject,} from "./utils";
 
 export const Details = (props: DetailsProps) => {
   const {

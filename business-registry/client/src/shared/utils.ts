@@ -1,4 +1,4 @@
-import { parse, format } from "date-fns";
+import {format, parse} from "date-fns";
 
 export const stringToDate = (
   dateString: string | undefined,

@@ -1,19 +1,15 @@
-import { Box } from "@mui/material";
-import {
-  TextFieldElement,
-  useFormContext,
-  UseFormReturn,
-} from "react-hook-form-mui";
-import { useEffect, useRef } from "react";
-import { CompanyStatusAutocomplete } from "src/shared/components/CompanyStatusAutocomplete";
-import { LegalTypeAutocomplete } from "src/shared/components/LegalTypeAutocomplete";
-import { CustomDatePicker } from "src/shared/components/CustomDatePicker";
-import { CountryAutocomplete } from "src/shared/components/CountryAutocomplete";
-import { PrefectureAutocomplete } from "src/shared/components/PrefectureAutocomplete";
-import { RegionAutocomplete } from "src/shared/components/RegionAutocomplete";
-import { MunicipalityAutocomplete } from "src/shared/components/MunicipalityAutocomplete";
-import { useTranslation } from "react-i18next";
-import { CompanyValidationSchema } from "src/pages/company/features/shared/validation/validationSchema";
+import {Box} from "@mui/material";
+import {TextFieldElement, useFormContext, UseFormReturn,} from "react-hook-form-mui";
+import {useEffect, useRef} from "react";
+import {CompanyStatusAutocomplete} from "src/shared/components/CompanyStatusAutocomplete";
+import {LegalTypeAutocomplete} from "src/shared/components/LegalTypeAutocomplete";
+import {CustomDatePicker} from "src/shared/components/CustomDatePicker";
+import {CountryAutocomplete} from "src/shared/components/CountryAutocomplete";
+import {PrefectureAutocomplete} from "src/shared/components/PrefectureAutocomplete";
+import {RegionAutocomplete} from "src/shared/components/RegionAutocomplete";
+import {MunicipalityAutocomplete} from "src/shared/components/MunicipalityAutocomplete";
+import {useTranslation} from "react-i18next";
+import {CompanyValidationSchema} from "src/pages/company/features/shared/validation/validationSchema";
 
 export const CompanyForm = () => {
   const { t } = useTranslation();

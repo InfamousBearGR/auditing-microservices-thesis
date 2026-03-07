@@ -1,11 +1,11 @@
-import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "@tanstack/react-router";
-import { useViewCompany } from "src/pages/company/data-access/useViewCompany";
-import { enqueueSnackbar } from "notistack";
-import { Box, Typography } from "@mui/material";
-import { Details } from "src/shared/components/Details/Details";
-import { stringToFormatDate } from "src/shared/utils";
-import { CustomCircularProgressBar } from "src/shared/components/CustomCircularProgressBar";
+import {useTranslation} from "react-i18next";
+import {useNavigate, useParams} from "@tanstack/react-router";
+import {useViewCompany} from "src/pages/company/data-access/useViewCompany";
+import {enqueueSnackbar} from "notistack";
+import {Box, Typography} from "@mui/material";
+import {Details} from "src/shared/components/Details/Details";
+import {stringToFormatDate} from "src/shared/utils";
+import {CustomCircularProgressBar} from "src/shared/components/CustomCircularProgressBar";
 
 export const View = () => {
   const { t } = useTranslation();

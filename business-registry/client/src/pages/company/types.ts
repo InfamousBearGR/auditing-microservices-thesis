@@ -1,4 +1,4 @@
-import { ParametricDto } from "src/shared/types/types";
+import {ParametricDto} from "src/shared/types/types";
 
 export type CompanyRequestDto = {
   name: string;

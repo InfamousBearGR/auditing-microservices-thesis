@@ -1,13 +1,6 @@
-import { RoleEnum } from "src/shared/enums/RoleEnum";
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { useCheckUserSession } from "src/shared/data-access/useCheckUserSession";
+import {RoleEnum} from "src/shared/enums/RoleEnum";
+import {createContext, Dispatch, SetStateAction, useContext, useEffect, useState,} from "react";
+import {useCheckUserSession} from "src/shared/data-access/useCheckUserSession";
 
 interface IUseAuth {
   authenticated: boolean;
