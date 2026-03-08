@@ -1,13 +1,13 @@
 package com.business.registry.service
 
-import com.business.registry.dao.LegalEntityDao
-import com.business.registry.dao.UserAccountDao
 import com.business.registry.dto.legalEntity.LegalEntityRequestDto
 import com.business.registry.dto.legalEntity.LegalEntityResponseDto
 import com.business.registry.dto.util.ParametricDto
 import com.business.registry.exception.NotFoundException
 import com.business.registry.mapper.legalEntity.LegalEntityMapper
 import com.business.registry.model.*
+import com.business.registry.repository.LegalEntityRepository
+import com.business.registry.repository.UserAccountRepository
 import com.business.registry.validation.LegalEntityValidation
 import groovy.transform.CompileStatic
 import jakarta.servlet.http.HttpSession
@@ -18,10 +18,10 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @CompileStatic
 class LegalEntityService {
-    private final LegalEntityDao legalEntityDao
+    private final LegalEntityRepository legalEntityRepository
     private final LegalEntityMapper legalEntityMapper
     private final LegalEntityValidation legalEntityValidation
-    private final UserAccountDao userAccountDao
+    private final UserAccountRepository userAccountRepository
 
     @Autowired
     CountryService countryService
@@ -42,7 +42,7 @@ class LegalEntityService {
     AuthenticationService authenticationService
 
     LegalEntityService(
-            LegalEntityDao legalEntityDao,
+            LegalEntityRepository legalEntityRepository,
             LegalEntityMapper legalEntityMapper,
             CountryService countryService,
             PrefectureService prefectureService,
@@ -50,10 +50,10 @@ class LegalEntityService {
             RegionService regionService,
             MessageService messageService,
             LegalEntityValidation legalEntityValidation,
-            UserAccountDao userAccountDao,
+            UserAccountRepository userAccountRepository,
             AuthenticationService authenticationService
     ) {
-        this.legalEntityDao = legalEntityDao
+        this.legalEntityRepository = legalEntityRepository
         this.legalEntityMapper = legalEntityMapper
         this.countryService = countryService
         this.prefectureService = prefectureService
@@ -61,13 +61,13 @@ class LegalEntityService {
         this.regionService = regionService
         this.messageService = messageService
         this.legalEntityValidation = legalEntityValidation
-        this.userAccountDao = userAccountDao
+        this.userAccountRepository = userAccountRepository
         this.authenticationService = authenticationService
     }
 
     @Transactional(readOnly = true)
     List<LegalEntityResponseDto> getAllLegalEntities(Locale locale) {
-        return legalEntityDao.findAllLegalEntities().collect { legalEntity ->
+        return legalEntityRepository.findAll().collect { legalEntity ->
             mapToLegalEntityResponseDto(legalEntity, locale)
         }
     }
@@ -75,7 +75,7 @@ class LegalEntityService {
     @Transactional(readOnly = true)
     LegalEntityResponseDto getLegalEntityById(Long id, Locale locale) {
         legalEntityValidation.validateFindById(id)
-        LegalEntity legalEntity = legalEntityDao.findLegalEntityById(id)
+        LegalEntity legalEntity = legalEntityRepository.findById(id).orElse(null)
         if (legalEntity == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Νομικό.Πρόσωπο.με.id.", [id] as Object[]))
         }
@@ -84,18 +84,18 @@ class LegalEntityService {
 
     @Transactional(readOnly = true)
     LegalEntity findLegalEntityById(Long id) {
-        return legalEntityDao.findLegalEntityById(id)
+        return legalEntityRepository.findById(id).orElse(null)
     }
 
     @Transactional
     void updateLegalEntity(LegalEntityRequestDto legalEntityDto, Long id, HttpSession session) {
         legalEntityValidation.validateUpdate(legalEntityDto, id)
-        LegalEntity legalEntity = legalEntityDao.findLegalEntityById(id)
+        LegalEntity legalEntity = legalEntityRepository.findById(id).orElse(null)
         if (legalEntity == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Νομικό.Πρόσωπο.με.id.", [id] as Object[]))
         }
         populateLegalEntityFromDto(legalEntity, legalEntityDto, session)
-        legalEntityDao.save(legalEntity)
+        legalEntityRepository.save(legalEntity)
     }
 
     @Transactional
@@ -103,21 +103,21 @@ class LegalEntityService {
         legalEntityValidation.validateLegalEntityRequestDto(legalEntityDto)
         LegalEntity legalEntity = new LegalEntity()
         populateLegalEntityFromDto(legalEntity, legalEntityDto, session)
-        legalEntityDao.save(legalEntity)
+        legalEntityRepository.save(legalEntity)
     }
 
     @Transactional
     void deleteLegalEntityById(Long id, String changeReason, HttpSession session) {
         legalEntityValidation.validateDeleteById(id)
-        if (!legalEntityDao.existsById(id)) {
+        if (!legalEntityRepository.existsById(id)) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Νομικό.Πρόσωπο.με.id.", [id] as Object[]))
         }
-        LegalEntity legalEntity = legalEntityDao.findLegalEntityById(id)
-        UserAccount user = userAccountDao.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
+        LegalEntity legalEntity = legalEntityRepository.findById(id).orElse(null)
+        UserAccount user = userAccountRepository.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
         legalEntity.changeReason = changeReason
         legalEntity.lastUser = user
-        legalEntityDao.saveAndFlush(legalEntity)
-        legalEntityDao.deleteLegalEntityById(id)
+        legalEntityRepository.saveAndFlush(legalEntity)
+        legalEntityRepository.deleteById(id)
     }
 
     private LegalEntityResponseDto mapToLegalEntityResponseDto(LegalEntity legalEntity, Locale locale) {
@@ -145,7 +145,7 @@ class LegalEntityService {
         if (region == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.περιφέρεια.με.id.", [legalEntityDto.regionId] as Object[]))
         }
-        UserAccount user = userAccountDao.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
+        UserAccount user = userAccountRepository.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
         legalEntity.registryNumber = legalEntityDto.registryNumber
         legalEntity.businessName = legalEntityDto.businessName
         legalEntity.phoneNumber = legalEntityDto.phoneNumber

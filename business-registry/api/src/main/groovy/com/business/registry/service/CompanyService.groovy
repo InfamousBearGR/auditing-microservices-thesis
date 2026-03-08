@@ -1,12 +1,12 @@
 package com.business.registry.service
 
-import com.business.registry.dao.*
 import com.business.registry.dto.company.CompanyRequestDto
 import com.business.registry.dto.company.CompanyResponseDto
 import com.business.registry.dto.util.ParametricDto
 import com.business.registry.exception.NotFoundException
 import com.business.registry.mapper.company.CompanyMapper
 import com.business.registry.model.*
+import com.business.registry.repository.*
 import com.business.registry.validation.CompanyValidation
 import groovy.transform.CompileStatic
 import jakarta.servlet.http.HttpSession
@@ -19,13 +19,13 @@ import java.time.LocalDate
 @Service
 @CompileStatic
 class CompanyService {
-    private final CompanyDao companyDao
+    private final CompanyRepository companyRepository
     private final CompanyMapper companyMapper
     private final CompanyValidation companyValidation
-    private final UserAccountDao userAccountDao
-    private final MemberDao memberDao
-    private final CompanyStockDao companyStockDao
-    private final CompanyCapitalDao companyCapitalDao
+    private final UserAccountRepository userAccountRepository
+    private final MemberRepository memberRepository
+    private final CompanyStockRepository companyStockRepository
+    private final CompanyCapitalRepository companyCapitalRepository
     private final DeleteService deleteService
 
     @Autowired
@@ -53,7 +53,7 @@ class CompanyService {
     AuthenticationService authenticationService
 
     CompanyService(
-            CompanyDao companyDao,
+            CompanyRepository companyRepository,
             CompanyMapper companyMapper,
             CountryService countryService,
             PrefectureService prefectureService,
@@ -63,14 +63,14 @@ class CompanyService {
             CompanyStatusService companyStatusService,
             MessageService messageService,
             CompanyValidation companyValidation,
-            UserAccountDao userAccountDao,
+            UserAccountRepository userAccountRepository,
             AuthenticationService authenticationService,
-            MemberDao memberDao,
-            CompanyStockDao companyStockDao,
-            CompanyCapitalDao companyCapitalDao,
+            MemberRepository memberRepository,
+            CompanyStockRepository companyStockRepository,
+            CompanyCapitalRepository companyCapitalRepository,
             DeleteService deleteService
     ) {
-        this.companyDao = companyDao
+        this.companyRepository = companyRepository
         this.companyMapper = companyMapper
         this.countryService = countryService
         this.prefectureService = prefectureService
@@ -80,17 +80,17 @@ class CompanyService {
         this.companyStatusService = companyStatusService
         this.messageService = messageService
         this.companyValidation = companyValidation
-        this.userAccountDao = userAccountDao
+        this.userAccountRepository = userAccountRepository
         this.authenticationService = authenticationService
-        this.memberDao = memberDao
-        this.companyStockDao = companyStockDao
-        this.companyCapitalDao = companyCapitalDao
+        this.memberRepository = memberRepository
+        this.companyStockRepository = companyStockRepository
+        this.companyCapitalRepository = companyCapitalRepository
         this.deleteService = deleteService
     }
 
     @Transactional(readOnly = true)
     List<CompanyResponseDto> getAllCompanies(Locale locale, Long companyStatusId, Long legalTypeId) {
-        return companyDao.findAllByFilters(companyStatusId, legalTypeId).collect { company ->
+        return companyRepository.findAllByFilters(companyStatusId, legalTypeId).collect { company ->
             mapToCompanyResponseDto(company, locale)
         }
     }
@@ -98,7 +98,7 @@ class CompanyService {
     @Transactional(readOnly = true)
     CompanyResponseDto getCompanyById(Long id, Locale locale) {
         companyValidation.validateFindById(id)
-        Company company = companyDao.findCompanyById(id)
+        Company company = companyRepository.findById(id).orElse(null)
         if (company == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Επιχείρηση.με.id.", [id] as Object[]))
         }
@@ -107,18 +107,18 @@ class CompanyService {
 
     @Transactional(readOnly = true)
     Company findCompanyById(Long id) {
-        return companyDao.findCompanyById(id)
+        return companyRepository.findById(id).orElse(null)
     }
 
     @Transactional
     void updateCompany(CompanyRequestDto companyDto, Long id, HttpSession session) {
         companyValidation.validateUpdate(companyDto, id)
-        Company company = companyDao.findCompanyById(id)
+        Company company = companyRepository.findById(id).orElse(null)
         if (company == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Επιχείρηση.με.id.", [id] as Object[]))
         }
         populateCompanyFromDto(company, companyDto, session)
-        companyDao.save(company)
+        companyRepository.save(company)
     }
 
     @Transactional
@@ -126,20 +126,20 @@ class CompanyService {
         companyValidation.validateCompanyRequestDto(companyDto)
         Company company = new Company()
         populateCompanyFromDto(company, companyDto, session)
-        companyDao.save(company)
+        companyRepository.save(company)
     }
 
     @Transactional
     void deleteCompanyById(Long id, String changeReason, HttpSession session) {
         companyValidation.validateDeleteById(id)
-        Company company = companyDao.findCompanyById(id)
+        Company company = companyRepository.findById(id).orElse(null)
         if (company == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Επιχείρηση.με.id.", [id] as Object[]))
         }
-        UserAccount user = userAccountDao.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
+        UserAccount user = userAccountRepository.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
         company.lastUser = user
         company.changeReason = changeReason
-        companyDao.saveAndFlush(company)
+        companyRepository.saveAndFlush(company)
 
         deleteService.cascadeDelete(
                 company,
@@ -147,19 +147,19 @@ class CompanyService {
                 changeReason,
                 [
                         new DeleteService.ChildGroup<Member>(
-                                { memberDao.findAllMembersByCompany(company) },
-                                memberDao
+                                { memberRepository.findAllByCompany(company) },
+                                memberRepository
                         ),
                         new DeleteService.ChildGroup<CompanyStock>(
-                                { companyStockDao.findAllByCompanyId(company.id) },
-                                companyStockDao
+                                { companyStockRepository.findAllByCompanyId(company.id) },
+                                companyStockRepository
                         ),
                         new DeleteService.ChildGroup<CompanyCapital>(
-                                { companyCapitalDao.findAllByCompanyId(company.id) },
-                                companyCapitalDao
+                                { companyCapitalRepository.findAllByCompanyId(company.id) },
+                                companyCapitalRepository
                         )
                 ] as List<DeleteService.ChildGroup>,
-                { companyDao.deleteCompanyById(id) }
+                { companyRepository.deleteById(id) }
         )
     }
 
@@ -198,7 +198,7 @@ class CompanyService {
         if (companyStatus == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.κατάσταση.επιχείρησης.με.id.", [companyDto.companyStatusId] as Object[]))
         }
-        UserAccount user = userAccountDao.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
+        UserAccount user = userAccountRepository.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
         company.name = companyDto.name
         company.city = companyDto.city
         company.street = companyDto.street

@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CompanyStockRepository extends JpaRepository<CompanyStock, Long> {
     List<CompanyStock> findAllByCompanyId(Long companyId)
+    CompanyStock findByIdAndCompanyId(Long id, Long companyId)
 }
 

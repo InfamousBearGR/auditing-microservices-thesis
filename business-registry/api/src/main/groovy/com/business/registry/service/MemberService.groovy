@@ -1,7 +1,5 @@
 package com.business.registry.service
 
-import com.business.registry.dao.MemberDao
-import com.business.registry.dao.UserAccountDao
 import com.business.registry.dto.member.LegalEntityDto
 import com.business.registry.dto.member.MemberRequestDto
 import com.business.registry.dto.member.MemberResponseDto
@@ -10,6 +8,8 @@ import com.business.registry.dto.util.ParametricDto
 import com.business.registry.exception.NotFoundException
 import com.business.registry.mapper.member.MemberMapper
 import com.business.registry.model.*
+import com.business.registry.repository.MemberRepository
+import com.business.registry.repository.UserAccountRepository
 import com.business.registry.validation.MemberValidation
 import groovy.transform.CompileStatic
 import jakarta.servlet.http.HttpSession
@@ -22,10 +22,10 @@ import java.time.LocalDate
 @Service
 @CompileStatic
 class MemberService {
-    private final MemberDao memberDao
+    private final MemberRepository memberRepository
     private final MemberMapper memberMapper
     private final MemberValidation memberValidation
-    private final UserAccountDao userAccountDao
+    private final UserAccountRepository userAccountRepository
 
     @Autowired
     PersonService personService
@@ -46,7 +46,7 @@ class MemberService {
     AuthenticationService authenticationService
 
     MemberService(
-            MemberDao memberDao,
+            MemberRepository memberRepository,
             MemberMapper memberMapper,
             PersonService personService,
             LegalEntityService legalEntityService,
@@ -54,10 +54,10 @@ class MemberService {
             MemberRelationService memberRelationService,
             MessageService messageService,
             MemberValidation memberValidation,
-            UserAccountDao userAccountDao,
+            UserAccountRepository userAccountRepository,
             AuthenticationService authenticationService
     ) {
-        this.memberDao = memberDao
+        this.memberRepository = memberRepository
         this.memberMapper = memberMapper
         this.personService = personService
         this.legalEntityService = legalEntityService
@@ -65,7 +65,7 @@ class MemberService {
         this.memberRelationService = memberRelationService
         this.messageService = messageService
         this.memberValidation = memberValidation
-        this.userAccountDao = userAccountDao
+        this.userAccountRepository = userAccountRepository
         this.authenticationService = authenticationService
     }
 
@@ -75,7 +75,7 @@ class MemberService {
         if (company == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Επιχείρηση.με.id.", [companyId] as Object[]))
         }
-        return memberDao.findAllMembersByCompany(company).collect { member ->
+        return memberRepository.findAllByCompany(company).collect { member ->
             mapToMemberResponseDto(member, locale)
         }
     }
@@ -83,7 +83,7 @@ class MemberService {
     @Transactional(readOnly = true)
     MemberResponseDto getMemberById(Long id, Locale locale) {
         memberValidation.validateFindById(id)
-        Member member = memberDao.findMemberById(id)
+        Member member = memberRepository.findById(id).orElse(null)
         if (member == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Εταίρος.με.id.", [id] as Object[]))
         }
@@ -93,12 +93,12 @@ class MemberService {
     @Transactional
     void updateMember(MemberRequestDto memberDto, Long id, HttpSession session) {
         memberValidation.validateUpdate(memberDto, id)
-        Member member = memberDao.findMemberById(id)
+        Member member = memberRepository.findById(id).orElse(null)
         if (member == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Εταίρος.με.id.", [id] as Object[]))
         }
         populateMemberFromDto(member, memberDto, session)
-        memberDao.save(member)
+        memberRepository.save(member)
     }
 
     @Transactional
@@ -106,21 +106,21 @@ class MemberService {
         memberValidation.validateMemberRequestDto(memberDto)
         Member member = new Member()
         populateMemberFromDto(member, memberDto, session)
-        memberDao.save(member)
+        memberRepository.save(member)
     }
 
     @Transactional
     void deleteMemberById(Long id, String changeReason, HttpSession session) {
         memberValidation.validateDeleteById(id)
-        if (!memberDao.existsById(id)) {
+        if (!memberRepository.existsById(id)) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Εταίρος.με.id.", [id] as Object[]))
         }
-        Member member = memberDao.findMemberById(id)
-        UserAccount user = userAccountDao.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
+        Member member = memberRepository.findById(id).orElse(null)
+        UserAccount user = userAccountRepository.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
         member.changeReason = changeReason
         member.lastUser = user
-        memberDao.saveAndFlush(member)
-        memberDao.deleteById(id)
+        memberRepository.saveAndFlush(member)
+        memberRepository.deleteById(id)
     }
 
     private MemberResponseDto mapToMemberResponseDto(Member member, Locale locale) {
@@ -149,7 +149,7 @@ class MemberService {
         if (memberRelation == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Κατηγορία.μέλους.με.id.", [memberDto.memberRelationId] as Object[]))
         }
-        UserAccount user = userAccountDao.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
+        UserAccount user = userAccountRepository.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
         member.active = memberDto.active
         member.dateFrom = memberDto.dateFrom ? LocalDate.parse(memberDto.dateFrom) : null
         member.dateTo = memberDto.dateTo ? LocalDate.parse(memberDto.dateTo) : null

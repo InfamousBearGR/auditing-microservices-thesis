@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CompanyCapitalRepository extends JpaRepository<CompanyCapital, Long> {
+    CompanyCapital findTopByCompanyId(Long companyId)
+
     List<CompanyCapital> findAllByCompanyId(Long companyId)
 }
 

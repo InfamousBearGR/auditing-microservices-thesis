@@ -7,65 +7,28 @@ import org.springframework.stereotype.Component
 
 @Component
 @CompileStatic
-class LegalEntityValidation {
+class LegalEntityValidation implements Validatable {
 
     MessageService messageService
 
+    @Override
     void validateFindById(Long id) {
-        if (id == null || id <= 0) {
-            throw new IllegalArgumentException(messageService.getMessage("Μη.έγκυρο.id", [id] as Object[]))
-        }
+        Utils.validateId(id, messageService)
     }
 
+    @Override
     void validateDeleteById(Long id) {
-        if (id == null || id <= 0) {
-            throw new IllegalArgumentException(messageService.getMessage("Μη.έγκυρο.id", [id] as Object[]))
-        }
+        Utils.validateId(id, messageService)
     }
 
     void validateLegalEntityRequestDto(LegalEntityRequestDto legalEntityDto) {
-        if (legalEntityDto == null) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.αίτημα.είναι.κενό"))
-        }
-        if (legalEntityDto.registryNumber == null || legalEntityDto.registryNumber.trim().isEmpty()) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Αριθμός.Μητρώου.είναι.υποχρεωτικό"))
-        }
-        if (legalEntityDto.businessName == null || legalEntityDto.businessName.trim().isEmpty()) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Επωνυμία.Νομικού.Προσώπου.είναι.υποχρεωτικό"))
-        }
-        if (legalEntityDto.afm == null || legalEntityDto.afm.trim().isEmpty()) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.ΑΦΜ.είναι.υποχρεωτικό"))
-        }
-        if (!Utils.validateAfm(legalEntityDto.afm)) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.ΑΦΜ.δεν.είναι.έγκυρο"))
-        }
-        if (legalEntityDto.city == null || legalEntityDto.city.trim().isEmpty()) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Πόλη.είναι.υποχρεωτικό"))
-        }
-        if (legalEntityDto.street == null || legalEntityDto.street.trim().isEmpty()) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Οδός.είναι.υποχρεωτικό"))
-        }
-        if (legalEntityDto.streetNumber == null || legalEntityDto.streetNumber.trim().isEmpty()) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Αριθμός.είναι.υποχρεωτικό"))
-        }
-        if (legalEntityDto.postalCode == null || legalEntityDto.postalCode.trim().isEmpty()) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Ταχυδρομικός.Κώδικας.είναι.υποχρεωτικό"))
-        }
-        if (legalEntityDto.changeReason == null || legalEntityDto.changeReason.trim().isEmpty()) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Αιτία.Αλλαγής.είναι.υποχρεωτικό"))
-        }
-        if (legalEntityDto.countryId == null || legalEntityDto.countryId <= 0) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Χώρα.είναι.υποχρεωτικό"))
-        }
-        if (legalEntityDto.prefectureId == null || legalEntityDto.prefectureId <= 0) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Νομός.είναι.υποχρεωτικό"))
-        }
-        if (legalEntityDto.municipalityId == null || legalEntityDto.municipalityId <= 0) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Δήμος.είναι.υποχρεωτικό"))
-        }
-        if (legalEntityDto.regionId == null || legalEntityDto.regionId <= 0) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Περιφέρεια.είναι.υποχρεωτικό"))
-        }
+        Utils.validateRequestNotNull(legalEntityDto, messageService)
+        Utils.validateRequiredString(legalEntityDto.registryNumber, "Το.πεδίο.Αριθμός.Μητρώου.είναι.υποχρεωτικό", messageService)
+        Utils.validateRequiredString(legalEntityDto.businessName, "Το.πεδίο.Επωνυμία.Νομικού.Προσώπου.είναι.υποχρεωτικό", messageService)
+        Utils.validateAfmField(legalEntityDto.afm, messageService)
+        Utils.validateAddressFields(legalEntityDto.city, legalEntityDto.street, legalEntityDto.streetNumber, legalEntityDto.postalCode, messageService)
+        Utils.validateChangeReason(legalEntityDto.changeReason, messageService)
+        Utils.validateLocationIds(legalEntityDto.countryId, legalEntityDto.prefectureId, legalEntityDto.municipalityId, legalEntityDto.regionId, messageService)
     }
 
     void validateUpdate(LegalEntityRequestDto legalEntityDto, Long id) {

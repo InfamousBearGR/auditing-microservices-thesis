@@ -1,11 +1,11 @@
 package com.business.registry.service
 
-import com.business.registry.dao.UserAccountDao
 import com.business.registry.dto.authentication.LoginRequestDto
 import com.business.registry.dto.authentication.LoginResponseDto
 import com.business.registry.dto.authentication.LogoutResponseDto
 import com.business.registry.exception.UnauthorizedException
 import com.business.registry.model.UserAccount
+import com.business.registry.repository.UserAccountRepository
 import groovy.transform.CompileStatic
 import jakarta.servlet.http.HttpSession
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +20,7 @@ class AuthenticationService {
     private static final String SESSION_ROLE_KEY = "role"
 
     @Autowired
-    UserAccountDao userAccountDao
+    UserAccountRepository userAccountRepository
 
     @Autowired
     PasswordService passwordService
@@ -36,7 +36,7 @@ class AuthenticationService {
      * @return The authenticated UserAccount if successful, null otherwise
      */
     UserAccount login(String username, String password, HttpSession session) {
-        Optional<UserAccount> userOpt = userAccountDao.findByUsername(username)
+        Optional<UserAccount> userOpt = userAccountRepository.findByUsername(username)
 
         if (!userOpt.isPresent()) {
             return null

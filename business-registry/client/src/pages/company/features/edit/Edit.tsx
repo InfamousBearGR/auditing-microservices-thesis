@@ -7,8 +7,8 @@ import {Box} from "@mui/system";
 import {Button, Typography} from "@mui/material";
 import {useUpdateCompany} from "src/pages/company/data-access/useUpdateCompany";
 import {
-  CompanyValidationSchema,
-  getCompanyValidationSchema,
+    CompanyValidationSchema,
+    getCompanyValidationSchema,
 } from "src/pages/company/features/shared/validation/validationSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {FormContainer, useForm, UseFormReturn} from "react-hook-form-mui";

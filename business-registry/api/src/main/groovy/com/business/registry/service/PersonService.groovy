@@ -1,13 +1,13 @@
 package com.business.registry.service
 
-import com.business.registry.dao.PersonDao
-import com.business.registry.dao.UserAccountDao
 import com.business.registry.dto.person.PersonRequestDto
 import com.business.registry.dto.person.PersonResponseDto
 import com.business.registry.dto.util.ParametricDto
 import com.business.registry.exception.NotFoundException
 import com.business.registry.mapper.person.PersonMapper
 import com.business.registry.model.*
+import com.business.registry.repository.PersonRepository
+import com.business.registry.repository.UserAccountRepository
 import com.business.registry.validation.PersonValidation
 import groovy.transform.CompileStatic
 import jakarta.servlet.http.HttpSession
@@ -20,10 +20,10 @@ import java.time.LocalDate
 @Service
 @CompileStatic
 class PersonService {
-    private final PersonDao personDao
+    private final PersonRepository personRepository
     private final PersonMapper personMapper
     private final PersonValidation personValidation
-    private final UserAccountDao userAccountDao
+    private final UserAccountRepository userAccountRepository
 
     @Autowired
     CountryService countryService
@@ -44,7 +44,7 @@ class PersonService {
     AuthenticationService authenticationService
 
     PersonService(
-            PersonDao personDao,
+            PersonRepository personRepository,
             PersonMapper personMapper,
             CountryService countryService,
             PrefectureService prefectureService,
@@ -52,10 +52,10 @@ class PersonService {
             RegionService regionService,
             MessageService messageService,
             PersonValidation personValidation,
-            UserAccountDao userAccountDao,
+            UserAccountRepository userAccountRepository,
             AuthenticationService authenticationService
     ) {
-        this.personDao = personDao
+        this.personRepository = personRepository
         this.personMapper = personMapper
         this.countryService = countryService
         this.prefectureService = prefectureService
@@ -63,13 +63,13 @@ class PersonService {
         this.regionService = regionService
         this.messageService = messageService
         this.personValidation = personValidation
-        this.userAccountDao = userAccountDao
+        this.userAccountRepository = userAccountRepository
         this.authenticationService = authenticationService
     }
 
     @Transactional(readOnly = true)
     List<PersonResponseDto> getAllPersons(Locale locale) {
-        return personDao.findAllPersons().collect { person ->
+        return personRepository.findAll().collect { person ->
             mapToPersonResponseDto(person, locale)
         }
     }
@@ -77,7 +77,7 @@ class PersonService {
     @Transactional(readOnly = true)
     PersonResponseDto getPersonById(Long id, Locale locale) {
         personValidation.validateFindById(id)
-        Person person = personDao.findPersonById(id)
+        Person person = personRepository.findById(id).orElse(null)
         if (person == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Φυσικό.Πρόσωπο.με.id.", [id] as Object[]))
         }
@@ -86,18 +86,18 @@ class PersonService {
 
     @Transactional(readOnly = true)
     Person findPersonById(Long id) {
-        return personDao.findPersonById(id)
+        return personRepository.findById(id).orElse(null)
     }
 
     @Transactional
     void updatePerson(PersonRequestDto personDto, Long id, HttpSession session) {
         personValidation.validateUpdate(personDto, id)
-        Person person = personDao.findPersonById(id)
+        Person person = personRepository.findById(id).orElse(null)
         if (person == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Φυσικό.Πρόσωπο.με.id.", [id] as Object[]))
         }
         populatePersonFromDto(person, personDto, session)
-        personDao.save(person)
+        personRepository.save(person)
     }
 
     @Transactional
@@ -105,21 +105,21 @@ class PersonService {
         personValidation.validatePersonRequestDto(personDto)
         Person person = new Person()
         populatePersonFromDto(person, personDto, session)
-        personDao.save(person)
+        personRepository.save(person)
     }
 
     @Transactional
     void deletePersonById(Long id, String changeReason, HttpSession session) {
         personValidation.validateDeleteById(id)
-        if (!personDao.existsById(id)) {
+        if (!personRepository.existsById(id)) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Φυσικό.Πρόσωπο.με.id.", [id] as Object[]))
         }
-        Person person = personDao.findPersonById(id)
-        UserAccount user = userAccountDao.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
+        Person person = personRepository.findById(id).orElse(null)
+        UserAccount user = userAccountRepository.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
         person.changeReason = changeReason
         person.lastUser = user
-        personDao.saveAndFlush(person)
-        personDao.deletePersonById(id)
+        personRepository.saveAndFlush(person)
+        personRepository.deleteById(id)
     }
 
     private PersonResponseDto mapToPersonResponseDto(Person person, Locale locale) {
@@ -147,7 +147,7 @@ class PersonService {
         if (region == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.περιφέρεια.με.id.", [personDto.regionId] as Object[]))
         }
-        UserAccount user = userAccountDao.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
+        UserAccount user = userAccountRepository.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
         person.name = personDto.name
         person.surname = personDto.surname
         person.afm = personDto.afm
