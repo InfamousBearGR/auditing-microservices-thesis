@@ -3,9 +3,11 @@ package com.business.registry.service
 import com.business.registry.dto.person.PersonRequestDto
 import com.business.registry.dto.person.PersonResponseDto
 import com.business.registry.dto.util.ParametricDto
+import com.business.registry.exception.BadRequestException
 import com.business.registry.exception.NotFoundException
 import com.business.registry.mapper.person.PersonMapper
 import com.business.registry.model.*
+import com.business.registry.repository.MemberRepository
 import com.business.registry.repository.PersonRepository
 import com.business.registry.repository.UserAccountRepository
 import com.business.registry.validation.PersonValidation
@@ -24,6 +26,7 @@ class PersonService {
     private final PersonMapper personMapper
     private final PersonValidation personValidation
     private final UserAccountRepository userAccountRepository
+    private final MemberRepository memberRepository
 
     @Autowired
     CountryService countryService
@@ -53,7 +56,8 @@ class PersonService {
             MessageService messageService,
             PersonValidation personValidation,
             UserAccountRepository userAccountRepository,
-            AuthenticationService authenticationService
+            AuthenticationService authenticationService,
+            MemberRepository memberRepository
     ) {
         this.personRepository = personRepository
         this.personMapper = personMapper
@@ -65,6 +69,7 @@ class PersonService {
         this.personValidation = personValidation
         this.userAccountRepository = userAccountRepository
         this.authenticationService = authenticationService
+        this.memberRepository = memberRepository
     }
 
     @Transactional(readOnly = true)
@@ -115,6 +120,9 @@ class PersonService {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Φυσικό.Πρόσωπο.με.id.", [id] as Object[]))
         }
         Person person = personRepository.findById(id).orElse(null)
+        if (memberRepository.existsByPersonId(id)) {
+            throw new BadRequestException(messageService.getMessage("Δεν.είναι.δυνατή.η.διαγραφή.Φυσικού.Προσώπου.που.είναι.Εταίρος.ή.Εκπρόσωπος.Νομικού.Προσώπου"))
+        }
         UserAccount user = userAccountRepository.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
         person.changeReason = changeReason
         person.lastUser = user
@@ -165,6 +173,13 @@ class PersonService {
         person.prefecture = prefecture
         person.municipality = municipality
         person.region = region
+    }
+
+    @Transactional(readOnly = true)
+    List<ParametricDto> getPersonsForSelect() {
+        return personRepository.findAll().collect { person ->
+            new ParametricDto(id: person.id, description: "${person.surname} ${person.name} (${person.afm})")
+        }
     }
 }
 

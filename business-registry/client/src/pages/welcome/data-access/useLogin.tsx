@@ -1,6 +1,6 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {login} from "src/pages/welcome/features/data-access/gateway";
-import {useNavigate} from "@tanstack/react-router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { login } from "src/pages/welcome/data-access/gateway";
+import { useNavigate } from "@tanstack/react-router";
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
@@ -11,7 +11,7 @@ export const useLogin = () => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["checkUserSession"] });
       queryClient.removeQueries();
-      await navigate({ to: "/company/index" });
+      await navigate({ to: "/dashboard" });
     },
   });
 };

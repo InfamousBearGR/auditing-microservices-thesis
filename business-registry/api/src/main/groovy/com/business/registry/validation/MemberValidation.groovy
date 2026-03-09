@@ -68,6 +68,12 @@ class MemberValidation implements Validatable {
         if (memberDto.representedTogether == null) {
             throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Εκπροσωπείται.Από.Κοινού.είναι.υποχρεωτικό"))
         }
+        if (!memberDto.representedIndividual && !memberDto.representedTogether) {
+            throw new IllegalArgumentException(messageService.getMessage("Τουλάχιστον.ένα.από.τα.πεδία.Εκπροσωπείται.Μεμονωμένα.ή.Εκπροσωπείται.Από.Κοινού.πρέπει.να.είναι.επιλεγμένο"))
+        }
+        if (memberDto.representedIndividual && memberDto.representedTogether) {
+            throw new IllegalArgumentException(messageService.getMessage("Τα.πεδία.Εκπροσωπείται.Μεμονωμένα.και.Εκπροσωπείται.Από.Κοινού.δεν.μπορούν.να.είναι.ταυτόχρονα.επιλεγμένα"))
+        }
         Utils.validateChangeReason(memberDto.changeReason, messageService)
         if (memberDto.legalEntityId && memberDto.personId) {
             throw new IllegalArgumentException(messageService.getMessage("Ο.Εταίρος.δεν.μπορεί.να.είναι.ταυτόχρονα.Φυσικό.και.Νομικό.Πρόσωπο"))
@@ -76,7 +82,7 @@ class MemberValidation implements Validatable {
             throw new IllegalArgumentException(messageService.getMessage("Ο.Εταίρος.πρέπει.να.είναι.είτε.Φυσικό.είτε.Νομικό.Πρόσωπο"))
         }
         if (memberDto.legalEntityId && (memberDto.representativeOfMemberId == null || memberDto.representativeOfMemberId <= 0)) {
-            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Εκπρόσωπος.είναι.υποχρεωτικό.όταν.το.μέλος.είναι.Νομικό.Πρόσωπο"))
+            throw new IllegalArgumentException(messageService.getMessage("Το.πεδίο.Εκπρόσωπος.είναι.υποχρεωτικό.όταν.ο.Εταίρος.είναι.Νομικό.Πρόσωπο"))
         }
     }
 

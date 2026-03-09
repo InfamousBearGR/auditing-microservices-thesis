@@ -4,6 +4,7 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 class PersonDto {
+    Long id
     String name
     String surname
     String afm

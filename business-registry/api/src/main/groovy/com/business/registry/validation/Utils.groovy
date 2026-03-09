@@ -166,16 +166,21 @@ class Utils {
                 if (parts.length != 2) {
                     return false
                 }
-                double numerator = Double.parseDouble(parts[0].trim())
-                double denominator = Double.parseDouble(parts[1].trim())
+                String numStr = parts[0].trim()
+                String denStr = parts[1].trim()
+                if (!numStr.matches(/^\d+(\.\d+)?$/) || !denStr.matches(/^\d+(\.\d+)?$/)) {
+                    return false
+                }
+                double numerator = Double.parseDouble(numStr)
+                double denominator = Double.parseDouble(denStr)
                 if (denominator == 0) {
                     return false
                 }
                 percentage = numerator / denominator
-                // If it's a fraction like 1/3, it's likely 0.333.
-                // The existing validation checks 0..100.
-                // 0.333 is within 0..100.
             } else {
+                if (!normalized.matches(/^\d+(\.\d+)?$/)) {
+                    return false
+                }
                 percentage = Double.parseDouble(normalized)
             }
             return percentage >= 0 && percentage <= 100

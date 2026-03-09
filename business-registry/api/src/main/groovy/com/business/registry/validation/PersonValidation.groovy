@@ -23,7 +23,7 @@ class PersonValidation implements Validatable {
 
     void validatePersonRequestDto(PersonRequestDto personDto) {
         Utils.validateRequestNotNull(personDto, messageService)
-        Utils.validateRequiredString(personDto.name,    "Το.πεδίο.Όνομα.είναι.υποχρεωτικό",   messageService)
+        Utils.validateRequiredString(personDto.name, "Το.πεδίο.Όνομα.είναι.υποχρεωτικό", messageService)
         Utils.validateRequiredString(personDto.surname, "Το.πεδίο.Επώνυμο.είναι.υποχρεωτικό", messageService)
         Utils.validateAfmField(personDto.afm, messageService)
         Utils.validateAddressFields(personDto.city, personDto.street, personDto.streetNumber, personDto.postalCode, messageService)
@@ -33,8 +33,9 @@ class PersonValidation implements Validatable {
         if (!Utils.validateDate(personDto.birthDate)) {
             throw new IllegalArgumentException(messageService.getMessage("Η.Ημερομηνία.Γέννησης.δεν.είναι.έγκυρη"))
         }
-        Utils.validateRequiredString(personDto.birthPlace,      "Το.πεδίο.Τόπος.Γέννησης.είναι.υποχρεωτικό",     messageService)
-        Utils.validateRequiredString(personDto.identityNumber,  "Το.πεδίο.Αριθμός.Ταυτότητας.είναι.υποχρεωτικό", messageService)
+        Utils.validateRequiredString(personDto.birthPlace, "Το.πεδίο.Τόπος.Γέννησης.είναι.υποχρεωτικό", messageService)
+        Utils.validateRequiredString(personDto.identityNumber, "Το.πεδίο.Αριθμός.Ταυτότητας.είναι.υποχρεωτικό", messageService)
+        Utils.validateRequiredString(personDto.phoneNumber, "Το.πεδίο.Τηλέφωνο.είναι.υποχρεωτικό", messageService)
         Utils.validateChangeReason(personDto.changeReason, messageService)
         Utils.validateLocationIds(personDto.countryId, personDto.prefectureId, personDto.municipalityId, personDto.regionId, messageService)
     }

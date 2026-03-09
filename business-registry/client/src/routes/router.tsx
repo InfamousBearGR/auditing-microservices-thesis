@@ -1,10 +1,20 @@
-import {createRootRoute, createRoute, createRouter, redirect, useNavigate,} from "@tanstack/react-router";
-import {useEffect} from "react";
-import {Main} from "src/shared/layout/main";
-import {WelcomePage} from "src/pages/welcome/features/WelcomePage/WelcomePage";
-import {Error502} from "src/pages/shared/errorPages/Error502";
-import {NotFound} from "src/pages/shared/errorPages/NotFound";
-import {createCompanyRoutes} from "src/routes/companyRoutes";
+import {
+  createRootRoute,
+  createRoute,
+  createRouter,
+  redirect,
+  useNavigate,
+} from "@tanstack/react-router";
+import { useEffect } from "react";
+import { Main } from "src/shared/layout/main";
+import { WelcomePage } from "src/pages/welcome/features/welcomePage/WelcomePage";
+import { Dashboard } from "src/pages/welcome/features/dashboard/Dashboard";
+import { Error502 } from "src/pages/shared/errorPages/Error502";
+import { NotFound } from "src/pages/shared/errorPages/NotFound";
+import { createCompanyRoutes } from "src/routes/companyRoutes";
+import { createPersonRoutes } from "src/routes/personRoutes";
+import { createLegalEntityRoutes } from "src/routes/legalEntityRoutes";
+import { createMemberRoutes } from "src/routes/memberRoutes";
 
 const createAppRouter = () => {
   const rootRoute = createRootRoute({
@@ -25,6 +35,12 @@ const createAppRouter = () => {
     },
   });
 
+  const dashboardRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/dashboard",
+    component: Dashboard,
+  });
+
   const error502Route = createRoute({
     getParentRoute: () => rootRoute,
     path: "/502",
@@ -38,13 +54,20 @@ const createAppRouter = () => {
   });
 
   const companyRoutes = createCompanyRoutes(rootRoute);
+  const personRoutes = createPersonRoutes(rootRoute);
+  const legalEntityRoutes = createLegalEntityRoutes(rootRoute);
+  const memberRoutes = createMemberRoutes(rootRoute);
 
   const routeTree = rootRoute.addChildren([
     indexRoute,
     loginRoute,
+    dashboardRoute,
     error502Route,
     notFoundRoute,
     ...companyRoutes,
+    ...personRoutes,
+    ...legalEntityRoutes,
+    ...memberRoutes,
   ]);
 
   const NotFoundRedirect = () => {

@@ -3,10 +3,12 @@ package com.business.registry.service
 import com.business.registry.dto.legalEntity.LegalEntityRequestDto
 import com.business.registry.dto.legalEntity.LegalEntityResponseDto
 import com.business.registry.dto.util.ParametricDto
+import com.business.registry.exception.BadRequestException
 import com.business.registry.exception.NotFoundException
 import com.business.registry.mapper.legalEntity.LegalEntityMapper
 import com.business.registry.model.*
 import com.business.registry.repository.LegalEntityRepository
+import com.business.registry.repository.MemberRepository
 import com.business.registry.repository.UserAccountRepository
 import com.business.registry.validation.LegalEntityValidation
 import groovy.transform.CompileStatic
@@ -22,6 +24,7 @@ class LegalEntityService {
     private final LegalEntityMapper legalEntityMapper
     private final LegalEntityValidation legalEntityValidation
     private final UserAccountRepository userAccountRepository
+    private final MemberRepository memberRepository
 
     @Autowired
     CountryService countryService
@@ -51,7 +54,8 @@ class LegalEntityService {
             MessageService messageService,
             LegalEntityValidation legalEntityValidation,
             UserAccountRepository userAccountRepository,
-            AuthenticationService authenticationService
+            AuthenticationService authenticationService,
+            MemberRepository memberRepository
     ) {
         this.legalEntityRepository = legalEntityRepository
         this.legalEntityMapper = legalEntityMapper
@@ -63,6 +67,7 @@ class LegalEntityService {
         this.legalEntityValidation = legalEntityValidation
         this.userAccountRepository = userAccountRepository
         this.authenticationService = authenticationService
+        this.memberRepository = memberRepository
     }
 
     @Transactional(readOnly = true)
@@ -113,6 +118,9 @@ class LegalEntityService {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Νομικό.Πρόσωπο.με.id.", [id] as Object[]))
         }
         LegalEntity legalEntity = legalEntityRepository.findById(id).orElse(null)
+        if (memberRepository.existsByLegalEntityId(id)) {
+            throw new BadRequestException(messageService.getMessage("Δεν.είναι.δυνατή.η.διαγραφή.Νομικού.Προσώπου.που.είναι.Εταίρος."))
+        }
         UserAccount user = userAccountRepository.findById(AuthenticationService.getCurrentUserId(session)).orElse(null)
         legalEntity.changeReason = changeReason
         legalEntity.lastUser = user
@@ -160,5 +168,12 @@ class LegalEntityService {
         legalEntity.postalCode = legalEntityDto.postalCode
         legalEntity.lastUser = user
         legalEntity.changeReason = legalEntityDto.changeReason
+    }
+
+    @Transactional(readOnly = true)
+    List<ParametricDto> getLegalEntitiesForSelect() {
+        return legalEntityRepository.findAll().collect { legalEntity ->
+            new ParametricDto(id: legalEntity.id, description: "${legalEntity.businessName} (${legalEntity.afm})")
+        }
     }
 }

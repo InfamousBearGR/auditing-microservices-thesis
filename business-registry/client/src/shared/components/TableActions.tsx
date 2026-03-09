@@ -1,17 +1,14 @@
-import {IconButton, Tooltip} from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {DeleteModal} from "src/shared/components/DeleteModal";
-import {useNavigate} from "@tanstack/react-router";
-import {useState} from "react";
-import {CompanyResponseDto} from "src/pages/company/types";
-import {MRT_Row} from "material-react-table";
-import {UseMutationResult} from "@tanstack/react-query";
-import {AxiosResponse} from "axios";
+import { DeleteModal } from "src/shared/components/DeleteModal";
+import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import { UseMutationResult } from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
 
 type TableActionsProps = {
-  row: MRT_Row<CompanyResponseDto>;
   table: string;
   useMutation: UseMutationResult<
     AxiosResponse,
@@ -22,11 +19,14 @@ type TableActionsProps = {
   viewTitle: string;
   deleteTitle: string;
   deleteDescription: string;
+  id: number;
+  name: string;
 };
 
 export const TableActions = (props: TableActionsProps) => {
   const {
-    row,
+    id,
+    name,
     table,
     useMutation,
     editTitle,
@@ -39,26 +39,26 @@ export const TableActions = (props: TableActionsProps) => {
   const navigate = useNavigate();
   return (
     <>
-      <Tooltip title={editTitle}>
+      <Tooltip title={viewTitle}>
         <IconButton
           color={"primary"}
           onClick={() =>
             navigate({
               to: `/${table}/view/$id`,
-              params: { id: String(row.original.id) },
+              params: { id: String(id) },
             })
           }
         >
           <SearchIcon />
         </IconButton>
       </Tooltip>
-      <Tooltip title={viewTitle}>
+      <Tooltip title={editTitle}>
         <IconButton
           color={"warning"}
           onClick={() =>
             navigate({
               to: `/${table}/edit/$id`,
-              params: { id: String(row.original.id) },
+              params: { id: String(id) },
             })
           }
         >
@@ -71,11 +71,11 @@ export const TableActions = (props: TableActionsProps) => {
         </IconButton>
       </Tooltip>
       <DeleteModal
-        id={row.original.id}
+        id={id}
         open={openDeleteModal}
         setOpen={setOpenDeleteModal}
         title={deleteTitle}
-        description={`${deleteDescription}: ${row.original.name}?`}
+        description={`${deleteDescription}: ${name}?`}
         onConfirm={mutate}
         isPending={isPending}
       />

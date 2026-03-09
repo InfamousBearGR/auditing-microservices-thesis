@@ -124,16 +124,16 @@ class MemberService {
     }
 
     private MemberResponseDto mapToMemberResponseDto(Member member, Locale locale) {
-        PersonDto person = memberMapper.toPersonDto(personService.findPersonById(member.person.id))
-        LegalEntityDto legalEntity = memberMapper.toLegalEntityDto(legalEntityService.findLegalEntityById(member.legalEntity.id))
-        PersonDto representativeOfMember = memberMapper.toPersonDto(personService.findPersonById(member.representativeOfMember.id))
+        PersonDto person = member.person ? memberMapper.toPersonDto(personService.findPersonById(member.person.id)) : null
+        LegalEntityDto legalEntity = member.legalEntity ? memberMapper.toLegalEntityDto(legalEntityService.findLegalEntityById(member.legalEntity.id)) : null
+        PersonDto representativeOfMember = member.representativeOfMember ? memberMapper.toPersonDto(personService.findPersonById(member.representativeOfMember.id)) : null
         ParametricDto memberRelation = memberRelationService.findMemberRelationTranslationByLocaleAndMemberRelation(locale, member.memberRelation)
         return memberMapper.toMemberDto(member, person, legalEntity, representativeOfMember, memberRelation)
     }
 
     private void populateMemberFromDto(Member member, MemberRequestDto memberDto, HttpSession session) {
-        Person person = personService.findPersonById(memberDto.personId)
-        LegalEntity legalEntity = legalEntityService.findLegalEntityById(memberDto.legalEntityId)
+        Person person = memberDto.personId ? personService.findPersonById(memberDto.personId) : null
+        LegalEntity legalEntity = memberDto.legalEntityId ? legalEntityService.findLegalEntityById(memberDto.legalEntityId) : null
         if (person == null && legalEntity == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.ούτε.Φυσικό.ούτε.Νομικό.Πρόσωπο.με.id.", [memberDto.personId, memberDto.legalEntityId] as Object[]))
         }
@@ -141,9 +141,12 @@ class MemberService {
         if (company == null) {
             throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Επιχείρηση.με.id.", [memberDto.companyId] as Object[]))
         }
-        Person representativeOfMember = personService.findPersonById(memberDto.representativeOfMemberId)
-        if (representativeOfMember == null) {
-            throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Εταίρος.με.id.", [memberDto.representativeOfMemberId] as Object[]))
+        Person representativeOfMember = null
+        if (memberDto.representativeOfMemberId) {
+            representativeOfMember = personService.findPersonById(memberDto.representativeOfMemberId)
+            if (representativeOfMember == null) {
+                throw new NotFoundException(messageService.getMessage("Δεν.βρέθηκε.Εκπρόσωπος.με.id.", [memberDto.representativeOfMemberId] as Object[]))
+            }
         }
         MemberRelation memberRelation = memberRelationService.findMemberRelationById(memberDto.memberRelationId)
         if (memberRelation == null) {

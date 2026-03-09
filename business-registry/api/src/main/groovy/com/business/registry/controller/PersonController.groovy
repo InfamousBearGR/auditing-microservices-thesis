@@ -3,6 +3,7 @@ package com.business.registry.controller
 import com.business.registry.dto.person.PersonRequestDto
 import com.business.registry.dto.person.PersonResponseDto
 import com.business.registry.dto.util.DeleteRequestDto
+import com.business.registry.dto.util.ParametricDto
 import com.business.registry.service.PersonService
 import groovy.transform.CompileStatic
 import jakarta.servlet.http.HttpSession
@@ -51,5 +52,11 @@ class PersonController {
     ResponseEntity<Void> deletePersonById(@PathVariable Long id, @RequestBody DeleteRequestDto deleteRequest, HttpSession session) {
         personService.deletePersonById(id, deleteRequest.changeReason, session)
         ResponseEntity.ok().build()
+    }
+
+    @GetMapping("/search")
+    ResponseEntity<List<ParametricDto>> searchPersons() {
+        List<ParametricDto> results = personService.getPersonsForSelect()
+        ResponseEntity.ok(results)
     }
 }

@@ -1,22 +1,22 @@
-import {useTranslation} from "react-i18next";
-import {Box, Button, Typography} from "@mui/material";
-import {useIndexCompany} from "src/pages/company/data-access/useIndexCompany";
-import {enqueueSnackbar} from "notistack";
-import {useMemo} from "react";
-import {MaterialReactTable, MRT_ColumnDef} from "material-react-table";
-import {CompanyResponseDto} from "src/pages/company/types";
-import {useCustomMaterialTable} from "src/shared/hooks/useCustomMaterialTable";
-import {getTableLang} from "src/shared/services/languages/MaterialReactTable/getTableLang";
-import {TableActions} from "src/pages/company/features/index/components/TableActions";
-import {useQueryClient} from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import { Box, Button, Typography } from "@mui/material";
+import { useIndexCompany } from "src/pages/company/data-access/useIndexCompany";
+import { enqueueSnackbar } from "notistack";
+import { useMemo } from "react";
+import { MaterialReactTable, MRT_ColumnDef } from "material-react-table";
+import { CompanyResponseDto } from "src/pages/company/types";
+import { useCustomMaterialTable } from "src/shared/hooks/useCustomMaterialTable";
+import { getTableLang } from "src/shared/services/languages/MaterialReactTable/getTableLang";
+import { useQueryClient } from "@tanstack/react-query";
 import ReplayIcon from "@mui/icons-material/Replay";
-import {FormContainer, useForm} from "react-hook-form-mui";
-import {CompanyStatusAutocomplete} from "src/shared/components/CompanyStatusAutocomplete";
-import {LegalTypeAutocomplete} from "src/shared/components/LegalTypeAutocomplete";
-import {useDeleteCompany} from "src/pages/company/data-access/useDeleteCompany";
+import { FormContainer, useForm } from "react-hook-form-mui";
+import { CompanyStatusAutocomplete } from "src/shared/components/CompanyStatusAutocomplete";
+import { LegalTypeAutocomplete } from "src/shared/components/LegalTypeAutocomplete";
+import { useDeleteCompany } from "src/pages/company/data-access/useDeleteCompany";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
-import {useNavigate} from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import SearchIcon from "@mui/icons-material/Search";
+import { TableActions } from "src/shared/components/TableActions";
 
 export const Index = () => {
   const formContext = useForm();
@@ -60,16 +60,20 @@ export const Index = () => {
       {
         accessorKey: "actions",
         header: t("Ενέργειες"),
+        enableColumnFilter: false,
+        enableColumnActions: false,
+        enableSorting: false,
         Cell: ({ row }) => (
           <TableActions
-            row={row}
+            id={row.original.id}
+            name={row.original.name}
             table={"company"}
             useMutation={useDeleteCompany()}
             editTitle={t("Επεξεργασία Επιχείρησης")}
             viewTitle={t("Προβολή Επιχείρησης")}
             deleteTitle={t("Διαγραφή Επιχείρησης")}
             deleteDescription={t(
-              "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή την επιχείρηση;",
+              "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή την επιχείρηση",
             )}
           />
         ),

@@ -19,6 +19,7 @@ class MemberMapper {
             return null
         }
         new PersonDto(
+                id: person.id,
                 name: person.name,
                 surname: person.surname,
                 afm: person.afm,
@@ -30,6 +31,7 @@ class MemberMapper {
             return null
         }
         new LegalEntityDto(
+                id: legalEntity.id,
                 businessName: legalEntity.businessName,
                 afm: legalEntity.afm,
         )

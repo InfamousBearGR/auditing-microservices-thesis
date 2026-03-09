@@ -1,6 +1,14 @@
-import {RoleEnum} from "src/shared/enums/RoleEnum";
-import {createContext, Dispatch, SetStateAction, useContext, useEffect, useState,} from "react";
-import {useCheckUserSession} from "src/shared/data-access/useCheckUserSession";
+import { RoleEnum } from "src/shared/enums/RoleEnum";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { useCheckUserSession } from "src/shared/data-access/useCheckUserSession";
+import * as React from "react";
 
 interface IUseAuth {
   authenticated: boolean;
@@ -12,13 +20,20 @@ interface IUseAuth {
   userHomePath: string;
 }
 
+type AuthProviderProps = {
+  children: React.ReactNode;
+};
+
 const AuthContext = createContext<IUseAuth | null>(null);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = (): IUseAuth => {
   return useContext(AuthContext) as IUseAuth;
 };
 
-export const AuthProvider = ({ children }: any) => {
+export const AuthProvider = ({
+  children,
+}: AuthProviderProps): React.JSX.Element => {
   const { data, isLoading } = useCheckUserSession();
   const [userCantAccess, setUserCantAccess] = useState<boolean>(false);
 
@@ -40,7 +55,7 @@ export const AuthProvider = ({ children }: any) => {
     userCantAccess,
     setUserCantAccess,
     isLoading,
-    userHomePath: data?.data?.authenticated ? "/company/index" : "/login",
+    userHomePath: data?.data?.authenticated ? "/dashboard" : "/login",
   };
 
   return (
