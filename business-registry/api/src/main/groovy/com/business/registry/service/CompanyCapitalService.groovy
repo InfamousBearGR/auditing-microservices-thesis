@@ -1,8 +1,8 @@
 package com.business.registry.service
 
 import com.business.registry.dto.companyCapital.CompanyCapitalRequestDto
-import com.business.registry.dto.companyCapital.CompanyCapitalResponse
-import com.business.registry.dto.companyStock.CompanyStockResponse
+import com.business.registry.dto.companyCapital.CompanyCapitalResponseDto
+import com.business.registry.dto.companyStock.CompanyStockResponseDto
 import com.business.registry.dto.util.ParametricDto
 import com.business.registry.mapper.companyCapital.CompanyCapitalMapper
 import com.business.registry.mapper.companyStock.CompanyStockMapper
@@ -63,7 +63,7 @@ class CompanyCapitalService {
     }
 
     @Transactional(readOnly = true)
-    CompanyCapitalResponse getCompanyCapital(Long companyId, Locale locale) {
+    CompanyCapitalResponseDto getCompanyCapital(Long companyId, Locale locale) {
         companyCapitalValidation.validateFindById(companyId)
         CompanyCapital companyCapital = companyCapitalRepository.findTopByCompanyId(companyId)
         if (companyCapital == null) {
@@ -98,9 +98,9 @@ class CompanyCapitalService {
         }
     }
 
-    private CompanyCapitalResponse mapToCompanyCapitalResponse(CompanyCapital companyCapital, Locale locale) {
+    private CompanyCapitalResponseDto mapToCompanyCapitalResponse(CompanyCapital companyCapital, Locale locale) {
         ParametricDto currency = currencyService.findCurrencyTranslationByLocaleAndCurrency(locale, companyCapital.currency)
-        List<CompanyStockResponse> stocks = companyStockRepository.findAllByCompanyId(companyCapital.companyId).collect { companyStock ->
+        List<CompanyStockResponseDto> stocks = companyStockRepository.findAllByCompanyId(companyCapital.companyId).collect { companyStock ->
             ParametricDto stockType = stockTypeService.findStockTypeTranslationByLocaleAndStockType(locale, companyStock.stockType)
             companyStockMapper.toCompanyStockResponse(companyStock, stockType)
         }

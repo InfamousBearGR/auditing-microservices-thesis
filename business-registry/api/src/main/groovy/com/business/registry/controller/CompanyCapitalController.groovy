@@ -1,7 +1,7 @@
 package com.business.registry.controller
 
 import com.business.registry.dto.companyCapital.CompanyCapitalRequestDto
-import com.business.registry.dto.companyCapital.CompanyCapitalResponse
+import com.business.registry.dto.companyCapital.CompanyCapitalResponseDto
 import com.business.registry.service.CompanyCapitalService
 import groovy.transform.CompileStatic
 import jakarta.servlet.http.HttpSession
@@ -20,9 +20,9 @@ class CompanyCapitalController {
     }
 
     @GetMapping("/view/{id}")
-    ResponseEntity<CompanyCapitalResponse> getCompanyCapital(@PathVariable Long id) {
+    ResponseEntity<CompanyCapitalResponseDto> getCompanyCapital(@PathVariable Long id) {
         Locale locale = LocaleContextHolder.getLocale()
-        CompanyCapitalResponse capital = companyCapitalService.getCompanyCapital(id, locale)
+        CompanyCapitalResponseDto capital = companyCapitalService.getCompanyCapital(id, locale)
         ResponseEntity.ok(capital)
     }
 

@@ -1,15 +1,16 @@
-import {useTranslation} from "react-i18next";
-import {useNavigate, useParams} from "@tanstack/react-router";
-import {useViewCompany} from "src/pages/company/data-access/useViewCompany";
-import {enqueueSnackbar} from "notistack";
-import {Box, Typography} from "@mui/material";
-import {Details} from "src/shared/components/Details/Details";
-import {stringToFormatDate} from "src/shared/utils";
-import {CustomCircularProgressBar} from "src/shared/components/CustomCircularProgressBar";
+import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "@tanstack/react-router";
+import { useViewCompany } from "src/pages/company/data-access/useViewCompany";
+import { enqueueSnackbar } from "notistack";
+import { Box, Button, Typography } from "@mui/material";
+import { Details } from "src/shared/components/Details/Details";
+import { stringToFormatDate } from "src/shared/utils";
+import { CustomCircularProgressBar } from "src/shared/components/CustomCircularProgressBar";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const View = () => {
   const { t } = useTranslation();
-  const { id: idParam } = useParams({ from: "/company/view/$id" });
+  const { id: idParam } = useParams({ from: "/company/$id/details" });
   const navigate = useNavigate();
 
   const id = idParam ? Number(idParam) : undefined;
@@ -87,9 +88,31 @@ export const View = () => {
         <CustomCircularProgressBar />
       ) : (
         <>
-          <Typography
-            variant={"h5"}
-          >{`${t("Επιχείρηση")}: ${data?.data?.registryNumber} ${data?.data?.name}`}</Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: "1rem",
+              width: "100%",
+            }}
+          >
+            <Typography
+              variant={"h5"}
+            >{`${t("Επιχείρηση")}: ${data?.data?.registryNumber} ${data?.data?.name}`}</Typography>
+            <Button
+              onClick={() =>
+                navigate({
+                  to: "/company/edit/$id",
+                  params: { id: idParam },
+                })
+              }
+              startIcon={<EditIcon />}
+              variant={"contained"}
+            >
+              {t("Επεξεργασία")}
+            </Button>
+          </Box>
           <Details rows={rows} />
         </>
       )}

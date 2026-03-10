@@ -15,7 +15,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { TableActions } from "src/shared/components/TableActions";
 
 export const Index = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { data, isError, isFetching } = useIndexPerson();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ export const Index = () => {
         ),
       },
     ],
-    [i18n.language],
+    [t],
   );
 
   const table = useCustomMaterialTable({

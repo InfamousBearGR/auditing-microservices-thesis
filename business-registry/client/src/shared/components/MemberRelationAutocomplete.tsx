@@ -1,7 +1,7 @@
-import {useTranslation} from "react-i18next";
-import {useGetMemberRelations} from "src/shared/data-access/useGetMemberRelations";
-import {AutocompleteElement} from "react-hook-form-mui";
-import {CustomAutocompleteProps} from "src/shared/types/types";
+import { useTranslation } from "react-i18next";
+import { useGetMemberRelations } from "src/shared/data-access/useGetMemberRelations";
+import { AutocompleteElement } from "react-hook-form-mui";
+import { CustomAutocompleteProps } from "src/shared/types/types";
 
 export const MemberRelationAutocomplete = (props: CustomAutocompleteProps) => {
   const { isRequired } = props;

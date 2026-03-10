@@ -3,8 +3,9 @@ import { useNavigate, useParams } from "@tanstack/react-router";
 import { useViewMember } from "src/pages/member/data-access/useViewMember";
 import { enqueueSnackbar } from "notistack";
 import { CustomCircularProgressBar } from "src/shared/components/CustomCircularProgressBar";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Details } from "src/shared/components/Details/Details";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const View = () => {
   const { t } = useTranslation();
@@ -89,7 +90,29 @@ export const View = () => {
         <CustomCircularProgressBar />
       ) : (
         <>
-          <Typography variant={"h5"}>{`${t("Εταίρος")}`}</Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "1rem",
+              width: "100%",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant={"h5"}>{`${t("Εταίρος")}`}</Typography>
+            <Button
+              onClick={() =>
+                navigate({
+                  to: "/company/$id/member/edit/$memberId",
+                  params: { id: idParam, memberId: memberIdParam },
+                })
+              }
+              startIcon={<EditIcon />}
+              variant={"contained"}
+            >
+              {t("Επεξεργασία")}
+            </Button>
+          </Box>
           <Details rows={rows} />
         </>
       )}

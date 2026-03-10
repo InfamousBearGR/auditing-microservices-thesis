@@ -1,7 +1,7 @@
-import {SnackbarKey, SnackbarProvider} from "notistack";
+import { SnackbarKey, SnackbarProvider } from "notistack";
 import React from "react";
-import {Close} from "@mui/icons-material";
-import {IconButton} from "@mui/material";
+import { Close } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 
 const MySnackbarProvider = ({ children }: { children: any }) => {
   const notistackRef = React.createRef();

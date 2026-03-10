@@ -1,11 +1,11 @@
-import {Box, Typography} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
-import {useTranslation} from "react-i18next";
-import {ErrorOutline} from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
+import { ErrorOutline } from "@mui/icons-material";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import {useAuth} from "src/shared/context/useAuth";
-import {useCheckUserSession} from "src/shared/data-access/useCheckUserSession";
-import {useNavigate} from "@tanstack/react-router";
+import { useAuth } from "src/shared/context/useAuth";
+import { useCheckUserSession } from "src/shared/data-access/useCheckUserSession";
+import { useNavigate } from "@tanstack/react-router";
 
 export const Error502 = () => {
   const { isSuccess, isError, error } = useCheckUserSession();

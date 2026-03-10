@@ -20,7 +20,7 @@ import { TableActions } from "src/shared/components/TableActions";
 
 export const Index = () => {
   const formContext = useForm();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { data, isError, isFetching } = useIndexCompany(
     formContext.watch("companyStatusId"),
     formContext.watch("legalTypeId"),
@@ -75,11 +75,12 @@ export const Index = () => {
             deleteDescription={t(
               "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή την επιχείρηση",
             )}
+            viewPath={"/company/$id/details"}
           />
         ),
       },
     ],
-    [i18n.language],
+    [t],
   );
 
   const table = useCustomMaterialTable({

@@ -1,4 +1,8 @@
-import {MRT_RowData, MRT_TableOptions, useMaterialReactTable,} from "material-react-table";
+import {
+  MRT_RowData,
+  MRT_TableOptions,
+  useMaterialReactTable,
+} from "material-react-table";
 
 export const useCustomMaterialTable = <TData extends MRT_RowData>(
   props: MRT_TableOptions<TData>,

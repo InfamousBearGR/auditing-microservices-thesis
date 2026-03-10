@@ -1,19 +1,19 @@
 import {
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    TextField,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
 } from "@mui/material";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {useState} from "react";
-import {enqueueSnackbar} from "notistack";
-import {UseMutateFunction} from "@tanstack/react-query";
-import {AxiosResponse} from "axios";
+import { useState } from "react";
+import { enqueueSnackbar } from "notistack";
+import { UseMutateFunction } from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
 
 type DeleteModalProps = {
   open: boolean;

@@ -1,6 +1,6 @@
-import {httpClient} from "src/shared/services/httpClient/httpClient";
-import {AxiosResponse} from "axios";
-import {ParametricDto, UserSessionResponse} from "src/shared/types/types";
+import { httpClient } from "src/shared/services/httpClient/httpClient";
+import { AxiosResponse } from "axios";
+import { ParametricDto, UserSessionResponse } from "src/shared/types/types";
 
 type LogoutResponse = {
   message: string;

@@ -203,3 +203,31 @@ services:
     depends_on:
       auditDb:
         condition: service_healthy
+
+  # 10. Business Registry API (Spring Boot)
+  business-registry-api:
+    build:
+      context: ./business-registry/api
+      dockerfile: Dockerfile
+    container_name: business-registry-api
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      mainDb:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # 11. Business Registry Client (React/Vite)
+  business-registry-client:
+    build:
+      context: ./business-registry/client
+      dockerfile: Dockerfile
+    container_name: business-registry-client
+    ports:
+      - "5000:80"
+    depends_on:
+      - business-registry-api
+    restart: unless-stopped
+

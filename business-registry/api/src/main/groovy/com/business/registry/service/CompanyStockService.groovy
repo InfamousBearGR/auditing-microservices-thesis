@@ -1,7 +1,7 @@
 package com.business.registry.service
 
 import com.business.registry.dto.companyStock.CompanyStockRequestDto
-import com.business.registry.dto.companyStock.CompanyStockResponse
+import com.business.registry.dto.companyStock.CompanyStockResponseDto
 import com.business.registry.dto.util.ParametricDto
 import com.business.registry.mapper.companyStock.CompanyStockMapper
 import com.business.registry.model.CompanyStock
@@ -48,23 +48,23 @@ class CompanyStockService {
     @Transactional
     void updateCompanyStock(CompanyStockRequestDto companyStockDto, HttpSession session, String changeReason) {
         companyStockValidation.validateUpdate(companyStockDto)
-        CompanyStock companyStock = companyStockRepository.findByIdAndCompanyId(companyStockDto.id, companyStockDto.companyId)
+        CompanyStock companyStock = companyStockDto.id ? companyStockRepository.findByIdAndCompanyId(companyStockDto.id, companyStockDto.companyId) : null
         if (companyStock == null) {
-            createCompanyStock(companyStockDto, session)
+            createCompanyStock(companyStockDto, changeReason, session)
         } else {
             if (companyStockDto.toBeDeleted) {
                 deleteCompanyStock(companyStock.id, companyStock.companyId, changeReason, session)
                 return
             }
-            populateCompanyStockFromDto(companyStock, companyStockDto, session)
+            populateCompanyStockFromDto(companyStock, companyStockDto, changeReason, session)
             companyStockRepository.save(companyStock)
         }
     }
 
     @Transactional
-    void createCompanyStock(CompanyStockRequestDto companyStockDto, HttpSession session) {
+    void createCompanyStock(CompanyStockRequestDto companyStockDto, String changeReason, HttpSession session) {
         CompanyStock companyStock = new CompanyStock()
-        populateCompanyStockFromDto(companyStock, companyStockDto, session)
+        populateCompanyStockFromDto(companyStock, companyStockDto, changeReason, session)
         companyStockRepository.save(companyStock)
     }
 
@@ -82,7 +82,7 @@ class CompanyStockService {
         companyStockRepository.deleteById(companyStockId)
     }
 
-    private void populateCompanyStockFromDto(CompanyStock companyStock, CompanyStockRequestDto companyStockDto, String changeReason = null, HttpSession session) {
+    private void populateCompanyStockFromDto(CompanyStock companyStock, CompanyStockRequestDto companyStockDto, String changeReason, HttpSession session) {
         BigDecimal nominalPrice = companyStockDto.nominalPrice.toBigDecimal()
         StockType stockType = stockTypeService.findStockTypeById(companyStockDto.stockTypeId)
         if (stockType == null) {
@@ -97,7 +97,7 @@ class CompanyStockService {
         companyStock.amount = companyStockDto.amount
     }
 
-    private CompanyStockResponse mapToCompanyStockResponse(CompanyStock companyStock, Locale locale) {
+    private CompanyStockResponseDto mapToCompanyStockResponse(CompanyStock companyStock, Locale locale) {
         ParametricDto stockType = stockTypeService.findStockTypeTranslationByLocaleAndStockType(locale, companyStock.stockType)
         return companyStockMapper.toCompanyStockResponse(companyStock, stockType)
     }

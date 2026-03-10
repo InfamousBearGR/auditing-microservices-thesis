@@ -1,21 +1,21 @@
-import {useTranslation} from "react-i18next";
-import {useNavigate, useParams} from "@tanstack/react-router";
-import {useViewCompany} from "src/pages/company/data-access/useViewCompany";
-import {enqueueSnackbar} from "notistack";
-import {CustomCircularProgressBar} from "src/shared/components/CustomCircularProgressBar";
-import {Box} from "@mui/system";
-import {Button, Typography} from "@mui/material";
-import {useUpdateCompany} from "src/pages/company/data-access/useUpdateCompany";
+import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "@tanstack/react-router";
+import { useViewCompany } from "src/pages/company/data-access/useViewCompany";
+import { enqueueSnackbar } from "notistack";
+import { CustomCircularProgressBar } from "src/shared/components/CustomCircularProgressBar";
+import { Box } from "@mui/system";
+import { Button, Typography } from "@mui/material";
+import { useUpdateCompany } from "src/pages/company/data-access/useUpdateCompany";
 import {
-    CompanyValidationSchema,
-    getCompanyValidationSchema,
+  CompanyValidationSchema,
+  getCompanyValidationSchema,
 } from "src/pages/company/features/shared/validation/validationSchema";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {FormContainer, useForm, UseFormReturn} from "react-hook-form-mui";
-import {useEffect} from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormContainer, useForm, UseFormReturn } from "react-hook-form-mui";
+import { useEffect } from "react";
 import EditIcon from "@mui/icons-material/Edit";
-import {CompanyForm} from "src/pages/company/features/shared/CompanyForm";
-import {dateToString, stringToDate} from "src/shared/utils";
+import { CompanyForm } from "src/pages/company/features/shared/CompanyForm";
+import { dateToString, stringToDate } from "src/shared/utils";
 
 export const Edit = () => {
   const { t } = useTranslation();

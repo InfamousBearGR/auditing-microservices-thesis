@@ -15,7 +15,7 @@ import { TableActions } from "src/shared/components/TableActions";
 import BusinessIcon from "@mui/icons-material/Business";
 
 export const Index = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { data, isError, isFetching } = useIndexLegalEntity();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ export const Index = () => {
         ),
       },
     ],
-    [i18n.language],
+    [t],
   );
 
   const table = useCustomMaterialTable({

@@ -4,7 +4,7 @@ import com.business.registry.dto.util.ParametricDto
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class CompanyStockResponse {
+class CompanyStockResponseDto {
     Long id
     Long companyId
     Long amount

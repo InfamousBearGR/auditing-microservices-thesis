@@ -1,7 +1,7 @@
 package com.business.registry.mapper.companyCapital
 
-import com.business.registry.dto.companyCapital.CompanyCapitalResponse
-import com.business.registry.dto.companyStock.CompanyStockResponse
+import com.business.registry.dto.companyCapital.CompanyCapitalResponseDto
+import com.business.registry.dto.companyStock.CompanyStockResponseDto
 import com.business.registry.dto.util.ParametricDto
 import com.business.registry.model.CompanyCapital
 import groovy.transform.CompileStatic
@@ -11,19 +11,18 @@ import org.springframework.stereotype.Component
 @CompileStatic
 class CompanyCapitalMapper {
 
-    static CompanyCapitalResponse toCompanyCapitalResponse(
+    static CompanyCapitalResponseDto toCompanyCapitalResponse(
             CompanyCapital companyCapital,
             ParametricDto currency,
-            List<CompanyStockResponse> stocks
+            List<CompanyStockResponseDto> stocks
     ) {
         if (companyCapital == null) {
             return null
         }
-        new CompanyCapitalResponse(
+        new CompanyCapitalResponseDto(
                 companyId: companyCapital.companyId,
                 totalAmount: companyCapital.totalAmount?.toString(),
                 currency: currency,
-                changeReason: companyCapital.changeReason,
                 stocks: stocks
         )
     }

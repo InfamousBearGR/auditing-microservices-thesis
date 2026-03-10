@@ -1,23 +1,24 @@
 import {
-    AppBar,
-    Box,
-    IconButton,
-    InputAdornment,
-    Menu,
-    MenuItem,
-    Select,
-    SelectChangeEvent,
-    Toolbar,
-    Typography,
+  AppBar,
+  Box,
+  IconButton,
+  InputAdornment,
+  Menu,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import LanguageIcon from "@mui/icons-material/Language";
-import {Logout} from "@mui/icons-material";
-import {MouseEvent, ReactNode, useEffect, useState} from "react";
-import {Link, Outlet, useNavigate} from "@tanstack/react-router";
-import {useTranslation} from "react-i18next";
-import {useAuth} from "src/shared/context/useAuth";
-import {useLogout} from "src/shared/data-access/useLogout";
+import { Logout } from "@mui/icons-material";
+import { MouseEvent, ReactNode, useEffect, useState } from "react";
+import { Link, Outlet, useNavigate } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+import { useAuth } from "src/shared/context/useAuth";
+import { useLogout } from "src/shared/data-access/useLogout";
+import { AppBreadcrumb } from "src/shared/components/Breadcrumb";
 
 const NAVY = "#0a1f44";
 const NAVY_LIGHT = "#122b5e";
@@ -84,7 +85,7 @@ export const Main = ({ children }: { children?: ReactNode }) => {
       navigate({ to: userHomePath });
       setUserCantAccess(false);
     }
-  }, [userCantAccess]);
+  }, [navigate, setUserCantAccess, userCantAccess, userHomePath]);
 
   const handleLangChange = (e: SelectChangeEvent) => {
     const newLang = e.target.value;
@@ -136,6 +137,8 @@ export const Main = ({ children }: { children?: ReactNode }) => {
               </Typography>
             </Link>
           </Box>
+
+          <AppBreadcrumb />
 
           {children}
 

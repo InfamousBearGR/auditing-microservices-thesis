@@ -1,23 +1,29 @@
-import {createTheme, ThemeProvider} from "@mui/material";
-import {elGR as coreGR, enUS as coreEn} from "@mui/material/locale";
-import {elGR as DataGridGreek, enUS as DataGridEnglish,} from "@mui/x-data-grid/locales";
-import {elGR as pickersGR, enUS as pickersEn,} from "@mui/x-date-pickers/locales";
-import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
-import {el} from "date-fns/locale/el";
-import {enUS} from "date-fns/locale/en-US";
-import {I18nextProvider, useTranslation} from "react-i18next";
-import {queryClient} from "src/shared/services/queryClient/reactQueryClient";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { elGR as coreGR, enUS as coreEn } from "@mui/material/locale";
+import {
+  elGR as DataGridGreek,
+  enUS as DataGridEnglish,
+} from "@mui/x-data-grid/locales";
+import {
+  elGR as pickersGR,
+  enUS as pickersEn,
+} from "@mui/x-date-pickers/locales";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { el } from "date-fns/locale/el";
+import { enUS } from "date-fns/locale/en-US";
+import { I18nextProvider, useTranslation } from "react-i18next";
+import { queryClient } from "src/shared/services/queryClient/reactQueryClient";
 import "src/shared/services/languages/i18n";
-import {AuthProvider, useAuth} from "src/shared/context/useAuth";
-import {configureHttpClient} from "src/shared/services/httpClient/httpClient";
+import { AuthProvider, useAuth } from "src/shared/context/useAuth";
+import { configureHttpClient } from "src/shared/services/httpClient/httpClient";
 import "@mui/material/Button";
 import "@mui/material/Chip";
-import {QueryClientProvider} from "@tanstack/react-query";
-import {RouterProvider} from "@tanstack/react-router";
-import {LocalizationProvider} from "@mui/x-date-pickers";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { RouterProvider } from "@tanstack/react-router";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import MySnackbarProvider from "src/shared/services/snackbarProvider/snackbarProvider";
-import {router} from "src/routes/router";
-import {useEffect} from "react";
+import { router } from "src/routes/router";
+import { useEffect } from "react";
 
 const ConfigurationContextComponent = () => {
   const { i18n } = useTranslation();

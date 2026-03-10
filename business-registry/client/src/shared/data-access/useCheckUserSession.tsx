@@ -1,5 +1,5 @@
-import {useQuery} from "@tanstack/react-query";
-import {checkUserSession} from "src/shared/data-access/gateway";
+import { useQuery } from "@tanstack/react-query";
+import { checkUserSession } from "src/shared/data-access/gateway";
 
 export const useCheckUserSession = () => {
   const isError502Page = window.location.pathname === "/502";

@@ -1,7 +1,7 @@
-import {useTranslation} from "react-i18next";
-import {useGetStockTypes} from "src/shared/data-access/useGetStockTypes";
-import {AutocompleteElement} from "react-hook-form-mui";
-import {CustomAutocompleteProps} from "src/shared/types/types";
+import { useTranslation } from "react-i18next";
+import { useGetStockTypes } from "src/shared/data-access/useGetStockTypes";
+import { AutocompleteElement } from "react-hook-form-mui";
+import { CustomAutocompleteProps } from "src/shared/types/types";
 
 export const StockTypeAutocomplete = (props: CustomAutocompleteProps) => {
   const { isRequired } = props;

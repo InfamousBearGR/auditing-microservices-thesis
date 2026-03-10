@@ -1,7 +1,7 @@
-import {AxiosError} from "axios";
-import {MutationCache, QueryCache, QueryClient} from "@tanstack/react-query";
-import {enqueueSnackbar} from "notistack";
-import {ErrorResponse} from "src/shared/types/types";
+import { AxiosError } from "axios";
+import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
+import { enqueueSnackbar } from "notistack";
+import { ErrorResponse } from "src/shared/types/types";
 
 const onErrorFunction = async (error: AxiosError<ErrorResponse>) => {
   enqueueSnackbar(error?.response?.data?.message ?? "", { variant: "error" });

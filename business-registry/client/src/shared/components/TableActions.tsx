@@ -21,6 +21,7 @@ type TableActionsProps = {
   deleteDescription: string;
   id: number;
   name: string;
+  viewPath?: string;
 };
 
 export const TableActions = (props: TableActionsProps) => {
@@ -33,6 +34,7 @@ export const TableActions = (props: TableActionsProps) => {
     viewTitle,
     deleteTitle,
     deleteDescription,
+    viewPath,
   } = props;
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const { mutate, isPending } = useMutation;
@@ -44,7 +46,7 @@ export const TableActions = (props: TableActionsProps) => {
           color={"primary"}
           onClick={() =>
             navigate({
-              to: `/${table}/view/$id`,
+              to: viewPath ?? `/${table}/view/$id`,
               params: { id: String(id) },
             })
           }

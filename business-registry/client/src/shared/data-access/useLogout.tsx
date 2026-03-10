@@ -1,6 +1,6 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {logout} from "src/shared/data-access/gateway";
-import {useNavigate} from "@tanstack/react-router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { logout } from "src/shared/data-access/gateway";
+import { useNavigate } from "@tanstack/react-router";
 
 export const useLogout = () => {
   const queryClient = useQueryClient();

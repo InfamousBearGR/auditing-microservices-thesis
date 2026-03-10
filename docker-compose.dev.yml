@@ -233,3 +233,44 @@ services:
             - ./history-api/Dockerfile.dev
             - ./history-api/tmp
           target: /app
+
+  # 10. Business Registry API (Spring Boot)
+  business-registry-api:
+    build:
+      context: ./business-registry/api
+      dockerfile: Dockerfile.dev
+    container_name: business-registry-api
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      mainDb:
+        condition: service_healthy
+    restart: unless-stopped
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./business-registry/api/src
+          target: /app/src
+        - action: rebuild
+          path: ./business-registry/api/build.gradle
+
+  # 11. Business Registry Client (React/Vite)
+  business-registry-client:
+    build:
+      context: ./business-registry/client
+      dockerfile: Dockerfile.dev
+    container_name: business-registry-client
+    ports:
+      - "5000:5000"
+    depends_on:
+      - business-registry-api
+    develop:
+      watch:
+        - action: sync
+          path: ./business-registry/client/src
+          target: /app/src
+        - action: rebuild
+          path: ./business-registry/client/package.json
+

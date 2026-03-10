@@ -16,7 +16,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { stringToFormatDate } from "src/shared/utils";
 
 export const Index = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { id: idParam } = useParams({
     from: "/company/$id/member/index",
@@ -95,7 +95,7 @@ export const Index = () => {
         ),
       },
     ],
-    [i18n.language],
+    [id, t],
   );
 
   const table = useCustomMaterialTable({

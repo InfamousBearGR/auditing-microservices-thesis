@@ -40,7 +40,6 @@ class CompanyStockValidation implements Validatable {
     }
 
     void validateUpdate(CompanyStockRequestDto companyStockRequestDto) {
-        Utils.validateId(companyStockRequestDto.id, messageService)
         validateCompanyStockRequestDto(companyStockRequestDto)
     }
 }

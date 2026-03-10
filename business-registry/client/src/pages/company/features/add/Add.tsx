@@ -1,12 +1,12 @@
-import {useTranslation} from "react-i18next";
-import {FormContainer, useForm} from "react-hook-form-mui";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {getCompanyValidationSchema} from "src/pages/company/features/shared/validation/validationSchema";
-import {useCreateCompany} from "src/pages/company/data-access/useCreateCompany";
-import {Box} from "@mui/system";
-import {Button, Typography} from "@mui/material";
-import {dateToString} from "src/shared/utils";
-import {CompanyForm} from "src/pages/company/features/shared/CompanyForm";
+import { useTranslation } from "react-i18next";
+import { FormContainer, useForm } from "react-hook-form-mui";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { getCompanyValidationSchema } from "src/pages/company/features/shared/validation/validationSchema";
+import { useCreateCompany } from "src/pages/company/data-access/useCreateCompany";
+import { Box } from "@mui/system";
+import { Button, Typography } from "@mui/material";
+import { dateToString } from "src/shared/utils";
+import { CompanyForm } from "src/pages/company/features/shared/CompanyForm";
 import EditIcon from "@mui/icons-material/Edit";
 
 export const Add = () => {

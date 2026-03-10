@@ -1,8 +1,8 @@
 import axios from "axios";
-import {i18n as I18nType} from "i18next";
+import { i18n as I18nType } from "i18next";
 import i18n from "src/shared/services/languages/i18n";
-import {queryClient} from "src/shared/services/queryClient/reactQueryClient";
-import {Dispatch, SetStateAction} from "react";
+import { queryClient } from "src/shared/services/queryClient/reactQueryClient";
+import { Dispatch, SetStateAction } from "react";
 
 const httpClient = axios.create({
   baseURL: import.meta.env.VITE_APP_API_URL,

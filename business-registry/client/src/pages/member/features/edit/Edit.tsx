@@ -7,8 +7,8 @@ import { Box } from "@mui/system";
 import { Button, Typography } from "@mui/material";
 import { useUpdateMember } from "src/pages/member/data-access/useUpdateMember";
 import {
-  MemberValidationSchema,
   getMemberValidationSchema,
+  MemberValidationSchema,
 } from "src/pages/member/features/shared/validation/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormContainer, useForm, UseFormReturn } from "react-hook-form-mui";

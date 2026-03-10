@@ -7,8 +7,8 @@ import { Box } from "@mui/system";
 import { Button, Typography } from "@mui/material";
 import { useUpdateLegalEntity } from "src/pages/legalEntity/data-access/useUpdateLegalEntity";
 import {
-  LegalEntityValidationSchema,
   getLegalEntityValidationSchema,
+  LegalEntityValidationSchema,
 } from "src/pages/legalEntity/features/shared/validation/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormContainer, useForm, UseFormReturn } from "react-hook-form-mui";

@@ -1,4 +1,4 @@
-import {CSSProperties, JSX} from "react";
+import { CSSProperties, JSX } from "react";
 
 type PrimitiveCellValues = string | number | boolean | null | undefined;
 

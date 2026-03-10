@@ -2,10 +2,11 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { useViewPerson } from "src/pages/person/data-access/useViewPerson";
 import { enqueueSnackbar } from "notistack";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Details } from "src/shared/components/Details/Details";
 import { stringToFormatDate } from "src/shared/utils";
 import { CustomCircularProgressBar } from "src/shared/components/CustomCircularProgressBar";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const View = () => {
   const { t } = useTranslation();
@@ -64,9 +65,31 @@ export const View = () => {
         <CustomCircularProgressBar />
       ) : (
         <>
-          <Typography
-            variant={"h5"}
-          >{`${t("Φυσικό Πρόσωπο")}: ${data?.data?.name} ${data?.data?.surname}`}</Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "1rem",
+              width: "100%",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant={"h5"}
+            >{`${t("Φυσικό Πρόσωπο")}: ${data?.data?.name} ${data?.data?.surname}`}</Typography>
+            <Button
+              onClick={() =>
+                navigate({
+                  to: "/person/edit/$id",
+                  params: { id: idParam },
+                })
+              }
+              startIcon={<EditIcon />}
+              variant={"contained"}
+            >
+              {t("Επεξεργασία")}
+            </Button>
+          </Box>
           <Details rows={rows} />
         </>
       )}

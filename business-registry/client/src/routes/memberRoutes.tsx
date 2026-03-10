@@ -1,16 +1,9 @@
 import { AnyRoute, createRoute } from "@tanstack/react-router";
-import { Index } from "src/pages/member/features/index/Index";
 import { Add } from "src/pages/member/features/add/Add";
 import { Edit } from "src/pages/member/features/edit/Edit";
 import { View } from "src/pages/member/features/view/View";
 
 export const createMemberRoutes = (parentRoute: AnyRoute) => {
-  const memberIndexRoute = createRoute({
-    getParentRoute: () => parentRoute,
-    path: "/company/$id/member/index",
-    component: Index,
-  });
-
   const memberViewRoute = createRoute({
     getParentRoute: () => parentRoute,
     path: "/company/$id/member/view/$memberId",
@@ -29,5 +22,5 @@ export const createMemberRoutes = (parentRoute: AnyRoute) => {
     component: Edit,
   });
 
-  return [memberIndexRoute, memberViewRoute, memberAddRoute, memberEditRoute];
+  return [memberViewRoute, memberAddRoute, memberEditRoute];
 };

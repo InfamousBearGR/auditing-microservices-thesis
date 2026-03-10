@@ -2,9 +2,10 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { useViewLegalEntity } from "src/pages/legalEntity/data-access/useViewLegalEntity";
 import { enqueueSnackbar } from "notistack";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Details } from "src/shared/components/Details/Details";
 import { CustomCircularProgressBar } from "src/shared/components/CustomCircularProgressBar";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const View = () => {
   const { t } = useTranslation();
@@ -60,9 +61,31 @@ export const View = () => {
         <CustomCircularProgressBar />
       ) : (
         <>
-          <Typography
-            variant={"h5"}
-          >{`${t("Νομικό Πρόσωπο")}: ${data?.data?.registryNumber} ${data?.data?.businessName}`}</Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "1rem",
+              width: "100%",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant={"h5"}
+            >{`${t("Νομικό Πρόσωπο")}: ${data?.data?.registryNumber} ${data?.data?.businessName}`}</Typography>
+            <Button
+              onClick={() =>
+                navigate({
+                  to: "/legalEntity/edit/$id",
+                  params: { id: idParam },
+                })
+              }
+              startIcon={<EditIcon />}
+              variant={"contained"}
+            >
+              {t("Επεξεργασία")}
+            </Button>
+          </Box>
           <Details rows={rows} />
         </>
       )}

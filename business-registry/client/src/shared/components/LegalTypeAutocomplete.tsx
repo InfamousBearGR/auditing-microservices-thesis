@@ -1,7 +1,7 @@
-import {useTranslation} from "react-i18next";
-import {useGetLegalTypes} from "src/shared/data-access/useGetLegalTypes";
-import {AutocompleteElement} from "react-hook-form-mui";
-import {CustomAutocompleteProps} from "src/shared/types/types";
+import { useTranslation } from "react-i18next";
+import { useGetLegalTypes } from "src/shared/data-access/useGetLegalTypes";
+import { AutocompleteElement } from "react-hook-form-mui";
+import { CustomAutocompleteProps } from "src/shared/types/types";
 
 export const LegalTypeAutocomplete = (props: CustomAutocompleteProps) => {
   const { isRequired } = props;
