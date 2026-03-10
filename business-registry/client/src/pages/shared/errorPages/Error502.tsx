@@ -17,9 +17,6 @@ export const Error502 = () => {
   if (isSuccess) {
     navigate({ to: userHomePath });
   }
-  console.debug(error);
-  if (isError) {
-  }
 
   return (
     <Box
