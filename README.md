@@ -25,7 +25,7 @@ This system demonstrates a modern event-driven architecture that:
                     ▼
 ┌──────────────────────────────────────────┐
 │         Business Registry API            │
-│   (Spring Boot 3 + Groovy + JPA)         │
+│      (Spring Boot 3 + Groovy + JPA)      │
 │                  :8084                   │
 └───────────────────┬──────────────────────┘
                     │ JDBC
@@ -38,15 +38,15 @@ This system demonstrates a modern event-driven architecture that:
                │ WAL (Logical Replication)
                ▼
         ┌─────────────┐         ┌──────────────────────────────────┐
-        │  Debezium   │────────▶│    Kafka Cluster (KRaft)         │
-        │  Connect    │         │  kafka-1 :9092                   │
-        │   :8083     │         │  kafka-2 :9094                   │
-        └─────────────┘         │  kafka-3 :9095                   │
+        │  Debezium   │────────▶│     Kafka Cluster (KRaft)        │
+        │  Connect    │         │         kafka-1 :9092            │
+        │   :8083     │         │         kafka-2 :9094            │
+        └─────────────┘         │         kafka-3 :9095            │
                                 └──────────┬───────────────────────┘
                                            │
-                           ┌───────────────┼───────────────┐
-                           │               │               │
-                           ▼               ▼               ▼
+                           ┌───────────────┼─────────────────┐
+                           │               │                 │
+                           ▼               ▼                 ▼
                 ┌──────────────────┐  ┌─────────────┐  ┌─────────────┐
                 │  Audit Consumer  │  │ SSE Bridge  │  │  Kafka UI   │
                 │    (Groovy)      │  │  (Spring    │  │  (Web GUI)  │
@@ -57,15 +57,15 @@ This system demonstrates a modern event-driven architecture that:
                          ▼                   ▼
                 ┌─────────────────┐   Real-time SSE
                 │    auditDb      │   notifications
-                │ (TimescaleDB)   │   with API key auth
+                │  (TimescaleDB)  │   with API key auth
                 │     :5433       │
                 └────────┬────────┘
                          │
                          ▼
                 ┌─────────────┐
                 │ History API │
-                │    (Go)     │
-                │   :8081     │
+                │     (Go)    │
+                │    :8081    │
                 └─────────────┘
 ```
 
@@ -370,19 +370,19 @@ Edit `debezium/register-connector.sh` to:
 
 ## 📚 Technology Stack
 
-| Component                  | Technology                                         | Purpose                                           |
-|----------------------------|----------------------------------------------------|---------------------------------------------------|
-| Business Registry Client   | React 19 + TypeScript + Vite + MUI + i18next       | Full-stack SPA for business registry management   |
-| Business Registry API      | Spring Boot 3.4 + Groovy + Java 21 + Spring JPA    | RESTful backend with session-based auth           |
-| Source DB                  | PostgreSQL 15                                      | Transactional database with CDC enabled           |
-| CDC Source                 | Debezium PostgreSQL Connector                      | Change data capture from PostgreSQL WAL           |
-| Streaming                  | Apache Kafka 3 (KRaft, 3 brokers)                  | Event streaming platform — no Zookeeper           |
-| Kafka UI                   | Provectus Kafka UI                                 | Web interface for Kafka management                |
-| Audit Consumer             | Groovy 4 + Java 21 + Apache Kafka Clients          | CDC event processing and audit log storage        |
-| Time-series DB             | TimescaleDB (PostgreSQL 15)                        | Audit log storage with time-series hypertables    |
-| SSE Service                | Spring Boot 3.4 + WebFlux + Reactor Kafka + R2DBC  | Real-time push notifications with API key auth    |
-| History API                | Go + Gorilla Mux + Apache Arrow Parquet + Swagger  | REST API for historical queries and Parquet export|
-| Container Orchestration    | Docker Compose                                     | Service management and deployment                 |
+| Component                | Technology                                        | Purpose                                            |
+|--------------------------|---------------------------------------------------|----------------------------------------------------|
+| Business Registry Client | React 19 + TypeScript + Vite + MUI + i18next      | Full-stack SPA for business registry management    |
+| Business Registry API    | Spring Boot 3.4 + Groovy + Java 21 + Spring JPA   | RESTful backend with session-based auth            |
+| Source DB                | PostgreSQL 15                                     | Transactional database with CDC enabled            |
+| CDC Source               | Debezium PostgreSQL Connector                     | Change data capture from PostgreSQL WAL            |
+| Streaming                | Apache Kafka 3 (KRaft, 3 brokers)                 | Event streaming platform — no Zookeeper            |
+| Kafka UI                 | Provectus Kafka UI                                | Web interface for Kafka management                 |
+| Audit Consumer           | Groovy 4 + Java 21 + Apache Kafka Clients         | CDC event processing and audit log storage         |
+| Time-series DB           | TimescaleDB (PostgreSQL 15)                       | Audit log storage with time-series hypertables     |
+| SSE Service              | Spring Boot 3.4 + WebFlux + Reactor Kafka + R2DBC | Real-time push notifications with API key auth     |
+| History API              | Go + Gorilla Mux + Apache Arrow Parquet + Swagger | REST API for historical queries and Parquet export |
+| Container Orchestration  | Docker Compose                                    | Service management and deployment                  |
 
 ## 🔐 Authentication & Security
 
@@ -392,6 +392,12 @@ Edit `debezium/register-connector.sh` to:
 - The server creates a session; subsequent requests are authenticated by the session cookie
 - Only one concurrent session per user is allowed
 - User accounts and roles are stored in **mainDb** (`user_account`, `roles` tables)
+- Test User:
+  ```
+  Username: admin
+  Password: testPassword
+  Role: ADMIN
+  ```
 
 ### Audit Layer (API key-based)
 Both the **SSE Bridge** and **History API** use API key authentication:
