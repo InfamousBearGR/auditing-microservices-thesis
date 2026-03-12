@@ -11,13 +11,7 @@ COPY go.mod go.sum* ./
 RUN go mod download
 
 # Copy source code and all subdirectories
-COPY main.go .
-COPY docs/ ./docs/
-COPY config/ ./config/
-COPY database/ ./database/
-COPY handlers/ ./handlers/
-COPY middleware/ ./middleware/
-COPY models/ ./models/
+COPY . .
 
 # Build static binary
 RUN CGO_ENABLED=0 GOOS=linux go build -o history-api main.go
@@ -27,8 +21,12 @@ FROM alpine:latest
 
 WORKDIR /root/
 
+ENV ENV_FILE=.env.prod
+
 # Copy binary from builder
 COPY --from=builder /app/history-api .
+# Copy production env file
+COPY .env.prod .
 
 EXPOSE 8081
 
