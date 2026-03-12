@@ -3,12 +3,14 @@ package com.business.registry.validation
 import com.business.registry.dto.companyStock.CompanyStockRequestDto
 import com.business.registry.service.MessageService
 import groovy.transform.CompileStatic
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
 @CompileStatic
 class CompanyStockValidation implements Validatable {
 
+    @Autowired
     MessageService messageService
 
     @Override

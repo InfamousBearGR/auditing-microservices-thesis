@@ -3,6 +3,7 @@ package com.business.registry.validation
 import com.business.registry.dto.member.MemberRequestDto
 import com.business.registry.service.MessageService
 import groovy.transform.CompileStatic
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 import java.time.LocalDate
@@ -11,6 +12,7 @@ import java.time.LocalDate
 @CompileStatic
 class MemberValidation implements Validatable {
 
+    @Autowired
     MessageService messageService
 
     @Override

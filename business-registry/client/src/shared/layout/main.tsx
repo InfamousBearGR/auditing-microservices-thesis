@@ -1,6 +1,7 @@
 import {
   AppBar,
   Box,
+  Button,
   IconButton,
   InputAdornment,
   Menu,
@@ -8,12 +9,16 @@ import {
   Select,
   SelectChangeEvent,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import LanguageIcon from "@mui/icons-material/Language";
 import { Logout } from "@mui/icons-material";
+import BoltIcon from "@mui/icons-material/Bolt";
+import StopCircleIcon from "@mui/icons-material/StopCircle";
 import { MouseEvent, ReactNode, useEffect, useState } from "react";
+import { useStressTest } from "src/shared/hooks/useStressTest";
 import { Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "src/shared/context/useAuth";
@@ -70,6 +75,7 @@ export const Main = ({ children }: { children?: ReactNode }) => {
   const { t, i18n } = useTranslation();
   const [lang, setLang] = useState<string>(i18n.language ?? "el");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { isRunning, opCount, toggle } = useStressTest();
   const {
     userHomePath,
     userCantAccess,
@@ -139,6 +145,39 @@ export const Main = ({ children }: { children?: ReactNode }) => {
           </Box>
 
           <AppBreadcrumb />
+
+          <Tooltip
+            title={
+              isRunning
+                ? `Stop stress test (${opCount} ops sent)`
+                : "Start stress test – fires random CRUD across all tables"
+            }
+          >
+            <Button
+              onClick={toggle}
+              size="small"
+              variant={isRunning ? "contained" : "outlined"}
+              startIcon={isRunning ? <StopCircleIcon /> : <BoltIcon />}
+              sx={{
+                color: isRunning ? "#fff" : "#ffcc00",
+                borderColor: isRunning ? "transparent" : "#ffcc00",
+                bgcolor: isRunning ? "#c62828" : "transparent",
+                minWidth: 0,
+                whiteSpace: "nowrap",
+                animation: isRunning ? "stressPulse 1.2s ease-in-out infinite" : "none",
+                "@keyframes stressPulse": {
+                  "0%, 100%": { opacity: 1 },
+                  "50%": { opacity: 0.55 },
+                },
+                "&:hover": {
+                  bgcolor: isRunning ? "#b71c1c" : "rgba(255,204,0,0.12)",
+                  borderColor: "#ffcc00",
+                },
+              }}
+            >
+              {isRunning ? `Stop (${opCount})` : "Stress Test"}
+            </Button>
+          </Tooltip>
 
           {children}
 
