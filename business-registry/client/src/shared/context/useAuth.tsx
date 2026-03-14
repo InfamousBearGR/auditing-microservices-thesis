@@ -1,8 +1,9 @@
 import { RoleEnum } from "src/shared/enums/RoleEnum";
-import * as React from "react";
 import {
   createContext,
   Dispatch,
+  JSX,
+  ReactNode,
   SetStateAction,
   useContext,
   useEffect,
@@ -21,7 +22,7 @@ interface IUseAuth {
 }
 
 type AuthProviderProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const AuthContext = createContext<IUseAuth | null>(null);
@@ -31,9 +32,7 @@ export const useAuth = (): IUseAuth => {
   return useContext(AuthContext) as IUseAuth;
 };
 
-export const AuthProvider = ({
-  children,
-}: AuthProviderProps): React.JSX.Element => {
+export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   const { data, isLoading } = useCheckUserSession();
   const [userCantAccess, setUserCantAccess] = useState<boolean>(false);
 
