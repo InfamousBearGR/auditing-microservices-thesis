@@ -1,8 +1,34 @@
-FROM gradle:8.5-jdk21-alpine
+FROM eclipse-temurin:21-jdk-alpine AS build
+
+# Install Gradle to bootstrap the wrapper jar
+RUN apk add --no-cache wget unzip && \
+    wget -q https://services.gradle.org/distributions/gradle-9.0.0-bin.zip -O /tmp/gradle.zip && \
+    unzip -q /tmp/gradle.zip -d /opt && \
+    rm /tmp/gradle.zip
+ENV PATH="/opt/gradle-9.0.0/bin:${PATH}"
+
 WORKDIR /app
-COPY build.gradle settings.gradle gradle.properties ./
-RUN gradle dependencies --no-daemon || true
+
+# Copy Gradle wrapper and build files
+COPY gradle ./gradle
+COPY gradlew settings.gradle build.gradle gradle.properties ./
+
+# Generate the wrapper jar using the installed Gradle
+RUN gradle wrapper
+
+# Ensure gradlew is executable
+RUN chmod +x gradlew
+
+
+# Download dependencies
+RUN ./gradlew dependencies --no-daemon
+
+# Copy source code
 COPY src ./src
+
 EXPOSE 8083
+
+# Run the application in development mode
+# Spring DevTools will handle hot reload when files change
 CMD ["gradle", "bootRun", "--no-daemon"]
 
