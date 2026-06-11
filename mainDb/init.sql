@@ -818,6 +818,15 @@ VALUES ('admin', 'ud4k9Q7SrDX/IoDhB95m3Q==:Y0AD/f7morva6T4Ru7PFZEMPTY5rneTBe+SO9
        ('user3', 'ud4k9Q7SrDX/IoDhB95m3Q==:Y0AD/f7morva6T4Ru7PFZEMPTY5rneTBe+SO9oNSX4g=', 2, 'Initialization'),
        ('user4', 'ud4k9Q7SrDX/IoDhB95m3Q==:Y0AD/f7morva6T4Ru7PFZEMPTY5rneTBe+SO9oNSX4g=', 2, 'Initialization');
 
+-- Benchmark load users (thesis): one distinct user per k6 VU so concurrent VUs
+-- don't collide under Spring Security's maximumSessions(1) (one session per user).
+-- bench1..bench64 — covers VUS up to 64; all share the 'testPassword' hash, role 2.
+INSERT INTO user_account (username, password_hash, role_id, change_reason)
+SELECT 'bench' || g,
+       'ud4k9Q7SrDX/IoDhB95m3Q==:Y0AD/f7morva6T4Ru7PFZEMPTY5rneTBe+SO9oNSX4g=',
+       2, 'benchmark'
+FROM generate_series(1, 64) AS g;
+
 INSERT INTO languages (description, code, last_user_id, change_reason, date_created, last_updated)
 VALUES ('Ελληνικά', 'el', 1, 'Initialization', now(), now()),
        ('English', 'en', 1, 'Initialization', now(), now());
@@ -3117,3 +3126,112 @@ VALUES
 
 -- Company 15: ΙΚΕ | total 150,000 = 150,000×1.00
 (15, 4, 150000, 1.00, 5, 'Initialization', now(), now()); -- Κεφαλαιικές
+
+-- ============================================================================
+-- AUDIT METHOD 2 (thesis comparison): trigger-based, synchronous, in-band.
+--
+-- Classic DB-trigger auditing: a row-level AFTER trigger writes a before/after
+-- image into a <table>_trigger_audit table inside the SAME transaction as the
+-- mutation. Contrast with the Debezium CDC path (async, out-of-band) and
+-- Hibernate Envers (ORM-level). Native idiomatic shape: full row_to_json
+-- before/after plus the row-carried attribution (last_user_id, change_reason).
+--
+-- Created AFTER all seed-data inserts above so initialization produces no audit
+-- noise. Triggers are toggled per benchmark scenario via
+-- ALTER TABLE <t> DISABLE/ENABLE TRIGGER <name> (see benchmark/run-all.sh);
+-- they are left ENABLED here and disabled by scenarios that don't use them.
+-- ============================================================================
+
+CREATE OR REPLACE FUNCTION capture_trigger_audit()
+    RETURNS TRIGGER AS
+$$
+DECLARE
+    audit_table TEXT := TG_TABLE_NAME || '_trigger_audit';
+    v_before    JSONB;
+    v_after     JSONB;
+    v_op        TEXT := TG_OP;
+    v_user_id   BIGINT;
+    v_reason    TEXT;
+    v_parent_id BIGINT;
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        v_before := row_to_json(OLD)::jsonb;
+        v_after := NULL;
+        v_user_id := OLD.last_user_id;
+        v_reason := OLD.change_reason;
+        v_parent_id := OLD.id;
+    ELSIF (TG_OP = 'UPDATE') THEN
+        v_before := row_to_json(OLD)::jsonb;
+        v_after := row_to_json(NEW)::jsonb;
+        v_user_id := NEW.last_user_id;
+        v_reason := NEW.change_reason;
+        v_parent_id := NEW.id;
+    ELSE -- INSERT
+        v_before := NULL;
+        v_after := row_to_json(NEW)::jsonb;
+        v_user_id := NEW.last_user_id;
+        v_reason := NEW.change_reason;
+        v_parent_id := NEW.id;
+    END IF;
+
+    EXECUTE format(
+            'INSERT INTO %I (before, after, operation_type, changed_at, changed_by_user_id, change_reason, parent_id)
+             VALUES ($1, $2, $3, now(), $4, $5, $6)', audit_table)
+        USING v_before, v_after, v_op, v_user_id, v_reason, v_parent_id;
+
+    RETURN NULL; -- AFTER trigger; return value ignored
+END;
+$$ LANGUAGE 'plpgsql';
+
+-- Per-entity audit tables + AFTER row triggers for the 6 core mutable entities.
+DO
+$$
+    DECLARE
+        t TEXT;
+    BEGIN
+        FOREACH t IN ARRAY ARRAY ['company','person','legal_entity','member','company_stocks','company_capital']
+            LOOP
+                EXECUTE format(
+                        'CREATE TABLE IF NOT EXISTS %I (
+                             id                 BIGSERIAL PRIMARY KEY,
+                             before             JSONB,
+                             after              JSONB,
+                             operation_type     TEXT        NOT NULL,
+                             changed_at         TIMESTAMPTZ NOT NULL DEFAULT now(),
+                             changed_by_user_id BIGINT,
+                             change_reason      TEXT,
+                             parent_id          BIGINT
+                         )', t || '_trigger_audit');
+
+                EXECUTE format(
+                        'CREATE INDEX IF NOT EXISTS %I ON %I (changed_at DESC)',
+                        'idx_' || t || '_trigger_audit_changed_at', t || '_trigger_audit');
+
+                EXECUTE format(
+                        'CREATE TRIGGER %I
+                             AFTER INSERT OR UPDATE OR DELETE ON %I
+                             FOR EACH ROW EXECUTE FUNCTION capture_trigger_audit()',
+                        t || '_audit_trigger', t);
+            END LOOP;
+    END
+$$;
+
+-- ============================================================================
+-- AUDIT METHOD 3 (thesis comparison): Hibernate Envers (ORM-level) — REVINFO.
+--
+-- Envers' <table>_AUD tables are created on demand by Hibernate (ddl-auto=update
+-- under the 'envers' profile) and are not mapped as JPA entities, so the base
+-- profile's ddl-auto=validate never inspects them. REVINFO, however, IS mapped
+-- as a real @Entity (com.business.registry.audit.AuditRevisionEntity) and is
+-- therefore validated on every boot — so it must always exist. Pre-created here.
+--
+-- Custom columns changed_by_user_id / change_reason are populated by
+-- AuditRevisionListener from the per-request AuditContext.
+-- ============================================================================
+CREATE TABLE IF NOT EXISTS revinfo
+(
+    rev                INTEGER GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    revtstmp           BIGINT,
+    changed_by_user_id BIGINT,
+    change_reason      VARCHAR(255)
+);

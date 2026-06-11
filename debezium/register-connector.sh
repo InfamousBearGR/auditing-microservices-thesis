@@ -15,10 +15,10 @@ curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" 
     "database.password": "admin",
     "database.dbname" : "mainDb",
     "topic.prefix": "server",
-    "table.include.list": "public.*",
+    "table.include.list": "public\\.(?!.*_trigger_audit$)(?!.*_aud$)(?!revinfo$).*",
     "column.exclude.list": ".*\\.date_created,.*\\.last_updated",
     "plugin.name": "pgoutput",
-    "snapshot.mode": "initial",
+    "snapshot.mode": "'"${SNAPSHOT_MODE:-initial}"'",
     "tombstones.on.delete": "false",
     "include.schema.changes": "false",
     "provide.transaction.metadata": "false"

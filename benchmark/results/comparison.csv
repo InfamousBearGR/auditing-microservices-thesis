@@ -1,0 +1,17 @@
+metric,baseline,cdc,triggers,envers
+Total ops,"1,000","1,000","1,000","1,000"
+Throughput (ops/s),34.8,30.4,34.4,33.9
+Mutations ok / err,652 / 348,638 / 362,622 / 378,626 / 374
+Create p50 (ms),9.6,9.1,9.1,10.3
+Create p95 (ms),41.7,39.5,34.5,37.5
+Create p99 (ms),60.2,67.2,59.7,85.9
+Update p50 (ms),9.8,10.1,9.4,9.9
+Update p95 (ms),41.7,47.1,41.3,47.5
+Delete p50 (ms),6.3,6.2,5.7,5.9
+Overhead vs baseline (create p50),+0.0%,-5.1%,-5.5%,+6.6%
+Audit rows captured,0,"1,256","1,238","1,497"
+Audit storage,—,1.05 MB,1.38 MB,0.93 MB
+Bytes / audit row,—,880.5 B,"1,171.2 B",651.2 B
+Audit lag p50 (ms),—,592.0,—,—
+Audit lag p95 (ms),—,876.8,—,—
+Audit lag p99 (ms),—,942.6,—,—

@@ -12,6 +12,7 @@ This system demonstrates a modern event-driven architecture that:
 - Archives all changes to separate **TimescaleDB** time-series hypertables
 - Exposes a **Go REST API** to query and export historical audit data (JSON streaming + Parquet)
 - Implements **session-based authentication** in the Business Registry and **API key-based authentication** in the audit components
+- Benchmarks the CDC pipeline against **DB triggers** and **Hibernate Envers** under one fixed workload (see [Audit Method Comparison](#-audit-method-comparison-thesis-benchmark))
 
 ## 🏗️ Architecture
 
@@ -422,6 +423,85 @@ docker exec -it timescaledb psql -U admin -d auditdb
 INSERT INTO user_api_account (api_key, access, date_created, last_updated)
 VALUES ('your_new_api_key', '{"company": true, "person": true}', now(), now());
 ```
+
+## 🧪 Audit Method Comparison (thesis benchmark)
+
+To position the CDC pipeline against alternatives, the repo also implements **two
+more popular auditing methods** for the 6 core mutable entities (`company`,
+`person`, `legal_entity`, `member`, `company_stocks`, `company_capital`) and a
+reproducible benchmark that runs one fixed workload under each, isolated:
+
+| Method | Where audit lives | When it commits | Toggle |
+|--------|-------------------|-----------------|--------|
+| **CDC** (Debezium, existing) | `auditDb` TimescaleDB hypertables | **async**, out-of-band | start Kafka + Debezium + audit-consumer |
+| **DB triggers** | `mainDb` `<t>_trigger_audit` (before/after JSONB) | **sync**, in the mutation txn | `ALTER TABLE … ENABLE/DISABLE TRIGGER` |
+| **Hibernate Envers** | `mainDb` `<t>_AUD` + `REVINFO` | **sync**, in the mutation txn | `envers` Spring profile (`BR_API_PROFILES=prod,envers`) |
+
+Each method is stored in its **native idiomatic** form. Attribution
+(`last_user_id` / `change_reason`) survives end-to-end in all three. For CDC,
+`ingested_at` was added to the `*_audit` tables so end-to-end lag is measurable
+(`lag = ingested_at − changed_at`); the synchronous methods commit inside the
+mutation transaction, so their lag is ~0 by construction.
+
+### Running the benchmark
+
+**Prerequisites:** Docker + Docker Compose (k6 runs as the `grafana/k6` container on the
+compose network — no host install). `python3` for the summary table (optional; raw CSV/JSON are
+written either way). The benchmark is fully self-contained — do **not** start the stack first; the
+orchestrator manages it.
+
+```bash
+# 1) Run all four scenarios (baseline → cdc → triggers → envers), default 10 VUs × 2000 ops
+./benchmark/run-all.sh
+
+# 2) Or a subset / custom load
+SCENARIOS="cdc triggers" VUS=8 TOTAL_OPS=2000 CDC_DRAIN_S=90 ./benchmark/run-all.sh
+
+# 3) Inspect results
+cat benchmark/results/comparison.md
+```
+
+What it does per scenario: `docker compose down -v` → bring up only the services that method
+needs → toggle the method (enable/disable triggers, `envers` profile, or start Kafka+Debezium+
+audit-consumer) → run the k6 workload → (cdc) drain the async pipeline → snapshot DB metrics.
+It tears the stack down at the end.
+
+**Tuning knobs** (environment variables):
+
+| Var | Default | Meaning |
+|-----|---------|---------|
+| `SCENARIOS` | `baseline cdc triggers envers` | Which scenarios to run (space-separated) |
+| `VUS` | `10` | Concurrent virtual users (≤ 64 — one seeded `bench<n>` user per VU) |
+| `TOTAL_OPS` | `2000` | Total mutations across all VUs (the fixed workload) |
+| `CDC_DRAIN_S` | `90` | Max seconds to wait for the async CDC consumer to catch up |
+| `K6_IMAGE` | `grafana/k6` | k6 container image |
+
+**Outputs** (`benchmark/results/`):
+- `comparison.md` / `comparison.csv` — combined table across scenarios.
+- `<scenario>/k6-summary.json` — full k6 metrics (latency trends, throughput).
+- `<scenario>/storage.csv` — per audit-table row counts + sizes.
+- `cdc/lag.csv` — end-to-end CDC lag percentiles.
+
+**Reading it:** per-op latency (`Create/Update/Delete p50/95/99`) excludes login, so it isolates
+audit write-path cost; `Overhead vs baseline` attributes it per method; `Audit lag` is the
+async-vs-sync differentiator (CDC only). A share of random ops fail on constraint/FK violations by
+design (see `mutations ok / err`). Full method/toggle/load-model details: **[`benchmark/README.md`](benchmark/README.md)**.
+**Sample run** (8 VUs × 1000 ops — absolute numbers vary by hardware/run; the
+*relationships* are the point):
+
+| Metric | baseline | cdc | triggers | envers |
+|--------|---------:|----:|---------:|-------:|
+| Create p50 (ms) | 9.6 | 9.1 | 9.1 | 10.3 |
+| Audit rows captured | 0 | 1,256 | 1,238 | 1,497 |
+| Bytes / audit row | — | 881 | 1,171 | 651 |
+| **Audit lag p50 / p99 (ms)** | — | **592 / 943** | **~0** | **~0** |
+
+Headline: CDC trades **hundreds of ms of eventual-consistency lag** and the
+operational weight of Kafka+Connect for **full decoupling** (source DB unaffected,
+audit store scales independently, captures non-ORM writes); triggers and Envers
+are immediate and simple but **in-band** (audit failure can fail the mutation) and
+co-located in the source DB. See **[`benchmark/README.md`](benchmark/README.md)**
+for the full qualitative comparison, the load model, and per-method toggles.
 
 ## 🎓 Use Cases
 

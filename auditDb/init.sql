@@ -639,3 +639,36 @@ CREATE INDEX idx_company_capital_audit_changed_at
 
 CREATE INDEX idx_company_capital_audit_change_id
     ON company_capital_audit (change_id);
+
+-- ============================================================================
+-- CDC end-to-end lag instrumentation (thesis comparison).
+--
+-- changed_at holds the SOURCE timestamp (Debezium source.ts_ms = when the
+-- mutation committed in mainDb). ingested_at defaults to now() at the moment
+-- the audit-consumer INSERTs the row into auditDb. Their difference is the
+-- async CDC pipeline lag (Debezium capture + Kafka transit + consumer write):
+--
+--   CDC lag = ingested_at - changed_at
+--
+-- For the synchronous methods (DB triggers, Hibernate Envers) this lag is ~0
+-- by construction (the audit row commits inside the mutation's own txn), so
+-- this column is the key dimension that distinguishes CDC from the others.
+-- Added to every *_audit hypertable below.
+-- ============================================================================
+DO
+$$
+    DECLARE
+        r RECORD;
+    BEGIN
+        FOR r IN
+            SELECT tablename
+            FROM pg_tables
+            WHERE schemaname = 'public'
+              AND tablename LIKE '%\_audit'
+            LOOP
+                EXECUTE format(
+                        'ALTER TABLE %I ADD COLUMN IF NOT EXISTS ingested_at TIMESTAMPTZ DEFAULT now()',
+                        r.tablename);
+            END LOOP;
+    END
+$$;

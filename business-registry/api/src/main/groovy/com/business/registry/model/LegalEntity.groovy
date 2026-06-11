@@ -2,10 +2,13 @@ package com.business.registry.model
 
 import groovy.transform.CompileStatic
 import jakarta.persistence.*
+import org.hibernate.envers.Audited
+import org.hibernate.envers.RelationTargetAuditMode
 import jakarta.validation.constraints.NotBlank
 
 @Entity
 @Table(name = "legal_entity")
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 @CompileStatic
 class LegalEntity {
 

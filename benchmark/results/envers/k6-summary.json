@@ -1,0 +1,1903 @@
+{
+  "options": {
+    "summaryTrendStats": [
+      "avg",
+      "min",
+      "med",
+      "p(90)",
+      "p(95)",
+      "p(99)",
+      "max"
+    ],
+    "summaryTimeUnit": "",
+    "noColor": false
+  },
+  "state": {
+    "isStdOutTTY": false,
+    "isStdErrTTY": false,
+    "testRunDurationMs": 29510.036133
+  },
+  "metrics": {
+    "mutations_ok": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 626,
+        "rate": 21.213122111360853
+      }
+    },
+    "iterations": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 1000,
+        "rate": 33.88677653572021
+      }
+    },
+    "op_delete_ms": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 30.04685,
+        "p(95)": 46.118865599999985,
+        "p(99)": 79.43543984000003,
+        "max": 80.598961,
+        "avg": 12.301972481203007,
+        "min": 1.276839,
+        "med": 5.932039
+      }
+    },
+    "http_req_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(99)": 294.54574238000004,
+        "max": 352.828977,
+        "avg": 112.55713500049333,
+        "min": 1.010815,
+        "med": 86.404828,
+        "p(90)": 243.3589162,
+        "p(95)": 258.8050508
+      }
+    },
+    "http_req_duration{expected_response:true}": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 4.657959,
+        "med": 174.072772,
+        "p(90)": 247.44434199999998,
+        "p(95)": 263.357085,
+        "p(99)": 300.60950376,
+        "max": 352.828977,
+        "avg": 136.5154337065942
+      }
+    },
+    "data_received": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 1040747,
+        "rate": 35267.561019221204
+      }
+    },
+    "op_update_ms": {
+      "values": {
+        "med": 9.863316,
+        "p(90)": 23.890906,
+        "p(95)": 47.452710499999995,
+        "p(99)": 86.18665,
+        "max": 170.915297,
+        "avg": 14.566288202279207,
+        "min": 1.568513
+      },
+      "type": "trend",
+      "contains": "time"
+    },
+    "http_req_connecting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "max": 2.044561,
+        "avg": 0.015074600888011845,
+        "min": 0,
+        "med": 0,
+        "p(90)": 0,
+        "p(95)": 0.13585599999999992,
+        "p(99)": 0.2429092000000001
+      }
+    },
+    "vus_max": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "min": 8,
+        "max": 8,
+        "value": 8
+      }
+    },
+    "vus": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 8,
+        "min": 8,
+        "max": 8
+      }
+    },
+    "iteration_duration": {
+      "contains": "time",
+      "values": {
+        "avg": 227.770576232,
+        "min": 102.380166,
+        "med": 225.9894085,
+        "p(90)": 276.3714126,
+        "p(95)": 291.59881614999995,
+        "p(99)": 341.65866640999997,
+        "max": 395.320434
+      },
+      "type": "trend"
+    },
+    "http_req_blocked": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "max": 2.169442,
+        "avg": 0.025267630981746444,
+        "min": 0.00165,
+        "med": 0.00413,
+        "p(90)": 0.010522000000000012,
+        "p(95)": 0.19752399999999995,
+        "p(99)": 0.34094834000000007
+      }
+    },
+    "http_req_tls_handshaking": {
+      "contains": "time",
+      "values": {
+        "max": 0,
+        "avg": 0,
+        "min": 0,
+        "med": 0,
+        "p(90)": 0,
+        "p(95)": 0,
+        "p(99)": 0
+      },
+      "type": "trend"
+    },
+    "http_reqs": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 2027,
+        "rate": 68.68849603790487
+      }
+    },
+    "http_req_waiting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 112.18953143561929,
+        "min": 0.923274,
+        "med": 86.319367,
+        "p(90)": 242.96408380000003,
+        "p(95)": 258.2782201,
+        "p(99)": 293.93921520000004,
+        "max": 351.688401
+      }
+    },
+    "data_sent": {
+      "contains": "data",
+      "values": {
+        "count": 689595,
+        "rate": 23368.15166514998
+      },
+      "type": "counter"
+    },
+    "op_create_ms": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 1.010815,
+        "med": 10.255898,
+        "p(90)": 18.5037455,
+        "p(95)": 37.46800325,
+        "p(99)": 85.9025765,
+        "max": 198.767812,
+        "avg": 13.491922313953497
+      }
+    },
+    "http_req_receiving": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 0.017561,
+        "med": 0.198823,
+        "p(90)": 0.5965804000000006,
+        "p(95)": 0.845289299999997,
+        "p(99)": 1.40708,
+        "max": 35.612191,
+        "avg": 0.3426270335471143
+      }
+    },
+    "http_req_failed": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "passes": 374,
+        "fails": 1653,
+        "rate": 0.18450912678835718
+      }
+    },
+    "http_req_sending": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 0.03795460000000001,
+        "p(95)": 0.046425999999999995,
+        "p(99)": 0.08192060000000001,
+        "max": 1.058866,
+        "avg": 0.024976531327084328,
+        "min": 0.00486,
+        "med": 0.021121
+      }
+    },
+    "mutations_err": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 374,
+        "rate": 12.67365442435936
+      }
+    },
+    "checks": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0.813,
+        "passes": 1626,
+        "fails": 374
+      }
+    }
+  },
+  "setup_data": {
+    "cache": {
+      "companyStatuses": [
+        {
+          "description": "Other",
+          "id": 1
+        },
+        {
+          "description": "Pre-registration",
+          "id": 2
+        },
+        {
+          "description": "Active",
+          "id": 3
+        },
+        {
+          "description": "In Inactivity",
+          "id": 4
+        },
+        {
+          "description": "Bankruptcy",
+          "id": 5
+        },
+        {
+          "description": "Solution - Clearance",
+          "id": 6
+        },
+        {
+          "id": 7,
+          "description": "Under clearance"
+        },
+        {
+          "id": 8,
+          "description": "Conciliation procedure"
+        },
+        {
+          "description": "Delete",
+          "id": 9
+        },
+        {
+          "description": "Deletion due to merger",
+          "id": 10
+        },
+        {
+          "description": "Forced management",
+          "id": 11
+        },
+        {
+          "description": "Deletion due to division",
+          "id": 12
+        },
+        {
+          "description": "Suspension of entry",
+          "id": 13
+        }
+      ],
+      "countries": [
+        {
+          "description": "SWEDISH",
+          "id": 25
+        },
+        {
+          "description": "NIGERIA",
+          "id": 1
+        },
+        {
+          "description": "NICARAGUA",
+          "id": 2
+        },
+        {
+          "description": "NETHERLANDS",
+          "id": 3
+        },
+        {
+          "description": "NORWAY",
+          "id": 4
+        },
+        {
+          "description": "NEPAL",
+          "id": 5
+        },
+        {
+          "description": "NAURU",
+          "id": 6
+        },
+        {
+          "description": "NEW ZEALAND",
+          "id": 7
+        },
+        {
+          "description": "OMAN",
+          "id": 8
+        },
+        {
+          "description": "OCEANIA-NEW ZEALANDIA",
+          "id": 9
+        },
+        {
+          "id": 10,
+          "description": "PAKISTAN"
+        },
+        {
+          "description": "PANAMA",
+          "id": 11
+        },
+        {
+          "description": "PERU",
+          "id": 12
+        },
+        {
+          "description": "PHILIPPINES",
+          "id": 13
+        },
+        {
+          "description": "PAPUA-NEA GUINEA",
+          "id": 14
+        },
+        {
+          "description": "POLAND",
+          "id": 15
+        },
+        {
+          "id": 16,
+          "description": "NORTH KOREA"
+        },
+        {
+          "description": "PORTUGAL",
+          "id": 17
+        },
+        {
+          "description": "PARAGUAY",
+          "id": 18
+        },
+        {
+          "description": "FRENCH POLYNESIA",
+          "id": 19
+        },
+        {
+          "description": "CATTAR",
+          "id": 20
+        },
+        {
+          "description": "ROMANIA",
+          "id": 21
+        },
+        {
+          "description": "RUSSIA",
+          "id": 22
+        },
+        {
+          "id": 23,
+          "description": "ROYADA"
+        },
+        {
+          "description": "SAUDI ARABIA",
+          "id": 24
+        },
+        {
+          "description": "SENEGALI",
+          "id": 26
+        },
+        {
+          "id": 27,
+          "description": "SINGAPORE"
+        },
+        {
+          "description": "SAINT HELEN",
+          "id": 28
+        },
+        {
+          "description": "SALMON ISLANDS",
+          "id": 29
+        },
+        {
+          "description": "SIERRA LEONE",
+          "id": 30
+        },
+        {
+          "description": "EL SALVADOR",
+          "id": 31
+        },
+        {
+          "description": "SOMALIA",
+          "id": 32
+        },
+        {
+          "description": "SANDO TOME AND BEFORE",
+          "id": 33
+        },
+        {
+          "description": "SURINAM",
+          "id": 34
+        },
+        {
+          "description": "SLOVAKIA",
+          "id": 35
+        },
+        {
+          "description": "SLOVENIA",
+          "id": 36
+        },
+        {
+          "description": "SWEDEN",
+          "id": 37
+        },
+        {
+          "description": "ZOUAZILAND",
+          "id": 38
+        },
+        {
+          "description": "SEXELES",
+          "id": 39
+        },
+        {
+          "description": "SYRIA",
+          "id": 40
+        },
+        {
+          "description": "TERKS AND ICOS ISLANDS",
+          "id": 41
+        },
+        {
+          "description": "CHANT",
+          "id": 42
+        },
+        {
+          "description": "TOGO",
+          "id": 43
+        },
+        {
+          "description": "TALAND",
+          "id": 44
+        },
+        {
+          "description": "TAJIKISTAN",
+          "id": 45
+        },
+        {
+          "description": "TURKMENISTAN",
+          "id": 46
+        },
+        {
+          "description": "EASTERN TIMOR",
+          "id": 47
+        },
+        {
+          "description": "TONGA",
+          "id": 48
+        },
+        {
+          "description": "TRINIDAD AND TOBAGO",
+          "id": 49
+        },
+        {
+          "description": "TUNISIA",
+          "id": 50
+        },
+        {
+          "description": "TURKEY",
+          "id": 51
+        },
+        {
+          "description": "TOBALOU",
+          "id": 52
+        },
+        {
+          "id": 53,
+          "description": "TAIWAN"
+        },
+        {
+          "description": "TANZANIA",
+          "id": 54
+        },
+        {
+          "description": "HUNGARY",
+          "id": 55
+        },
+        {
+          "description": "HUNGARY",
+          "id": 56
+        },
+        {
+          "description": "SMALL ISLANDS OF THE UNITED STATES OF AMERICA",
+          "id": 57
+        },
+        {
+          "description": "ORIGIN",
+          "id": 58
+        },
+        {
+          "description": "Η.Π.Α.",
+          "id": 59
+        },
+        {
+          "description": "OUZBEKISTAN",
+          "id": 60
+        },
+        {
+          "description": "BATHQUAIN",
+          "id": 61
+        },
+        {
+          "description": "SAINT VINCENT",
+          "id": 62
+        },
+        {
+          "description": "VENEZUELA",
+          "id": 63
+        },
+        {
+          "description": "VIRGIN ISLANDS AND MONTSERRA",
+          "id": 64
+        },
+        {
+          "description": "VIRGIN ISLANDS OF THE UNITED STATES OF AMERICA",
+          "id": 65
+        },
+        {
+          "description": "VIETNAM",
+          "id": 66
+        },
+        {
+          "id": 67,
+          "description": "VANUATOU"
+        },
+        {
+          "description": "SAMOA WEST",
+          "id": 68
+        },
+        {
+          "description": "EUROPEAN UNION",
+          "id": 69
+        },
+        {
+          "id": 70,
+          "description": "YEMENI"
+        },
+        {
+          "description": "SERVIA AND BLACK MOUNTAIN",
+          "id": 71
+        },
+        {
+          "description": "REPUBLIC OF SOUTH AFRICA",
+          "id": 72
+        },
+        {
+          "description": "ZAIR",
+          "id": 73
+        },
+        {
+          "description": "ZAMBIA",
+          "id": 74
+        },
+        {
+          "description": "ZIMBABWE",
+          "id": 75
+        },
+        {
+          "id": 76,
+          "description": "Π.Γ.Δ.Μ."
+        },
+        {
+          "description": "ARUMBA",
+          "id": 77
+        },
+        {
+          "description": "AFGHANISTAN",
+          "id": 78
+        },
+        {
+          "description": "WILD",
+          "id": 79
+        },
+        {
+          "description": "ANGUILA",
+          "id": 80
+        },
+        {
+          "description": "ALBANIA",
+          "id": 81
+        },
+        {
+          "description": "ANDORRA",
+          "id": 82
+        },
+        {
+          "description": "DUTCH ANTILLES",
+          "id": 83
+        },
+        {
+          "description": "UNITED ARAB EMIRATES",
+          "id": 84
+        },
+        {
+          "description": "ARGENTINA",
+          "id": 85
+        },
+        {
+          "description": "ARMENIA",
+          "id": 86
+        },
+        {
+          "description": "SAMOA AMERICAN",
+          "id": 87
+        },
+        {
+          "description": "FRENCH SOUTHERN REGIONS",
+          "id": 88
+        },
+        {
+          "description": "ANTIGUA AND BARBUDA",
+          "id": 89
+        },
+        {
+          "description": "AUSTRALIA",
+          "id": 90
+        },
+        {
+          "description": "AUSTRIA",
+          "id": 91
+        },
+        {
+          "description": "AZERBAIJAN",
+          "id": 92
+        },
+        {
+          "description": "BURUNDI",
+          "id": 93
+        },
+        {
+          "description": "BELGIUM",
+          "id": 94
+        },
+        {
+          "description": "BENIN",
+          "id": 95
+        },
+        {
+          "id": 96,
+          "description": "BURKINA FASO"
+        },
+        {
+          "id": 97,
+          "description": "BAGLADES"
+        },
+        {
+          "description": "BULGARIA",
+          "id": 98
+        },
+        {
+          "description": "BAHRAIN",
+          "id": 99
+        },
+        {
+          "description": "BAHAMES",
+          "id": 100
+        },
+        {
+          "id": 101,
+          "description": "BOSNIA-HERZEGOVINA"
+        },
+        {
+          "description": "LEYCOROSIA",
+          "id": 102
+        },
+        {
+          "description": "BELIZ",
+          "id": 103
+        },
+        {
+          "description": "BERMUDES",
+          "id": 104
+        },
+        {
+          "description": "BOLIVIA",
+          "id": 105
+        },
+        {
+          "description": "BRAZIL",
+          "id": 106
+        },
+        {
+          "description": "BARBADOS",
+          "id": 107
+        },
+        {
+          "description": "MORE",
+          "id": 108
+        },
+        {
+          "description": "BUTTAN",
+          "id": 109
+        },
+        {
+          "description": "BURMA (EINMAR)",
+          "id": 110
+        },
+        {
+          "description": "BOTSWANA",
+          "id": 111
+        },
+        {
+          "description": "REPUBLIC OF CENTRAL AFRICA",
+          "id": 112
+        },
+        {
+          "description": "CANADA",
+          "id": 113
+        },
+        {
+          "description": "SWITZERLAND",
+          "id": 114
+        },
+        {
+          "id": 115,
+          "description": "CHILE"
+        },
+        {
+          "description": "CHINA",
+          "id": 116
+        },
+        {
+          "description": "IVORY COAST",
+          "id": 117
+        },
+        {
+          "id": 118,
+          "description": "CAMEROON"
+        },
+        {
+          "description": "KONGO",
+          "id": 119
+        },
+        {
+          "description": "COOK ISLANDS",
+          "id": 120
+        },
+        {
+          "description": "COLOMBIA",
+          "id": 121
+        },
+        {
+          "description": "COMES",
+          "id": 122
+        },
+        {
+          "description": "GREEN CAPE",
+          "id": 123
+        },
+        {
+          "description": "COST OF RICA",
+          "id": 124
+        },
+        {
+          "description": "CUBA",
+          "id": 125
+        },
+        {
+          "id": 126,
+          "description": "CAIMAN ISLANDS"
+        },
+        {
+          "description": "CYPRUS",
+          "id": 127
+        },
+        {
+          "description": "CZECH REPUBLIC",
+          "id": 128
+        },
+        {
+          "description": "GERMANY",
+          "id": 129
+        },
+        {
+          "description": "JIBOUTI",
+          "id": 130
+        },
+        {
+          "description": "DENMARK",
+          "id": 131
+        },
+        {
+          "description": "DOMINICAN REPUBLIC",
+          "id": 132
+        },
+        {
+          "description": "ALGERIA",
+          "id": 133
+        },
+        {
+          "id": 134,
+          "description": "EQUATORIAL (ECUADOR)"
+        },
+        {
+          "id": 135,
+          "description": "EGYPT"
+        },
+        {
+          "id": 136,
+          "description": "ERYTHRAIA"
+        },
+        {
+          "description": "SPAIN",
+          "id": 137
+        },
+        {
+          "description": "ESTHONIA",
+          "id": 138
+        },
+        {
+          "description": "AITHOPIA",
+          "id": 139
+        },
+        {
+          "description": "FINLAND",
+          "id": 140
+        },
+        {
+          "description": "FITZI",
+          "id": 141
+        },
+        {
+          "id": 142,
+          "description": "FOCALAND ISLANDS"
+        },
+        {
+          "description": "FRANCE",
+          "id": 143
+        },
+        {
+          "description": "GABON",
+          "id": 144
+        },
+        {
+          "id": 145,
+          "description": "UNITED KINGDOM"
+        },
+        {
+          "description": "GEORGIA",
+          "id": 146
+        },
+        {
+          "description": "GANA",
+          "id": 147
+        },
+        {
+          "description": "YIVRALTAR",
+          "id": 148
+        },
+        {
+          "description": "WINE",
+          "id": 149
+        },
+        {
+          "description": "GABIA",
+          "id": 150
+        },
+        {
+          "description": "WINEA BISSAU",
+          "id": 151
+        },
+        {
+          "description": "EQUATORIAL GUINEA",
+          "id": 152
+        },
+        {
+          "description": "GREENADA",
+          "id": 153
+        },
+        {
+          "description": "GREECE",
+          "id": 154
+        },
+        {
+          "description": "WATTEMALA",
+          "id": 155
+        },
+        {
+          "description": "GUIANA",
+          "id": 156
+        },
+        {
+          "id": 157,
+          "description": "HONG KONG-CONG"
+        },
+        {
+          "description": "ONDURA",
+          "id": 158
+        },
+        {
+          "description": "CROATIA",
+          "id": 159
+        },
+        {
+          "id": 160,
+          "description": "AITI"
+        },
+        {
+          "description": "HUNGARY",
+          "id": 161
+        },
+        {
+          "id": 162,
+          "description": "INDONESIA"
+        },
+        {
+          "description": "INDIA",
+          "id": 163
+        },
+        {
+          "description": "IRELAND",
+          "id": 164
+        },
+        {
+          "description": "IRAN",
+          "id": 165
+        },
+        {
+          "description": "IRAQ",
+          "id": 166
+        },
+        {
+          "id": 167,
+          "description": "ICELAND"
+        },
+        {
+          "description": "ISRAEL",
+          "id": 168
+        },
+        {
+          "description": "ITALY",
+          "id": 169
+        },
+        {
+          "description": "JAMAICA",
+          "id": 170
+        },
+        {
+          "description": "JORDAN",
+          "id": 171
+        },
+        {
+          "description": "JAPAN",
+          "id": 172
+        },
+        {
+          "description": "CAZAKSTAN",
+          "id": 173
+        },
+        {
+          "id": 174,
+          "description": "KENYA"
+        },
+        {
+          "description": "CURTZISTAN",
+          "id": 175
+        },
+        {
+          "description": "KABOTZI",
+          "id": 176
+        },
+        {
+          "description": "KIRIBATI",
+          "id": 177
+        },
+        {
+          "description": "SAINT CHRISTOPHORUS AND NEVIS",
+          "id": 178
+        },
+        {
+          "description": "SOUTH KOREA",
+          "id": 179
+        },
+        {
+          "description": "KUWAIT",
+          "id": 180
+        },
+        {
+          "description": "L.A.",
+          "id": 181
+        },
+        {
+          "description": "LIBANOS",
+          "id": 182
+        },
+        {
+          "description": "LIBERIA",
+          "id": 183
+        },
+        {
+          "description": "LIBYA",
+          "id": 184
+        },
+        {
+          "description": "HOLY LUKE",
+          "id": 185
+        },
+        {
+          "description": "LIHTENSTEIN",
+          "id": 186
+        },
+        {
+          "description": "SRI LANKA",
+          "id": 187
+        },
+        {
+          "description": "LESO",
+          "id": 188
+        },
+        {
+          "id": 189,
+          "description": "LITHUANIA"
+        },
+        {
+          "description": "LUXEMBOURG",
+          "id": 190
+        },
+        {
+          "description": "LETONIA",
+          "id": 191
+        },
+        {
+          "description": "MACAO",
+          "id": 192
+        },
+        {
+          "description": "MAROCO",
+          "id": 193
+        },
+        {
+          "description": "MONACO",
+          "id": 194
+        },
+        {
+          "id": 195,
+          "description": "MOLDOVA"
+        },
+        {
+          "description": "MADAGASKARI",
+          "id": 196
+        },
+        {
+          "description": "MALVIDES",
+          "id": 197
+        },
+        {
+          "description": "MEXICO",
+          "id": 198
+        },
+        {
+          "description": "MARSHALL ISLANDS",
+          "id": 199
+        },
+        {
+          "description": "MALI",
+          "id": 200
+        },
+        {
+          "description": "MALTA",
+          "id": 201
+        },
+        {
+          "description": "MYANMAR",
+          "id": 202
+        },
+        {
+          "description": "MOGOLIA",
+          "id": 203
+        },
+        {
+          "description": "ISLANDS NORTH MARIANA ISLANDS",
+          "id": 204
+        },
+        {
+          "description": "MOZAMBIQUE",
+          "id": 205
+        },
+        {
+          "description": "MYRITANIA",
+          "id": 206
+        },
+        {
+          "description": "MAYOR",
+          "id": 207
+        },
+        {
+          "description": "MALAWI",
+          "id": 208
+        },
+        {
+          "description": "MALAYSIA",
+          "id": 209
+        },
+        {
+          "description": "NAMIBIA",
+          "id": 210
+        },
+        {
+          "description": "Saint Bartholomew",
+          "id": 211
+        },
+        {
+          "description": "Saint Martin (France)",
+          "id": 212
+        },
+        {
+          "description": "Saint Martin (Netherlands)",
+          "id": 213
+        },
+        {
+          "id": 214,
+          "description": "Saint Marinos"
+        },
+        {
+          "description": "Saint Pierre and Miquelon",
+          "id": 215
+        },
+        {
+          "description": "Antarctica",
+          "id": 216
+        },
+        {
+          "description": "British Indian Ocean Territory",
+          "id": 217
+        },
+        {
+          "description": "French Guiana",
+          "id": 218
+        },
+        {
+          "description": "Guernsey",
+          "id": 219
+        },
+        {
+          "description": "Guam",
+          "id": 220
+        },
+        {
+          "description": "Guadeloupe",
+          "id": 221
+        },
+        {
+          "description": "Greenland",
+          "id": 222
+        },
+        {
+          "description": "PALESTINE",
+          "id": 223
+        },
+        {
+          "description": "Western Sahara",
+          "id": 224
+        },
+        {
+          "description": "Curacao",
+          "id": 225
+        },
+        {
+          "description": "Democratic Republic of the Congo",
+          "id": 226
+        },
+        {
+          "description": "Mayotte",
+          "id": 227
+        },
+        {
+          "description": "Martinique",
+          "id": 228
+        },
+        {
+          "description": "Montenegro",
+          "id": 229
+        },
+        {
+          "description": "Montserrat",
+          "id": 230
+        },
+        {
+          "description": "Bonaire, St Eustatius and Samba",
+          "id": 231
+        },
+        {
+          "description": "New Caledonia",
+          "id": 232
+        },
+        {
+          "description": "Norfolk Island",
+          "id": 233
+        },
+        {
+          "description": "Christmas Island",
+          "id": 234
+        },
+        {
+          "description": "Cocos Islands (Keeling)",
+          "id": 235
+        },
+        {
+          "description": "Aaland",
+          "id": 236
+        },
+        {
+          "description": "Pitcairn Islands",
+          "id": 237
+        },
+        {
+          "description": "Faroe Islands",
+          "id": 238
+        },
+        {
+          "description": "Isle of Man",
+          "id": 239
+        },
+        {
+          "description": "Herd and MacDonald Islands",
+          "id": 240
+        },
+        {
+          "description": "Niger",
+          "id": 241
+        },
+        {
+          "description": "Newe",
+          "id": 242
+        },
+        {
+          "description": "South Georgia and South Sandwich Islands",
+          "id": 243
+        },
+        {
+          "id": 244,
+          "description": "South Sudan"
+        },
+        {
+          "description": "Dominica",
+          "id": 245
+        },
+        {
+          "description": "Federated States of Micronesia",
+          "id": 246
+        },
+        {
+          "description": "Welsh and Futuna",
+          "id": 247
+        },
+        {
+          "id": 248,
+          "description": "Palau"
+        },
+        {
+          "description": "Puerto Rico",
+          "id": 249
+        },
+        {
+          "description": "Reunion",
+          "id": 250
+        },
+        {
+          "description": "Svalbard",
+          "id": 251
+        },
+        {
+          "description": "Serbia",
+          "id": 252
+        },
+        {
+          "id": 253,
+          "description": "Jersey"
+        },
+        {
+          "description": "Tokelau",
+          "id": 254
+        }
+      ],
+      "currencies": [
+        {
+          "description": "Euro",
+          "id": 1
+        },
+        {
+          "description": "United States Dollar",
+          "id": 2
+        },
+        {
+          "description": "Great Britain Pounds",
+          "id": 3
+        },
+        {
+          "description": "Canadian Dollar",
+          "id": 4
+        },
+        {
+          "description": "Australian Dollar",
+          "id": 5
+        },
+        {
+          "id": 6,
+          "description": "Turkish Lira"
+        },
+        {
+          "description": "Albanian Lek",
+          "id": 7
+        },
+        {
+          "description": "Bulgarian Lev",
+          "id": 8
+        },
+        {
+          "id": 9,
+          "description": "FYROM Denarius"
+        },
+        {
+          "description": "Russian Rouble",
+          "id": 10
+        },
+        {
+          "description": "Romanian New Leu",
+          "id": 11
+        },
+        {
+          "description": "Greek drachmas",
+          "id": 12
+        },
+        {
+          "description": "Swiss Franc",
+          "id": 13
+        },
+        {
+          "description": "Danish Krone",
+          "id": 14
+        },
+        {
+          "description": "Cayman Islands dollar",
+          "id": 15
+        },
+        {
+          "description": "Norwegian Krone",
+          "id": 16
+        },
+        {
+          "id": 17,
+          "description": "Serbian Dinar"
+        },
+        {
+          "description": "Philippine Peso",
+          "id": 18
+        }
+      ],
+      "geoOptions": [
+        {
+          "municipalityId": 1,
+          "prefectureId": 9,
+          "regionId": 1
+        },
+        {
+          "municipalityId": 2,
+          "prefectureId": 9,
+          "regionId": 1
+        },
+        {
+          "prefectureId": 9,
+          "regionId": 1,
+          "municipalityId": 3
+        },
+        {
+          "municipalityId": 6,
+          "prefectureId": 11,
+          "regionId": 1
+        },
+        {
+          "municipalityId": 7,
+          "prefectureId": 11,
+          "regionId": 1
+        },
+        {
+          "municipalityId": 8,
+          "prefectureId": 11,
+          "regionId": 1
+        },
+        {
+          "municipalityId": 11,
+          "prefectureId": 21,
+          "regionId": 1
+        },
+        {
+          "municipalityId": 12,
+          "prefectureId": 21,
+          "regionId": 1
+        },
+        {
+          "municipalityId": 13,
+          "prefectureId": 21,
+          "regionId": 1
+        },
+        {
+          "prefectureId": 16,
+          "regionId": 2,
+          "municipalityId": 23
+        },
+        {
+          "municipalityId": 24,
+          "prefectureId": 16,
+          "regionId": 2
+        },
+        {
+          "regionId": 2,
+          "municipalityId": 25,
+          "prefectureId": 16
+        },
+        {
+          "regionId": 2,
+          "municipalityId": 26,
+          "prefectureId": 19
+        },
+        {
+          "municipalityId": 27,
+          "prefectureId": 19,
+          "regionId": 2
+        },
+        {
+          "municipalityId": 28,
+          "prefectureId": 19,
+          "regionId": 2
+        },
+        {
+          "municipalityId": 40,
+          "prefectureId": 26,
+          "regionId": 2
+        },
+        {
+          "municipalityId": 41,
+          "prefectureId": 26,
+          "regionId": 2
+        },
+        {
+          "municipalityId": 61,
+          "prefectureId": 8,
+          "regionId": 3
+        },
+        {
+          "municipalityId": 62,
+          "prefectureId": 8,
+          "regionId": 3
+        },
+        {
+          "prefectureId": 23,
+          "regionId": 3,
+          "municipalityId": 63
+        },
+        {
+          "municipalityId": 64,
+          "prefectureId": 23,
+          "regionId": 3
+        },
+        {
+          "prefectureId": 23,
+          "regionId": 3,
+          "municipalityId": 65
+        },
+        {
+          "municipalityId": 66,
+          "prefectureId": 27,
+          "regionId": 3
+        },
+        {
+          "municipalityId": 67,
+          "prefectureId": 27,
+          "regionId": 3
+        },
+        {
+          "municipalityId": 68,
+          "prefectureId": 27,
+          "regionId": 3
+        },
+        {
+          "municipalityId": 73,
+          "prefectureId": 4,
+          "regionId": 4
+        },
+        {
+          "municipalityId": 74,
+          "prefectureId": 4,
+          "regionId": 4
+        },
+        {
+          "municipalityId": 75,
+          "prefectureId": 4,
+          "regionId": 4
+        },
+        {
+          "municipalityId": 77,
+          "prefectureId": 18,
+          "regionId": 4
+        },
+        {
+          "municipalityId": 78,
+          "prefectureId": 18,
+          "regionId": 4
+        },
+        {
+          "municipalityId": 79,
+          "prefectureId": 18,
+          "regionId": 4
+        },
+        {
+          "regionId": 4,
+          "municipalityId": 80,
+          "prefectureId": 20
+        },
+        {
+          "municipalityId": 81,
+          "prefectureId": 20,
+          "regionId": 4
+        },
+        {
+          "municipalityId": 82,
+          "prefectureId": 20,
+          "regionId": 4
+        }
+      ],
+      "legalTypes": [
+        {
+          "description": "Inadequate Info",
+          "id": 1
+        },
+        {
+          "description": "SA",
+          "id": 2
+        },
+        {
+          "description": "GP",
+          "id": 3
+        },
+        {
+          "description": "CoR",
+          "id": 4
+        },
+        {
+          "description": "LP",
+          "id": 5
+        },
+        {
+          "description": "Natural Person",
+          "id": 6
+        },
+        {
+          "description": "PAE",
+          "id": 7
+        },
+        {
+          "description": "OEM",
+          "id": 8
+        },
+        {
+          "id": 9,
+          "description": "LTD."
+        },
+        {
+          "description": "SOCIETY",
+          "id": 10
+        },
+        {
+          "description": "European Economic Interest Group",
+          "id": 11
+        },
+        {
+          "description": "Partnership",
+          "id": 12
+        },
+        {
+          "description": "European Company (SE)",
+          "id": 13
+        },
+        {
+          "description": "European Cooperative Society (SCE)",
+          "id": 14
+        },
+        {
+          "description": "Consortium",
+          "id": 15
+        },
+        {
+          "description": "Foreign Branch",
+          "id": 16
+        },
+        {
+          "description": "PERSONAL",
+          "id": 17
+        },
+        {
+          "description": "ASSOCIATION OF PERSONS",
+          "id": 18
+        },
+        {
+          "description": "Civil Company 784 S.A.K.",
+          "id": 19
+        },
+        {
+          "description": "IKE",
+          "id": 20
+        },
+        {
+          "description": "KOI.S.P.E.",
+          "id": 21
+        },
+        {
+          "id": 22,
+          "description": "Agricultural Partnership"
+        },
+        {
+          "id": 23,
+          "description": "OTHER OBLIGATIONS"
+        },
+        {
+          "description": "Energy Community",
+          "id": 24
+        },
+        {
+          "description": "Joint Committee.",
+          "id": 25
+        },
+        {
+          "description": "Workers' Cooperatives",
+          "id": 26
+        },
+        {
+          "description": "LP by shares",
+          "id": 27
+        },
+        {
+          "description": "Renewable energy community",
+          "id": 28
+        },
+        {
+          "description": "Citizen energy communities",
+          "id": 29
+        }
+      ],
+      "memberRelations": [
+        {
+          "description": "no info",
+          "id": 1
+        },
+        {
+          "description": "Interregional Member",
+          "id": 2
+        },
+        {
+          "description": "Member",
+          "id": 3
+        },
+        {
+          "description": "General Partner",
+          "id": 4
+        },
+        {
+          "description": "Other",
+          "id": 5
+        },
+        {
+          "id": 6,
+          "description": "Sole Shareholder"
+        },
+        {
+          "description": "Unique Partner",
+          "id": 7
+        },
+        {
+          "description": "General Partner",
+          "id": 8
+        },
+        {
+          "description": "Interregional Member",
+          "id": 9
+        },
+        {
+          "description": "Partner - Member",
+          "id": 10
+        },
+        {
+          "description": "Interregional Member",
+          "id": 11
+        },
+        {
+          "description": "Alternate Member, Administrator",
+          "id": 12
+        },
+        {
+          "description": "General Partner",
+          "id": 13
+        },
+        {
+          "description": "General Partner, Administrator",
+          "id": 14
+        },
+        {
+          "description": "Sole Partner and Administrator",
+          "id": 15
+        },
+        {
+          "description": "Member & Representative",
+          "id": 16
+        },
+        {
+          "description": "Member, Administrator & Representative",
+          "id": 17
+        }
+      ],
+      "stockTypes": [
+        {
+          "id": 1,
+          "description": "Nominal, Ordinary"
+        },
+        {
+          "description": "Nominal, Preferred, Voting",
+          "id": 2
+        },
+        {
+          "id": 3,
+          "description": "Nominal, Preferred, non-Voting"
+        },
+        {
+          "description": "Capital",
+          "id": 4
+        },
+        {
+          "description": "Non-Capital",
+          "id": 5
+        },
+        {
+          "id": 6,
+          "description": "Guarantee"
+        }
+      ]
+    },
+    "seeds": {
+      "companies": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "legalEntities": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "persons": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ]
+    }
+  },
+  "root_group": {
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": [],
+    "checks": [
+        {
+          "name": "vu login 200",
+          "path": "::vu login 200",
+          "id": "f23529393338f582e8927eaf6c3fb095",
+          "passes": 1000,
+          "fails": 0
+        },
+        {
+          "id": "bc7a17d1a4fc1761b7503dc35b8bc305",
+          "passes": 626,
+          "fails": 374,
+          "name": "mutation 2xx",
+          "path": "::mutation 2xx"
+        }
+      ],
+    "name": "",
+    "path": ""
+  }
+}

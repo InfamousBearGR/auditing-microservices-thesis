@@ -2,6 +2,8 @@ package com.business.registry.model
 
 import groovy.transform.CompileStatic
 import jakarta.persistence.*
+import org.hibernate.envers.Audited
+import org.hibernate.envers.RelationTargetAuditMode
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Digits
 import jakarta.validation.constraints.NotBlank
@@ -13,6 +15,7 @@ import static jakarta.persistence.TemporalType.TIMESTAMP
 
 @Entity
 @Table(name = "company_capital")
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 @CompileStatic
 class CompanyCapital implements Auditable {
 

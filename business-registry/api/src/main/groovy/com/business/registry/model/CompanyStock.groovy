@@ -2,6 +2,8 @@ package com.business.registry.model
 
 import groovy.transform.CompileStatic
 import jakarta.persistence.*
+import org.hibernate.envers.Audited
+import org.hibernate.envers.RelationTargetAuditMode
 import jakarta.validation.constraints.Digits
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
@@ -15,6 +17,7 @@ import static jakarta.persistence.TemporalType.TIMESTAMP
         @Index(columnList = "company_id"),
         @Index(columnList = "stock_type_id")
 ])
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 @CompileStatic
 class CompanyStock implements Auditable {
 

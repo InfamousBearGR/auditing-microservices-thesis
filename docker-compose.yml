@@ -135,6 +135,10 @@ services:
   # 5. Connector Registration Script (Ephemeral)
   debezium-setup:
     image: curlimages/curl:latest
+    environment:
+      # Benchmark sets SNAPSHOT_MODE=never (stream only post-slot changes, no seed
+      # snapshot) so cdc audit volume + lag reflect the workload only. Default initial.
+      - SNAPSHOT_MODE=${SNAPSHOT_MODE:-initial}
     volumes:
       - ./debezium/register-connector.sh:/register-connector.sh
     command: /bin/sh /register-connector.sh
@@ -213,7 +217,8 @@ services:
     ports:
       - "8084:8084"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      # Overridable for the audit-method benchmark (e.g. BR_API_PROFILES=prod,envers).
+      - SPRING_PROFILES_ACTIVE=${BR_API_PROFILES:-prod}
     depends_on:
       mainDb:
         condition: service_healthy
