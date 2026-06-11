@@ -1,5 +1,7 @@
 {
   "root_group": {
+    "name": "",
+    "path": "",
     "id": "d41d8cd98f00b204e9800998ecf8427e",
     "groups": [],
     "checks": [
@@ -7,23 +9,19 @@
           "name": "vu login 200",
           "path": "::vu login 200",
           "id": "f23529393338f582e8927eaf6c3fb095",
-          "passes": 1000,
+          "passes": 10000,
           "fails": 0
         },
         {
+          "fails": 5732,
+          "name": "mutation 2xx",
           "path": "::mutation 2xx",
           "id": "bc7a17d1a4fc1761b7503dc35b8bc305",
-          "passes": 638,
-          "fails": 362,
-          "name": "mutation 2xx"
+          "passes": 4268
         }
-      ],
-    "name": "",
-    "path": ""
+      ]
   },
   "options": {
-    "summaryTimeUnit": "",
-    "noColor": false,
     "summaryTrendStats": [
       "avg",
       "min",
@@ -32,471 +30,259 @@
       "p(95)",
       "p(99)",
       "max"
-    ]
+    ],
+    "summaryTimeUnit": "",
+    "noColor": false
   },
   "state": {
     "isStdOutTTY": false,
     "isStdErrTTY": false,
-    "testRunDurationMs": 32866.846528
+    "testRunDurationMs": 324316.103513
   },
   "metrics": {
-    "iteration_duration": {
+    "http_req_blocked": {
+      "contains": "time",
+      "values": {
+        "med": 0.00496,
+        "p(90)": 0.012144000000000014,
+        "p(95)": 0.23290400000000003,
+        "p(99)": 0.3752842000000001,
+        "max": 17.620165,
+        "avg": 0.03488192375293351,
+        "min": 0.001311
+      },
+      "type": "trend"
+    },
+    "http_req_connecting": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "med": 237.274429,
-        "p(90)": 319.9500491,
-        "p(95)": 357.52995224999995,
-        "p(99)": 471.99288214999984,
-        "max": 4278.57681,
-        "avg": 254.16566435800004,
-        "min": 133.234349
-      }
-    },
-    "op_update_ms": {
-      "values": {
-        "avg": 31.3147329411765,
-        "min": 1.407092,
-        "med": 10.105083,
-        "p(90)": 25.16293520000001,
-        "p(95)": 47.09448419999994,
-        "p(99)": 821.4499408999758,
-        "max": 2177.299992
-      },
-      "type": "trend",
-      "contains": "time"
-    },
-    "op_create_ms": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "p(90)": 17.205799800000005,
-        "p(95)": 39.536124199999975,
-        "p(99)": 67.15698235999984,
-        "max": 113.447528,
-        "avg": 12.16463989724771,
-        "min": 1.3135,
-        "med": 9.135409
-      }
-    },
-    "vus": {
-      "type": "gauge",
-      "contains": "default",
-      "values": {
-        "value": 8,
-        "min": 8,
-        "max": 8
-      }
-    },
-    "checks": {
-      "type": "rate",
-      "contains": "default",
-      "values": {
-        "rate": 0.819,
-        "passes": 1638,
-        "fails": 362
-      }
-    },
-    "vus_max": {
-      "type": "gauge",
-      "contains": "default",
-      "values": {
-        "value": 8,
-        "min": 8,
-        "max": 8
-      }
-    },
-    "op_delete_ms": {
-      "values": {
-        "avg": 41.964075863636396,
-        "min": 1.265239,
-        "med": 6.204439,
-        "p(90)": 28.2886613,
-        "p(95)": 41.59293349999999,
-        "p(99)": 77.62012147999994,
-        "max": 4071.010368
-      },
-      "type": "trend",
-      "contains": "time"
-    },
-    "data_sent": {
-      "type": "counter",
-      "contains": "data",
-      "values": {
-        "count": 688747,
-        "rate": 20955.676396068025
+        "min": 0,
+        "med": 0,
+        "p(90)": 0,
+        "p(95)": 0.1647270000000001,
+        "p(99)": 0.2596122000000001,
+        "max": 10.994441,
+        "avg": 0.022669306286513216
       }
     },
     "http_req_tls_handshaking": {
       "type": "trend",
       "contains": "time",
       "values": {
+        "p(90)": 0,
+        "p(95)": 0,
+        "p(99)": 0,
         "max": 0,
         "avg": 0,
         "min": 0,
-        "med": 0,
-        "p(90)": 0,
-        "p(95)": 0,
-        "p(99)": 0
+        "med": 0
       }
     },
     "http_req_sending": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "p(95)": 0.044218999999999994,
-        "p(99)": 0.08080400000000003,
-        "max": 0.440627,
-        "avg": 0.024101186482486405,
-        "min": 0.00513,
-        "med": 0.02131,
-        "p(90)": 0.03667240000000001
+        "avg": 0.02812439696409838,
+        "min": 0.00503,
+        "med": 0.02305,
+        "p(90)": 0.04185460000000001,
+        "p(95)": 0.049968000000000026,
+        "p(99)": 0.08332800000000008,
+        "max": 14.225157
       }
     },
-    "iterations": {
-      "type": "counter",
-      "contains": "default",
-      "values": {
-        "rate": 30.425796985058412,
-        "count": 1000
-      }
-    },
-    "mutations_err": {
-      "type": "counter",
-      "contains": "default",
-      "values": {
-        "count": 362,
-        "rate": 11.014138508591145
-      }
-    },
-    "http_reqs": {
-      "type": "counter",
-      "contains": "default",
-      "values": {
-        "count": 2027,
-        "rate": 61.6730904887134
-      }
-    },
-    "http_req_receiving": {
-      "contains": "time",
-      "values": {
-        "avg": 0.33236596891958553,
-        "min": 0.01971,
-        "med": 0.219493,
-        "p(90)": 0.6400090000000002,
-        "p(95)": 0.8958089999999985,
-        "p(99)": 1.7303905400000006,
-        "max": 33.027851
-      },
-      "type": "trend"
-    },
-    "http_req_duration": {
-      "contains": "time",
-      "values": {
-        "min": 1.265239,
-        "med": 100.356059,
-        "p(90)": 264.9834204,
-        "p(95)": 296.83957699999996,
-        "p(99)": 410.14025276,
-        "max": 4071.010368,
-        "avg": 125.58513275727674
-      },
-      "type": "trend"
-    },
-    "mutations_ok": {
-      "type": "counter",
-      "contains": "default",
-      "values": {
-        "count": 638,
-        "rate": 19.411658476467267
-      }
-    },
-    "http_req_duration{expected_response:true}": {
-      "values": {
-        "min": 4.115402,
-        "med": 181.476774,
-        "p(90)": 273.6226648,
-        "p(95)": 302.02486500000003,
-        "p(99)": 409.6930406399999,
-        "max": 4071.010368,
-        "avg": 147.7920265513514
-      },
-      "type": "trend",
-      "contains": "time"
-    },
-    "http_req_failed": {
+    "checks": {
       "type": "rate",
       "contains": "default",
       "values": {
-        "rate": 0.1785890478539714,
-        "passes": 362,
-        "fails": 1665
+        "rate": 0.7134,
+        "passes": 14268,
+        "fails": 5732
       }
     },
-    "http_req_connecting": {
+    "op_delete_ms": {
+      "type": "trend",
       "contains": "time",
       "values": {
-        "avg": 0.013849408978786377,
-        "min": 0,
-        "med": 0,
-        "p(90)": 0,
-        "p(95)": 0.11990199999999984,
-        "p(99)": 0.26020680000000007,
-        "max": 2.976775
-      },
-      "type": "trend"
+        "avg": 560.4979298334728,
+        "min": 1.183825,
+        "med": 548.503227,
+        "p(90)": 1163.8140402000001,
+        "p(95)": 1340.5940011999994,
+        "p(99)": 1803.1290037999995,
+        "max": 2640.985763
+      }
+    },
+    "op_create_ms": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "max": 5068.330925,
+        "avg": 573.620412628626,
+        "min": 1.171825,
+        "med": 560.4253105,
+        "p(90)": 1170.7344731,
+        "p(95)": 1330.1328997500002,
+        "p(99)": 1824.4015667700016
+      }
     },
     "http_req_waiting": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "avg": 125.22866560187464,
-        "min": 1.137627,
-        "med": 100.257357,
-        "p(90)": 264.54249560000005,
-        "p(95)": 295.8197391,
-        "p(99)": 409.69669816000004,
-        "max": 4070.965128
+        "med": 1004.506159,
+        "p(90)": 1957.2973794000002,
+        "p(95)": 2221.2360778000007,
+        "p(99)": 2768.987903960003,
+        "max": 5067.87566,
+        "avg": 1029.9703117408478,
+        "min": 0.77238
+      }
+    },
+    "vus": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 27,
+        "min": 0,
+        "max": 64
+      }
+    },
+    "data_sent": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 6891116,
+        "rate": 21248.146254087485
+      }
+    },
+    "http_req_failed": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "fails": 14295,
+        "rate": 0.2862136116243072,
+        "passes": 5732
+      }
+    },
+    "op_update_ms": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 1182.9118084,
+        "p(95)": 1389.6638784999982,
+        "p(99)": 1880.4894833,
+        "max": 2647.669434,
+        "avg": 578.1208200587179,
+        "min": 0.967383,
+        "med": 552.659187
+      }
+    },
+    "http_req_receiving": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 1.713869005692318,
+        "min": 0.01615,
+        "med": 0.299514,
+        "p(90)": 3.977426000000005,
+        "p(95)": 5.929298000000004,
+        "p(99)": 16.156184040000085,
+        "max": 269.413873
+      }
+    },
+    "http_req_duration{expected_response:true}": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "max": 4131.817115,
+        "avg": 1218.394416665268,
+        "min": 3.598257,
+        "med": 1206.265518,
+        "p(90)": 2091.4378778,
+        "p(95)": 2333.4662482999997,
+        "p(99)": 2882.8648850599993
       }
     },
     "data_received": {
       "type": "counter",
       "contains": "data",
       "values": {
-        "count": 1038456,
-        "rate": 31595.851433915817
+        "count": 10077582,
+        "rate": 31073.332131335403
       }
     },
-    "http_req_blocked": {
+    "http_reqs": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 20027,
+        "rate": 61.75148191245222
+      }
+    },
+    "http_req_duration": {
+      "contains": "time",
+      "values": {
+        "p(95)": 2222.9674483000003,
+        "p(99)": 2773.7655493800007,
+        "max": 5068.330925,
+        "avg": 1031.7123051435008,
+        "min": 0.967383,
+        "med": 1005.332346,
+        "p(90)": 1959.3518818
+      },
+      "type": "trend"
+    },
+    "iterations": {
+      "contains": "default",
+      "values": {
+        "count": 10000,
+        "rate": 30.83411490110961
+      },
+      "type": "counter"
+    },
+    "vus_max": {
+      "contains": "default",
+      "values": {
+        "min": 64,
+        "max": 64,
+        "value": 64
+      },
+      "type": "gauge"
+    },
+    "mutations_ok": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 4268,
+        "rate": 13.160000239793582
+      }
+    },
+    "iteration_duration": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "p(99)": 0.37969600000000003,
-        "max": 3.054837,
-        "avg": 0.02354595806610759,
-        "min": 0.00153,
-        "med": 0.00434,
-        "p(90)": 0.008652000000000003,
-        "p(95)": 0.18095569999999989
+        "p(90)": 2999.7946514,
+        "p(95)": 3332.8127354000003,
+        "p(99)": 3903.94377444,
+        "max": 5733.0214,
+        "avg": 2066.827800301708,
+        "min": 240.684905,
+        "med": 2019.9946005000002
+      }
+    },
+    "mutations_err": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 5732,
+        "rate": 17.67411466131603
       }
     }
   },
   "setup_data": {
     "cache": {
-      "legalTypes": [
-        {
-          "description": "Inadequate Info",
-          "id": 1
-        },
-        {
-          "description": "SA",
-          "id": 2
-        },
-        {
-          "id": 3,
-          "description": "GP"
-        },
-        {
-          "id": 4,
-          "description": "CoR"
-        },
-        {
-          "description": "LP",
-          "id": 5
-        },
-        {
-          "description": "Natural Person",
-          "id": 6
-        },
-        {
-          "description": "PAE",
-          "id": 7
-        },
-        {
-          "description": "OEM",
-          "id": 8
-        },
-        {
-          "description": "LTD.",
-          "id": 9
-        },
-        {
-          "description": "SOCIETY",
-          "id": 10
-        },
-        {
-          "description": "European Economic Interest Group",
-          "id": 11
-        },
-        {
-          "description": "Partnership",
-          "id": 12
-        },
-        {
-          "description": "European Company (SE)",
-          "id": 13
-        },
-        {
-          "id": 14,
-          "description": "European Cooperative Society (SCE)"
-        },
-        {
-          "description": "Consortium",
-          "id": 15
-        },
-        {
-          "description": "Foreign Branch",
-          "id": 16
-        },
-        {
-          "description": "PERSONAL",
-          "id": 17
-        },
-        {
-          "description": "ASSOCIATION OF PERSONS",
-          "id": 18
-        },
-        {
-          "description": "Civil Company 784 S.A.K.",
-          "id": 19
-        },
-        {
-          "id": 20,
-          "description": "IKE"
-        },
-        {
-          "description": "KOI.S.P.E.",
-          "id": 21
-        },
-        {
-          "description": "Agricultural Partnership",
-          "id": 22
-        },
-        {
-          "description": "OTHER OBLIGATIONS",
-          "id": 23
-        },
-        {
-          "description": "Energy Community",
-          "id": 24
-        },
-        {
-          "description": "Joint Committee.",
-          "id": 25
-        },
-        {
-          "description": "Workers' Cooperatives",
-          "id": 26
-        },
-        {
-          "id": 27,
-          "description": "LP by shares"
-        },
-        {
-          "description": "Renewable energy community",
-          "id": 28
-        },
-        {
-          "description": "Citizen energy communities",
-          "id": 29
-        }
-      ],
-      "memberRelations": [
-        {
-          "description": "no info",
-          "id": 1
-        },
-        {
-          "description": "Interregional Member",
-          "id": 2
-        },
-        {
-          "description": "Member",
-          "id": 3
-        },
-        {
-          "description": "General Partner",
-          "id": 4
-        },
-        {
-          "description": "Other",
-          "id": 5
-        },
-        {
-          "description": "Sole Shareholder",
-          "id": 6
-        },
-        {
-          "description": "Unique Partner",
-          "id": 7
-        },
-        {
-          "description": "General Partner",
-          "id": 8
-        },
-        {
-          "description": "Interregional Member",
-          "id": 9
-        },
-        {
-          "description": "Partner - Member",
-          "id": 10
-        },
-        {
-          "description": "Interregional Member",
-          "id": 11
-        },
-        {
-          "description": "Alternate Member, Administrator",
-          "id": 12
-        },
-        {
-          "description": "General Partner",
-          "id": 13
-        },
-        {
-          "description": "General Partner, Administrator",
-          "id": 14
-        },
-        {
-          "description": "Sole Partner and Administrator",
-          "id": 15
-        },
-        {
-          "description": "Member & Representative",
-          "id": 16
-        },
-        {
-          "description": "Member, Administrator & Representative",
-          "id": 17
-        }
-      ],
-      "stockTypes": [
-        {
-          "description": "Nominal, Ordinary",
-          "id": 1
-        },
-        {
-          "id": 2,
-          "description": "Nominal, Preferred, Voting"
-        },
-        {
-          "description": "Nominal, Preferred, non-Voting",
-          "id": 3
-        },
-        {
-          "description": "Capital",
-          "id": 4
-        },
-        {
-          "description": "Non-Capital",
-          "id": 5
-        },
-        {
-          "id": 6,
-          "description": "Guarantee"
-        }
-      ],
       "companyStatuses": [
         {
           "description": "Other",
@@ -539,8 +325,8 @@
           "id": 10
         },
         {
-          "description": "Forced management",
-          "id": 11
+          "id": 11,
+          "description": "Forced management"
         },
         {
           "description": "Deletion due to division",
@@ -557,16 +343,16 @@
           "id": 25
         },
         {
-          "description": "NIGERIA",
-          "id": 1
+          "id": 1,
+          "description": "NIGERIA"
         },
         {
           "description": "NICARAGUA",
           "id": 2
         },
         {
-          "description": "NETHERLANDS",
-          "id": 3
+          "id": 3,
+          "description": "NETHERLANDS"
         },
         {
           "description": "NORWAY",
@@ -617,8 +403,8 @@
           "id": 15
         },
         {
-          "id": 16,
-          "description": "NORTH KOREA"
+          "description": "NORTH KOREA",
+          "id": 16
         },
         {
           "description": "PORTUGAL",
@@ -633,20 +419,20 @@
           "id": 19
         },
         {
-          "description": "CATTAR",
-          "id": 20
+          "id": 20,
+          "description": "CATTAR"
         },
         {
-          "id": 21,
-          "description": "ROMANIA"
+          "description": "ROMANIA",
+          "id": 21
         },
         {
           "description": "RUSSIA",
           "id": 22
         },
         {
-          "description": "ROYADA",
-          "id": 23
+          "id": 23,
+          "description": "ROYADA"
         },
         {
           "description": "SAUDI ARABIA",
@@ -689,8 +475,8 @@
           "id": 34
         },
         {
-          "description": "SLOVAKIA",
-          "id": 35
+          "id": 35,
+          "description": "SLOVAKIA"
         },
         {
           "description": "SLOVENIA",
@@ -701,8 +487,8 @@
           "id": 37
         },
         {
-          "description": "ZOUAZILAND",
-          "id": 38
+          "id": 38,
+          "description": "ZOUAZILAND"
         },
         {
           "description": "SEXELES",
@@ -721,8 +507,8 @@
           "id": 42
         },
         {
-          "description": "TOGO",
-          "id": 43
+          "id": 43,
+          "description": "TOGO"
         },
         {
           "description": "TALAND",
@@ -753,8 +539,8 @@
           "id": 50
         },
         {
-          "description": "TURKEY",
-          "id": 51
+          "id": 51,
+          "description": "TURKEY"
         },
         {
           "description": "TOBALOU",
@@ -781,20 +567,20 @@
           "id": 57
         },
         {
-          "id": 58,
-          "description": "ORIGIN"
+          "description": "ORIGIN",
+          "id": 58
         },
         {
-          "id": 59,
-          "description": "Η.Π.Α."
+          "description": "Η.Π.Α.",
+          "id": 59
         },
         {
           "description": "OUZBEKISTAN",
           "id": 60
         },
         {
-          "id": 61,
-          "description": "BATHQUAIN"
+          "description": "BATHQUAIN",
+          "id": 61
         },
         {
           "description": "SAINT VINCENT",
@@ -809,8 +595,8 @@
           "id": 64
         },
         {
-          "description": "VIRGIN ISLANDS OF THE UNITED STATES OF AMERICA",
-          "id": 65
+          "id": 65,
+          "description": "VIRGIN ISLANDS OF THE UNITED STATES OF AMERICA"
         },
         {
           "description": "VIETNAM",
@@ -833,12 +619,12 @@
           "id": 70
         },
         {
-          "description": "SERVIA AND BLACK MOUNTAIN",
-          "id": 71
+          "id": 71,
+          "description": "SERVIA AND BLACK MOUNTAIN"
         },
         {
-          "id": 72,
-          "description": "REPUBLIC OF SOUTH AFRICA"
+          "description": "REPUBLIC OF SOUTH AFRICA",
+          "id": 72
         },
         {
           "description": "ZAIR",
@@ -861,8 +647,8 @@
           "id": 77
         },
         {
-          "id": 78,
-          "description": "AFGHANISTAN"
+          "description": "AFGHANISTAN",
+          "id": 78
         },
         {
           "description": "WILD",
@@ -921,8 +707,8 @@
           "id": 92
         },
         {
-          "description": "BURUNDI",
-          "id": 93
+          "id": 93,
+          "description": "BURUNDI"
         },
         {
           "description": "BELGIUM",
@@ -949,8 +735,8 @@
           "id": 99
         },
         {
-          "description": "BAHAMES",
-          "id": 100
+          "id": 100,
+          "description": "BAHAMES"
         },
         {
           "description": "BOSNIA-HERZEGOVINA",
@@ -961,12 +747,12 @@
           "id": 102
         },
         {
-          "description": "BELIZ",
-          "id": 103
+          "id": 103,
+          "description": "BELIZ"
         },
         {
-          "description": "BERMUDES",
-          "id": 104
+          "id": 104,
+          "description": "BERMUDES"
         },
         {
           "description": "BOLIVIA",
@@ -1017,8 +803,8 @@
           "id": 116
         },
         {
-          "description": "IVORY COAST",
-          "id": 117
+          "id": 117,
+          "description": "IVORY COAST"
         },
         {
           "description": "CAMEROON",
@@ -1041,8 +827,8 @@
           "id": 122
         },
         {
-          "id": 123,
-          "description": "GREEN CAPE"
+          "description": "GREEN CAPE",
+          "id": 123
         },
         {
           "description": "COST OF RICA",
@@ -1053,12 +839,12 @@
           "id": 125
         },
         {
-          "id": 126,
-          "description": "CAIMAN ISLANDS"
+          "description": "CAIMAN ISLANDS",
+          "id": 126
         },
         {
-          "description": "CYPRUS",
-          "id": 127
+          "id": 127,
+          "description": "CYPRUS"
         },
         {
           "description": "CZECH REPUBLIC",
@@ -1081,16 +867,16 @@
           "id": 132
         },
         {
-          "description": "ALGERIA",
-          "id": 133
+          "id": 133,
+          "description": "ALGERIA"
         },
         {
           "description": "EQUATORIAL (ECUADOR)",
           "id": 134
         },
         {
-          "id": 135,
-          "description": "EGYPT"
+          "description": "EGYPT",
+          "id": 135
         },
         {
           "description": "ERYTHRAIA",
@@ -1101,8 +887,8 @@
           "id": 137
         },
         {
-          "description": "ESTHONIA",
-          "id": 138
+          "id": 138,
+          "description": "ESTHONIA"
         },
         {
           "description": "AITHOPIA",
@@ -1149,8 +935,8 @@
           "description": "WINE"
         },
         {
-          "description": "GABIA",
-          "id": 150
+          "id": 150,
+          "description": "GABIA"
         },
         {
           "description": "WINEA BISSAU",
@@ -1181,8 +967,8 @@
           "id": 157
         },
         {
-          "id": 158,
-          "description": "ONDURA"
+          "description": "ONDURA",
+          "id": 158
         },
         {
           "description": "CROATIA",
@@ -1257,20 +1043,20 @@
           "id": 176
         },
         {
-          "description": "KIRIBATI",
-          "id": 177
+          "id": 177,
+          "description": "KIRIBATI"
         },
         {
-          "id": 178,
-          "description": "SAINT CHRISTOPHORUS AND NEVIS"
+          "description": "SAINT CHRISTOPHORUS AND NEVIS",
+          "id": 178
         },
         {
           "description": "SOUTH KOREA",
           "id": 179
         },
         {
-          "id": 180,
-          "description": "KUWAIT"
+          "description": "KUWAIT",
+          "id": 180
         },
         {
           "description": "L.A.",
@@ -1281,24 +1067,24 @@
           "id": 182
         },
         {
-          "id": 183,
-          "description": "LIBERIA"
+          "description": "LIBERIA",
+          "id": 183
         },
         {
-          "description": "LIBYA",
-          "id": 184
+          "id": 184,
+          "description": "LIBYA"
         },
         {
-          "description": "HOLY LUKE",
-          "id": 185
+          "id": 185,
+          "description": "HOLY LUKE"
         },
         {
           "description": "LIHTENSTEIN",
           "id": 186
         },
         {
-          "description": "SRI LANKA",
-          "id": 187
+          "id": 187,
+          "description": "SRI LANKA"
         },
         {
           "description": "LESO",
@@ -1309,12 +1095,12 @@
           "id": 189
         },
         {
-          "description": "LUXEMBOURG",
-          "id": 190
+          "id": 190,
+          "description": "LUXEMBOURG"
         },
         {
-          "id": 191,
-          "description": "LETONIA"
+          "description": "LETONIA",
+          "id": 191
         },
         {
           "description": "MACAO",
@@ -1325,8 +1111,8 @@
           "id": 193
         },
         {
-          "description": "MONACO",
-          "id": 194
+          "id": 194,
+          "description": "MONACO"
         },
         {
           "description": "MOLDOVA",
@@ -1345,8 +1131,8 @@
           "id": 198
         },
         {
-          "description": "MARSHALL ISLANDS",
-          "id": 199
+          "id": 199,
+          "description": "MARSHALL ISLANDS"
         },
         {
           "description": "MALI",
@@ -1357,8 +1143,8 @@
           "id": 201
         },
         {
-          "description": "MYANMAR",
-          "id": 202
+          "id": 202,
+          "description": "MYANMAR"
         },
         {
           "description": "MOGOLIA",
@@ -1377,8 +1163,8 @@
           "id": 206
         },
         {
-          "description": "MAYOR",
-          "id": 207
+          "id": 207,
+          "description": "MAYOR"
         },
         {
           "description": "MALAWI",
@@ -1389,8 +1175,8 @@
           "id": 209
         },
         {
-          "description": "NAMIBIA",
-          "id": 210
+          "id": 210,
+          "description": "NAMIBIA"
         },
         {
           "description": "Saint Bartholomew",
@@ -1413,8 +1199,8 @@
           "description": "Saint Pierre and Miquelon"
         },
         {
-          "id": 216,
-          "description": "Antarctica"
+          "description": "Antarctica",
+          "id": 216
         },
         {
           "description": "British Indian Ocean Territory",
@@ -1489,24 +1275,24 @@
           "id": 234
         },
         {
-          "id": 235,
-          "description": "Cocos Islands (Keeling)"
+          "description": "Cocos Islands (Keeling)",
+          "id": 235
         },
         {
           "description": "Aaland",
           "id": 236
         },
         {
-          "id": 237,
-          "description": "Pitcairn Islands"
+          "description": "Pitcairn Islands",
+          "id": 237
         },
         {
           "description": "Faroe Islands",
           "id": 238
         },
         {
-          "id": 239,
-          "description": "Isle of Man"
+          "description": "Isle of Man",
+          "id": 239
         },
         {
           "description": "Herd and MacDonald Islands",
@@ -1533,8 +1319,8 @@
           "description": "Dominica"
         },
         {
-          "description": "Federated States of Micronesia",
-          "id": 246
+          "id": 246,
+          "description": "Federated States of Micronesia"
         },
         {
           "description": "Welsh and Futuna",
@@ -1579,20 +1365,20 @@
           "id": 2
         },
         {
-          "description": "Great Britain Pounds",
-          "id": 3
+          "id": 3,
+          "description": "Great Britain Pounds"
         },
         {
-          "description": "Canadian Dollar",
-          "id": 4
+          "id": 4,
+          "description": "Canadian Dollar"
         },
         {
-          "description": "Australian Dollar",
-          "id": 5
+          "id": 5,
+          "description": "Australian Dollar"
         },
         {
-          "id": 6,
-          "description": "Turkish Lira"
+          "description": "Turkish Lira",
+          "id": 6
         },
         {
           "description": "Albanian Lek",
@@ -1635,8 +1421,8 @@
           "id": 16
         },
         {
-          "description": "Serbian Dinar",
-          "id": 17
+          "id": 17,
+          "description": "Serbian Dinar"
         },
         {
           "description": "Philippine Peso",
@@ -1645,14 +1431,14 @@
       ],
       "geoOptions": [
         {
-          "prefectureId": 9,
           "regionId": 1,
-          "municipalityId": 1
+          "municipalityId": 1,
+          "prefectureId": 9
         },
         {
+          "municipalityId": 2,
           "prefectureId": 9,
-          "regionId": 1,
-          "municipalityId": 2
+          "regionId": 1
         },
         {
           "municipalityId": 3,
@@ -1665,9 +1451,9 @@
           "regionId": 1
         },
         {
-          "municipalityId": 7,
           "prefectureId": 11,
-          "regionId": 1
+          "regionId": 1,
+          "municipalityId": 7
         },
         {
           "municipalityId": 8,
@@ -1675,9 +1461,9 @@
           "regionId": 1
         },
         {
+          "prefectureId": 21,
           "regionId": 1,
-          "municipalityId": 11,
-          "prefectureId": 21
+          "municipalityId": 11
         },
         {
           "municipalityId": 12,
@@ -1685,9 +1471,9 @@
           "regionId": 1
         },
         {
-          "regionId": 1,
           "municipalityId": 13,
-          "prefectureId": 21
+          "prefectureId": 21,
+          "regionId": 1
         },
         {
           "municipalityId": 23,
@@ -1710,19 +1496,19 @@
           "regionId": 2
         },
         {
-          "municipalityId": 27,
+          "prefectureId": 19,
+          "regionId": 2,
+          "municipalityId": 27
+        },
+        {
+          "municipalityId": 28,
           "prefectureId": 19,
           "regionId": 2
         },
         {
-          "prefectureId": 19,
+          "prefectureId": 26,
           "regionId": 2,
-          "municipalityId": 28
-        },
-        {
-          "regionId": 2,
-          "municipalityId": 40,
-          "prefectureId": 26
+          "municipalityId": 40
         },
         {
           "municipalityId": 41,
@@ -1750,9 +1536,9 @@
           "regionId": 3
         },
         {
-          "regionId": 3,
           "municipalityId": 65,
-          "prefectureId": 23
+          "prefectureId": 23,
+          "regionId": 3
         },
         {
           "municipalityId": 66,
@@ -1760,9 +1546,9 @@
           "regionId": 3
         },
         {
+          "regionId": 3,
           "municipalityId": 67,
-          "prefectureId": 27,
-          "regionId": 3
+          "prefectureId": 27
         },
         {
           "municipalityId": 68,
@@ -1780,9 +1566,9 @@
           "regionId": 4
         },
         {
+          "municipalityId": 75,
           "prefectureId": 4,
-          "regionId": 4,
-          "municipalityId": 75
+          "regionId": 4
         },
         {
           "municipalityId": 77,
@@ -1790,19 +1576,19 @@
           "regionId": 4
         },
         {
+          "municipalityId": 78,
           "prefectureId": 18,
-          "regionId": 4,
-          "municipalityId": 78
+          "regionId": 4
         },
         {
+          "municipalityId": 79,
           "prefectureId": 18,
-          "regionId": 4,
-          "municipalityId": 79
+          "regionId": 4
         },
         {
+          "municipalityId": 80,
           "prefectureId": 20,
-          "regionId": 4,
-          "municipalityId": 80
+          "regionId": 4
         },
         {
           "regionId": 4,
@@ -1810,31 +1596,228 @@
           "prefectureId": 20
         },
         {
+          "regionId": 4,
           "municipalityId": 82,
-          "prefectureId": 20,
-          "regionId": 4
+          "prefectureId": 20
+        }
+      ],
+      "legalTypes": [
+        {
+          "id": 1,
+          "description": "Inadequate Info"
+        },
+        {
+          "description": "SA",
+          "id": 2
+        },
+        {
+          "description": "GP",
+          "id": 3
+        },
+        {
+          "description": "CoR",
+          "id": 4
+        },
+        {
+          "description": "LP",
+          "id": 5
+        },
+        {
+          "description": "Natural Person",
+          "id": 6
+        },
+        {
+          "description": "PAE",
+          "id": 7
+        },
+        {
+          "description": "OEM",
+          "id": 8
+        },
+        {
+          "description": "LTD.",
+          "id": 9
+        },
+        {
+          "description": "SOCIETY",
+          "id": 10
+        },
+        {
+          "description": "European Economic Interest Group",
+          "id": 11
+        },
+        {
+          "description": "Partnership",
+          "id": 12
+        },
+        {
+          "description": "European Company (SE)",
+          "id": 13
+        },
+        {
+          "id": 14,
+          "description": "European Cooperative Society (SCE)"
+        },
+        {
+          "description": "Consortium",
+          "id": 15
+        },
+        {
+          "description": "Foreign Branch",
+          "id": 16
+        },
+        {
+          "description": "PERSONAL",
+          "id": 17
+        },
+        {
+          "description": "ASSOCIATION OF PERSONS",
+          "id": 18
+        },
+        {
+          "description": "Civil Company 784 S.A.K.",
+          "id": 19
+        },
+        {
+          "description": "IKE",
+          "id": 20
+        },
+        {
+          "id": 21,
+          "description": "KOI.S.P.E."
+        },
+        {
+          "description": "Agricultural Partnership",
+          "id": 22
+        },
+        {
+          "description": "OTHER OBLIGATIONS",
+          "id": 23
+        },
+        {
+          "description": "Energy Community",
+          "id": 24
+        },
+        {
+          "id": 25,
+          "description": "Joint Committee."
+        },
+        {
+          "description": "Workers' Cooperatives",
+          "id": 26
+        },
+        {
+          "description": "LP by shares",
+          "id": 27
+        },
+        {
+          "description": "Renewable energy community",
+          "id": 28
+        },
+        {
+          "id": 29,
+          "description": "Citizen energy communities"
+        }
+      ],
+      "memberRelations": [
+        {
+          "description": "no info",
+          "id": 1
+        },
+        {
+          "description": "Interregional Member",
+          "id": 2
+        },
+        {
+          "description": "Member",
+          "id": 3
+        },
+        {
+          "description": "General Partner",
+          "id": 4
+        },
+        {
+          "description": "Other",
+          "id": 5
+        },
+        {
+          "description": "Sole Shareholder",
+          "id": 6
+        },
+        {
+          "id": 7,
+          "description": "Unique Partner"
+        },
+        {
+          "description": "General Partner",
+          "id": 8
+        },
+        {
+          "description": "Interregional Member",
+          "id": 9
+        },
+        {
+          "description": "Partner - Member",
+          "id": 10
+        },
+        {
+          "id": 11,
+          "description": "Interregional Member"
+        },
+        {
+          "description": "Alternate Member, Administrator",
+          "id": 12
+        },
+        {
+          "description": "General Partner",
+          "id": 13
+        },
+        {
+          "description": "General Partner, Administrator",
+          "id": 14
+        },
+        {
+          "id": 15,
+          "description": "Sole Partner and Administrator"
+        },
+        {
+          "description": "Member & Representative",
+          "id": 16
+        },
+        {
+          "description": "Member, Administrator & Representative",
+          "id": 17
+        }
+      ],
+      "stockTypes": [
+        {
+          "description": "Nominal, Ordinary",
+          "id": 1
+        },
+        {
+          "description": "Nominal, Preferred, Voting",
+          "id": 2
+        },
+        {
+          "id": 3,
+          "description": "Nominal, Preferred, non-Voting"
+        },
+        {
+          "description": "Capital",
+          "id": 4
+        },
+        {
+          "description": "Non-Capital",
+          "id": 5
+        },
+        {
+          "description": "Guarantee",
+          "id": 6
         }
       ]
     },
     "seeds": {
-      "companies": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15
-      ],
-      "legalEntities": [
+      "persons": [
         1,
         2,
         3,
@@ -1866,7 +1849,24 @@
         29,
         30
       ],
-      "persons": [
+      "companies": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "legalEntities": [
         1,
         2,
         3,
