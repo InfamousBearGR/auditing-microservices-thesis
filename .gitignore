@@ -121,3 +121,13 @@ Thumbs.db
 # Application specific
 /data/
 /volumes/
+
+# graphify: track only portable outputs; cache, backups, run logs and
+# machine-specific interpreter/root paths stay local
+graphify-out/*
+!graphify-out/graph.json
+!graphify-out/graph.html
+!graphify-out/GRAPH_REPORT.md
+!graphify-out/manifest.json
+!graphify-out/.graphify_labels.json
+!graphify-out/.graphify_labels.json.sig

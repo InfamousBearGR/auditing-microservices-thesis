@@ -24,7 +24,7 @@ Create a real commit. Message written per the `caveman:caveman-commit` skill. Ar
    - If the user named paths, use those only.
    - Otherwise, the files this session's task modified. If unclear, ask.
    - **Already-staged files that are not part of this change must be unstaged** (`git restore --staged <path>`) before committing. Never assume the index is clean.
-   - Never stage: build outputs/binaries, `graphify-out/`, `.env*`, credentials, large generated files, `node_modules/`. Warn if they appear.
+   - Never stage: build outputs/binaries, gitignored `graphify-out/` files (cache, backups), `.env*`, credentials, large generated files, `node_modules/`. Warn if they appear.
    - Stage with explicit paths: `git add <path>...`. Never `git add -A` / `git add .`.
 
 4. **Verify the index** before committing: `git diff --cached --stat`. The listed files must be exactly the intended set. If anything else is there, fix it first.
