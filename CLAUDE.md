@@ -125,3 +125,18 @@ Orchestrator does `down -v` → bring up only the services a scenario needs → 
 - All JVM services target Java 21 and use Groovy (with `groovyOptions.parameters = true` where Spring needs parameter names).
 - Spring profiles select config: `application-prod.properties` vs `application-dev.properties` per service (`SPRING_PROFILES_ACTIVE`); audit-consumer uses `GROOVY_PROFILES_ACTIVE`; history-api uses `ENV_FILE` pointing at `.env.prod` / `.env.dev`.
 - DB credentials in this thesis project are `admin`/`admin` for both Postgres instances.
+
+## graphify
+
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+
+Rules:
+- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+- Graph first, then confirm with grep/Read before acting. Known blind spots in this repo:
+  - Table references inside strings (`@Table("…")`, `@Query("SELECT …")`, raw SQL in Go/Groovy) are not linked — e.g. `user_api_account` has no edges to the SSE Bridge or History API code that uses it. Grep for table names.
+  - Many Groovy and `build.gradle` files only partially parse, so their symbols/edges may be missing.
+  - Same-named symbols across services can be conflated (name-based resolution). Check `source_file` on every node before trusting a cross-service edge.
+  - `graphify update .` re-clusters and replaces community names with hub-node names.

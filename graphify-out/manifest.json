@@ -1,0 +1,2054 @@
+{
+  "audit-consumer/build.gradle": {
+    "mtime": 1770310547.9990396,
+    "seen": 1791906935.5008283,
+    "ast_hash": "55acaaa91e7d45cc2dae8b1ba12415e6",
+    "semantic_hash": "55acaaa91e7d45cc2dae8b1ba12415e6"
+  },
+  "audit-consumer/gradlew": {
+    "mtime": 1770225544.1564145,
+    "seen": 1791906935.5008337,
+    "ast_hash": "48fe0bd77a66bbb62c1150926ab1332c",
+    "semantic_hash": "48fe0bd77a66bbb62c1150926ab1332c"
+  },
+  "audit-consumer/rebuild-audit-consumer.sh": {
+    "mtime": 1770314591.84838,
+    "seen": 1791906935.5008376,
+    "ast_hash": "d9bd70c575a1dcf9939011867a6f918f",
+    "semantic_hash": "d9bd70c575a1dcf9939011867a6f918f"
+  },
+  "audit-consumer/settings.gradle": {
+    "mtime": 1770226146.453248,
+    "seen": 1791906935.500841,
+    "ast_hash": "d7affada5deb63f2383430b238c43a29",
+    "semantic_hash": "d7affada5deb63f2383430b238c43a29"
+  },
+  "audit-consumer/src/main/groovy/auditConsumer/AuditConsumer.groovy": {
+    "mtime": 1770314933.4616795,
+    "seen": 1791906935.5008435,
+    "ast_hash": "01e5cf2636da4299c5150ba1da344459",
+    "semantic_hash": "01e5cf2636da4299c5150ba1da344459"
+  },
+  "audit-consumer/src/main/groovy/databaseService/DatabaseService.groovy": {
+    "mtime": 1771520366.4826405,
+    "seen": 1791906935.5008461,
+    "ast_hash": "f63e8b48a4318a1b2b324996abc3ae97",
+    "semantic_hash": "f63e8b48a4318a1b2b324996abc3ae97"
+  },
+  "audit-consumer/src/main/groovy/kafkaService/KafkaService.groovy": {
+    "mtime": 1771520407.3083081,
+    "seen": 1791906935.5008483,
+    "ast_hash": "c7ee13ae96d1bdab657cf2870c706be7",
+    "semantic_hash": "c7ee13ae96d1bdab657cf2870c706be7"
+  },
+  "audit-consumer/src/main/groovy/utils/Utils.groovy": {
+    "mtime": 1771520407.3222535,
+    "seen": 1791906935.5008507,
+    "ast_hash": "9f1cb600363e3f9e58011f3708aef7df",
+    "semantic_hash": "9f1cb600363e3f9e58011f3708aef7df"
+  },
+  "auditDb/init.sql": {
+    "mtime": 1784269682.9781396,
+    "seen": 1791906935.500853,
+    "ast_hash": "40d7f14ed4ce47ecbb9bc2de111ac26e",
+    "semantic_hash": "40d7f14ed4ce47ecbb9bc2de111ac26e"
+  },
+  "benchmark/collect.sh": {
+    "mtime": 1784269682.9794786,
+    "seen": 1791906935.5008552,
+    "ast_hash": "0758a2d53618f291f7436d0577c09ab9",
+    "semantic_hash": "0758a2d53618f291f7436d0577c09ab9"
+  },
+  "benchmark/load.js": {
+    "mtime": 1784269682.9794786,
+    "seen": 1791906935.5008578,
+    "ast_hash": "67c40c534d322ed9c8d9d96201f4edd7",
+    "semantic_hash": "67c40c534d322ed9c8d9d96201f4edd7"
+  },
+  "benchmark/results/baseline/k6-summary.json": {
+    "mtime": 1784269682.9796684,
+    "seen": 1791906935.5008602,
+    "ast_hash": "8856336480ddce7583649d1a1b865c1d",
+    "semantic_hash": "8856336480ddce7583649d1a1b865c1d"
+  },
+  "benchmark/results/cdc/k6-summary.json": {
+    "mtime": 1784269682.9799345,
+    "seen": 1791906935.5008633,
+    "ast_hash": "e4f148fdb088a0350a65bd7fa0bb4db6",
+    "semantic_hash": "e4f148fdb088a0350a65bd7fa0bb4db6"
+  },
+  "benchmark/results/envers/k6-summary.json": {
+    "mtime": 1784269682.9831395,
+    "seen": 1791906935.5008655,
+    "ast_hash": "b34c705b598b44f2f9bb6ead4ca105e9",
+    "semantic_hash": "b34c705b598b44f2f9bb6ead4ca105e9"
+  },
+  "benchmark/results/triggers/k6-summary.json": {
+    "mtime": 1784269682.984416,
+    "seen": 1791906935.5008678,
+    "ast_hash": "ddcdcac6cb70636812d43b26229eb89b",
+    "semantic_hash": "ddcdcac6cb70636812d43b26229eb89b"
+  },
+  "benchmark/run-all.sh": {
+    "mtime": 1784269682.9846387,
+    "seen": 1791906935.5008705,
+    "ast_hash": "d0a31fcadd325779f9ee28f6af05ab07",
+    "semantic_hash": "d0a31fcadd325779f9ee28f6af05ab07"
+  },
+  "benchmark/summarize.py": {
+    "mtime": 1784269682.9846387,
+    "seen": 1791906935.5008726,
+    "ast_hash": "c7c16ad85dfe8b8d16b86ae8d7b20a64",
+    "semantic_hash": "c7c16ad85dfe8b8d16b86ae8d7b20a64"
+  },
+  "business-registry/api/build.gradle": {
+    "mtime": 1784269682.9936926,
+    "seen": 1791906935.500875,
+    "ast_hash": "024515624895076af911d84021c6bfd1",
+    "semantic_hash": "024515624895076af911d84021c6bfd1"
+  },
+  "business-registry/api/gradlew": {
+    "mtime": 1771437825.609854,
+    "seen": 1791906935.5008774,
+    "ast_hash": "48fe0bd77a66bbb62c1150926ab1332c",
+    "semantic_hash": "48fe0bd77a66bbb62c1150926ab1332c"
+  },
+  "business-registry/api/rebuild-business-registry.sh": {
+    "mtime": 1771437843.7768445,
+    "seen": 1791906935.5008798,
+    "ast_hash": "1fb00325d2af31b35609a25202f3b22a",
+    "semantic_hash": "1fb00325d2af31b35609a25202f3b22a"
+  },
+  "business-registry/api/settings.gradle": {
+    "mtime": 1771437751.9147923,
+    "seen": 1791906935.5008821,
+    "ast_hash": "bdcae96a221bd9b427c7ea86c8a759f0",
+    "semantic_hash": "bdcae96a221bd9b427c7ea86c8a759f0"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/BusinessRegistryApplication.groovy": {
+    "mtime": 1771437757.7407322,
+    "seen": 1791906935.500885,
+    "ast_hash": "ab52f29d804dbae62ca99e369c51cd39",
+    "semantic_hash": "ab52f29d804dbae62ca99e369c51cd39"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/audit/AuditContext.groovy": {
+    "mtime": 1784269682.994139,
+    "seen": 1791906935.5008874,
+    "ast_hash": "d4558bcbc962f4060c772f799d0f18af",
+    "semantic_hash": "d4558bcbc962f4060c772f799d0f18af"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/audit/AuditContextFilter.groovy": {
+    "mtime": 1784269682.995412,
+    "seen": 1791906935.5008898,
+    "ast_hash": "13794ce71200da17a240c8fbda86edd3",
+    "semantic_hash": "13794ce71200da17a240c8fbda86edd3"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/audit/AuditRevisionEntity.groovy": {
+    "mtime": 1784269682.995412,
+    "seen": 1791906935.5008922,
+    "ast_hash": "5983cf7d76f8f9a811f56975113890c6",
+    "semantic_hash": "5983cf7d76f8f9a811f56975113890c6"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/audit/AuditRevisionListener.groovy": {
+    "mtime": 1784269682.995412,
+    "seen": 1791906935.5008948,
+    "ast_hash": "950f4ecddf87cc31facd4707f1418815",
+    "semantic_hash": "950f4ecddf87cc31facd4707f1418815"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/config/I18nConfig.groovy": {
+    "mtime": 1771442596.866935,
+    "seen": 1791906935.500897,
+    "ast_hash": "c1e8197cdd2250b903c9453e30321da0",
+    "semantic_hash": "c1e8197cdd2250b903c9453e30321da0"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/config/SecurityConfig.groovy": {
+    "mtime": 1772566244.732075,
+    "seen": 1791906935.5008993,
+    "ast_hash": "394761e295531ce5930d07338a3b3898",
+    "semantic_hash": "394761e295531ce5930d07338a3b3898"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/AuthenticationController.groovy": {
+    "mtime": 1771526126.1261535,
+    "seen": 1791906935.500902,
+    "ast_hash": "0856d3a863a142f9bb1aea2a34ec14d1",
+    "semantic_hash": "0856d3a863a142f9bb1aea2a34ec14d1"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/CompanyCapitalController.groovy": {
+    "mtime": 1773222063.6554737,
+    "seen": 1791906935.500904,
+    "ast_hash": "5c6b9540599515b9e3bcf9b71c576407",
+    "semantic_hash": "5c6b9540599515b9e3bcf9b71c576407"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/CompanyController.groovy": {
+    "mtime": 1772731334.7151833,
+    "seen": 1791906935.5009065,
+    "ast_hash": "2d6d0d1028603c4ed87f02ee09e41815",
+    "semantic_hash": "2d6d0d1028603c4ed87f02ee09e41815"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/CompanyStatusController.groovy": {
+    "mtime": 1771680697.7156622,
+    "seen": 1791906935.5009089,
+    "ast_hash": "1ee193c7d33d0cd2c81bc5f4ac370112",
+    "semantic_hash": "1ee193c7d33d0cd2c81bc5f4ac370112"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/CountryController.groovy": {
+    "mtime": 1771680658.548232,
+    "seen": 1791906935.5009115,
+    "ast_hash": "0f7ad04869bae3a73bfbf20737a3959b",
+    "semantic_hash": "0f7ad04869bae3a73bfbf20737a3959b"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/CurrencyController.groovy": {
+    "mtime": 1773222063.6554737,
+    "seen": 1791906935.5009136,
+    "ast_hash": "722a3aa17491702a6f639f937d58f1b5",
+    "semantic_hash": "722a3aa17491702a6f639f937d58f1b5"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/LegalEntityController.groovy": {
+    "mtime": 1773222063.656292,
+    "seen": 1791906935.5009165,
+    "ast_hash": "7484a54fafdc12720eafa30a568d2de3",
+    "semantic_hash": "7484a54fafdc12720eafa30a568d2de3"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/LegalTypeController.groovy": {
+    "mtime": 1771536799.8159266,
+    "seen": 1791906935.5009189,
+    "ast_hash": "0bbdd6db5e5e0520407ca5f5b32ef91b",
+    "semantic_hash": "0bbdd6db5e5e0520407ca5f5b32ef91b"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/MemberController.groovy": {
+    "mtime": 1772656728.6141176,
+    "seen": 1791906935.5009212,
+    "ast_hash": "62733ccb5da4c69b35f26069d39f18e1",
+    "semantic_hash": "62733ccb5da4c69b35f26069d39f18e1"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/MemberRelationController.groovy": {
+    "mtime": 1771536799.9919248,
+    "seen": 1791906935.5009236,
+    "ast_hash": "b7befdc5b9e6c20721f7fc5c6586ae1e",
+    "semantic_hash": "b7befdc5b9e6c20721f7fc5c6586ae1e"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/MunicipalityController.groovy": {
+    "mtime": 1771536799.8979256,
+    "seen": 1791906935.5009258,
+    "ast_hash": "7fe7651bebdce310ca47de9ed075653e",
+    "semantic_hash": "7fe7651bebdce310ca47de9ed075653e"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/PersonController.groovy": {
+    "mtime": 1773222063.656292,
+    "seen": 1791906935.5009284,
+    "ast_hash": "e5264aaf0e93919883b7c7f2c4583a0a",
+    "semantic_hash": "e5264aaf0e93919883b7c7f2c4583a0a"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/PrefectureController.groovy": {
+    "mtime": 1771536799.9429252,
+    "seen": 1791906935.5009308,
+    "ast_hash": "8dc976ee6c0f697c31ba81bd63ac5dbe",
+    "semantic_hash": "8dc976ee6c0f697c31ba81bd63ac5dbe"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/RegionController.groovy": {
+    "mtime": 1771536799.8899257,
+    "seen": 1791906935.5009336,
+    "ast_hash": "845fa6be56b85a2804bd78fb957b3358",
+    "semantic_hash": "845fa6be56b85a2804bd78fb957b3358"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/controller/StockTypeController.groovy": {
+    "mtime": 1773222063.657292,
+    "seen": 1791906935.500936,
+    "ast_hash": "c26873872a4b544518836566e1c97817",
+    "semantic_hash": "c26873872a4b544518836566e1c97817"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/authentication/LoginRequestDto.groovy": {
+    "mtime": 1771526126.0621538,
+    "seen": 1791906935.500939,
+    "ast_hash": "4a79bb327acb4d0cecd47dd46660cee7",
+    "semantic_hash": "4a79bb327acb4d0cecd47dd46660cee7"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/authentication/LoginResponseDto.groovy": {
+    "mtime": 1771526126.1331534,
+    "seen": 1791906935.5009413,
+    "ast_hash": "5d0b32618db5111707754cd959723816",
+    "semantic_hash": "5d0b32618db5111707754cd959723816"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/authentication/LogoutResponseDto.groovy": {
+    "mtime": 1771681684.941192,
+    "seen": 1791906935.5009437,
+    "ast_hash": "8080f4a5e15098fc1bd8607ad9c502de",
+    "semantic_hash": "8080f4a5e15098fc1bd8607ad9c502de"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/company/CompanyRequestDto.groovy": {
+    "mtime": 1771676863.2791536,
+    "seen": 1791906935.5009458,
+    "ast_hash": "e17c2391f145c375371db8e506c713e1",
+    "semantic_hash": "e17c2391f145c375371db8e506c713e1"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/company/CompanyResponseDto.groovy": {
+    "mtime": 1771676863.2641537,
+    "seen": 1791906935.5009484,
+    "ast_hash": "30dd9eb696c271bb4392b61983563364",
+    "semantic_hash": "30dd9eb696c271bb4392b61983563364"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/companyCapital/CompanyCapitalRequestDto.groovy": {
+    "mtime": 1773041385.6056135,
+    "seen": 1791906935.5009508,
+    "ast_hash": "f0bba9e362e417e52a070f45bd7bc2c8",
+    "semantic_hash": "f0bba9e362e417e52a070f45bd7bc2c8"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/companyCapital/CompanyCapitalResponseDto.groovy": {
+    "mtime": 1773222063.657292,
+    "seen": 1791906935.5009534,
+    "ast_hash": "7a13646a19f2af92389102ae1e377d94",
+    "semantic_hash": "7a13646a19f2af92389102ae1e377d94"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/companyStock/CompanyStockRequestDto.groovy": {
+    "mtime": 1773041385.6062915,
+    "seen": 1791906935.5009556,
+    "ast_hash": "2b947ebfe84ca3447f38881e9e5caa94",
+    "semantic_hash": "2b947ebfe84ca3447f38881e9e5caa94"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/companyStock/CompanyStockResponseDto.groovy": {
+    "mtime": 1773222063.657292,
+    "seen": 1791906935.500958,
+    "ast_hash": "8249dacc890ec0888deeca56250fee80",
+    "semantic_hash": "8249dacc890ec0888deeca56250fee80"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/legalEntity/LegalEntityRequestDto.groovy": {
+    "mtime": 1771676863.2941535,
+    "seen": 1791906935.5009606,
+    "ast_hash": "5bd6e5e40174758f84d6c09467ebc27c",
+    "semantic_hash": "5bd6e5e40174758f84d6c09467ebc27c"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/legalEntity/LegalEntityResponseDto.groovy": {
+    "mtime": 1771676863.2841535,
+    "seen": 1791906935.5009632,
+    "ast_hash": "adb9bf52ed8bad7a5bfb16e5ffe2940e",
+    "semantic_hash": "adb9bf52ed8bad7a5bfb16e5ffe2940e"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/member/LegalEntityDto.groovy": {
+    "mtime": 1773222063.657292,
+    "seen": 1791906935.5009656,
+    "ast_hash": "3cf30202697d314f788e72f605cce181",
+    "semantic_hash": "3cf30202697d314f788e72f605cce181"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/member/MemberRequestDto.groovy": {
+    "mtime": 1771532731.2287796,
+    "seen": 1791906935.500968,
+    "ast_hash": "5a0115d80f99c437f7f39905328958b7",
+    "semantic_hash": "5a0115d80f99c437f7f39905328958b7"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/member/MemberResponseDto.groovy": {
+    "mtime": 1771533379.0291138,
+    "seen": 1791906935.5009701,
+    "ast_hash": "059d4cd15d3f5d532230db1278efb46b",
+    "semantic_hash": "059d4cd15d3f5d532230db1278efb46b"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/member/PersonDto.groovy": {
+    "mtime": 1773222063.657292,
+    "seen": 1791906935.5009727,
+    "ast_hash": "e19b21be13b592a9c5868cc8e0062f60",
+    "semantic_hash": "e19b21be13b592a9c5868cc8e0062f60"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/person/PersonRequestDto.groovy": {
+    "mtime": 1771532731.2567794,
+    "seen": 1791906935.5009751,
+    "ast_hash": "d72e4a90c251c063ebd279dedad43ad3",
+    "semantic_hash": "d72e4a90c251c063ebd279dedad43ad3"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/person/PersonResponseDto.groovy": {
+    "mtime": 1771532731.2117796,
+    "seen": 1791906935.500978,
+    "ast_hash": "075978c757d532f910b03708784a7136",
+    "semantic_hash": "075978c757d532f910b03708784a7136"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/util/DeleteRequestDto.groovy": {
+    "mtime": 1772656682.3604538,
+    "seen": 1791906935.5009804,
+    "ast_hash": "6dce5d687742d501f23400085cc4adf2",
+    "semantic_hash": "6dce5d687742d501f23400085cc4adf2"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/util/ErrorResponseDto.groovy": {
+    "mtime": 1771526126.0881536,
+    "seen": 1791906935.5009828,
+    "ast_hash": "a2fdb18a032ef99426d5f7200b3527be",
+    "semantic_hash": "a2fdb18a032ef99426d5f7200b3527be"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/dto/util/ParametricDto.groovy": {
+    "mtime": 1771681684.8641925,
+    "seen": 1791906935.5009851,
+    "ast_hash": "b112d479e1af5eea9aaad5e1f03c93ce",
+    "semantic_hash": "b112d479e1af5eea9aaad5e1f03c93ce"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/exception/BadRequestException.groovy": {
+    "mtime": 1771524971.375412,
+    "seen": 1791906935.5009875,
+    "ast_hash": "7bfab065513363117f3899524dd5885f",
+    "semantic_hash": "7bfab065513363117f3899524dd5885f"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/exception/GlobalExceptionHandler.groovy": {
+    "mtime": 1771528229.2330687,
+    "seen": 1791906935.50099,
+    "ast_hash": "002d679719c0c87d6dc69568a6d2bdd6",
+    "semantic_hash": "002d679719c0c87d6dc69568a6d2bdd6"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/exception/NotFoundException.groovy": {
+    "mtime": 1771527966.6132038,
+    "seen": 1791906935.5009925,
+    "ast_hash": "b19561aae896b0f92bd9da3a926fa756",
+    "semantic_hash": "b19561aae896b0f92bd9da3a926fa756"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/exception/UnauthorizedException.groovy": {
+    "mtime": 1771523797.1516602,
+    "seen": 1791906935.500995,
+    "ast_hash": "7dc91a9792ac39539cfc330cc1484360",
+    "semantic_hash": "7dc91a9792ac39539cfc330cc1484360"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/filter/SessionAuthenticationFilter.groovy": {
+    "mtime": 1771525395.1227114,
+    "seen": 1791906935.500997,
+    "ast_hash": "d712359a8ca6b1bec8675e4bdbe3ca37",
+    "semantic_hash": "d712359a8ca6b1bec8675e4bdbe3ca37"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/company/CompanyMapper.groovy": {
+    "mtime": 1771676863.3041534,
+    "seen": 1791906935.501,
+    "ast_hash": "e0a39728a12f60eff7244ff29f9b4e7a",
+    "semantic_hash": "e0a39728a12f60eff7244ff29f9b4e7a"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/companyCapital/CompanyCapitalMapper.groovy": {
+    "mtime": 1773222063.657292,
+    "seen": 1791906935.5010023,
+    "ast_hash": "cbf5fcaf93b14ce758a8385c0b86fcca",
+    "semantic_hash": "cbf5fcaf93b14ce758a8385c0b86fcca"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/companyStock/CompanyStockMapper.groovy": {
+    "mtime": 1773222063.657292,
+    "seen": 1791906935.5010047,
+    "ast_hash": "c3f2044dc39590d09283c566c989e3b0",
+    "semantic_hash": "c3f2044dc39590d09283c566c989e3b0"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/i18n/CompanyStatusI18nMapper.groovy": {
+    "mtime": 1771526126.044154,
+    "seen": 1791906935.501007,
+    "ast_hash": "96d64148eabae1f53acff1251cc974fd",
+    "semantic_hash": "96d64148eabae1f53acff1251cc974fd"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/i18n/CountryI18nMapper.groovy": {
+    "mtime": 1771526126.0801537,
+    "seen": 1791906935.5010095,
+    "ast_hash": "3c64502c5a6a5be622516d49e9aa2271",
+    "semantic_hash": "3c64502c5a6a5be622516d49e9aa2271"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/i18n/CurrencyI18nMapper.groovy": {
+    "mtime": 1771684770.0072849,
+    "seen": 1791906935.5010116,
+    "ast_hash": "b5f52f82497ebbee3b4cf2fa8c579c2e",
+    "semantic_hash": "b5f52f82497ebbee3b4cf2fa8c579c2e"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/i18n/I18nMapper.groovy": {
+    "mtime": 1771526126.1491532,
+    "seen": 1791906935.5010142,
+    "ast_hash": "5485718744613a3dea55ca45439f98d6",
+    "semantic_hash": "5485718744613a3dea55ca45439f98d6"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/i18n/LegalTypeI18nMapper.groovy": {
+    "mtime": 1771526126.0151544,
+    "seen": 1791906935.5010166,
+    "ast_hash": "454f57258670d8b6fc002dd0a9ee44fe",
+    "semantic_hash": "454f57258670d8b6fc002dd0a9ee44fe"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/i18n/MemberRelationI18nMapper.groovy": {
+    "mtime": 1771526126.074154,
+    "seen": 1791906935.5010192,
+    "ast_hash": "05090025d6e9175202fd8c193d577b0f",
+    "semantic_hash": "05090025d6e9175202fd8c193d577b0f"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/i18n/MunicipalityI18nMapper.groovy": {
+    "mtime": 1771526126.1191535,
+    "seen": 1791906935.5010214,
+    "ast_hash": "5624359e4f7ca08a9128700db2066733",
+    "semantic_hash": "5624359e4f7ca08a9128700db2066733"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/i18n/PrefectureI18nMapper.groovy": {
+    "mtime": 1771526125.9861546,
+    "seen": 1791906935.501024,
+    "ast_hash": "8b824594f5d42cc81ab57d9329bd92e6",
+    "semantic_hash": "8b824594f5d42cc81ab57d9329bd92e6"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/i18n/RegionI18nMapper.groovy": {
+    "mtime": 1771526126.1011536,
+    "seen": 1791906935.5010264,
+    "ast_hash": "7715ad53029182f5636bc847cd97064b",
+    "semantic_hash": "7715ad53029182f5636bc847cd97064b"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/i18n/StockTypeI18nMapper.groovy": {
+    "mtime": 1771684770.0142848,
+    "seen": 1791906935.5010285,
+    "ast_hash": "e7b477835a48bfa5ba7b998100e5bbdf",
+    "semantic_hash": "e7b477835a48bfa5ba7b998100e5bbdf"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/legalEntity/LegalEntityMapper.groovy": {
+    "mtime": 1771676863.3191533,
+    "seen": 1791906935.501031,
+    "ast_hash": "904e8c5996e6f67d93586ddf0a4d2646",
+    "semantic_hash": "904e8c5996e6f67d93586ddf0a4d2646"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/member/MemberMapper.groovy": {
+    "mtime": 1773222063.658292,
+    "seen": 1791906935.5010333,
+    "ast_hash": "f0b1f640e2cecd609edf0a4f4f172f85",
+    "semantic_hash": "f0b1f640e2cecd609edf0a4f4f172f85"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/mapper/person/PersonMapper.groovy": {
+    "mtime": 1771532731.307779,
+    "seen": 1791906935.5010357,
+    "ast_hash": "0220a7dd06c90da2a552dd377043ba4c",
+    "semantic_hash": "0220a7dd06c90da2a552dd377043ba4c"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/Auditable.groovy": {
+    "mtime": 1772655704.8946702,
+    "seen": 1791906935.501038,
+    "ast_hash": "237a2c822f368944a59c933532e998c9",
+    "semantic_hash": "237a2c822f368944a59c933532e998c9"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/Company.groovy": {
+    "mtime": 1784269682.995412,
+    "seen": 1791906935.5010405,
+    "ast_hash": "2b5f0c98edcdcf92a063ed5ae9ea9e1a",
+    "semantic_hash": "2b5f0c98edcdcf92a063ed5ae9ea9e1a"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/CompanyCapital.groovy": {
+    "mtime": 1784269682.996139,
+    "seen": 1791906935.5010428,
+    "ast_hash": "779b843e593db8cc6ef896e664f7f590",
+    "semantic_hash": "779b843e593db8cc6ef896e664f7f590"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/CompanyStatus.groovy": {
+    "mtime": 1771535174.6432934,
+    "seen": 1791906935.5010457,
+    "ast_hash": "ebef5acc573407bbbd36d78cefef9f4b",
+    "semantic_hash": "ebef5acc573407bbbd36d78cefef9f4b"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/CompanyStatusI18n.groovy": {
+    "mtime": 1771535174.6762931,
+    "seen": 1791906935.5010476,
+    "ast_hash": "58a61845935ed26c01e6bd6e10b11209",
+    "semantic_hash": "58a61845935ed26c01e6bd6e10b11209"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/CompanyStock.groovy": {
+    "mtime": 1784269682.997139,
+    "seen": 1791906935.50105,
+    "ast_hash": "78b1f3032bf816d36d7ba8c13b56752d",
+    "semantic_hash": "78b1f3032bf816d36d7ba8c13b56752d"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/Country.groovy": {
+    "mtime": 1771535174.6132936,
+    "seen": 1791906935.501056,
+    "ast_hash": "20904f7b25843e68b76d43064cc28dd2",
+    "semantic_hash": "20904f7b25843e68b76d43064cc28dd2"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/CountryI18n.groovy": {
+    "mtime": 1771535174.7242928,
+    "seen": 1791906935.5010579,
+    "ast_hash": "4b4ce5afad31430b6ad3275f294874ba",
+    "semantic_hash": "4b4ce5afad31430b6ad3275f294874ba"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/Currency.groovy": {
+    "mtime": 1771682263.1523566,
+    "seen": 1791906935.50106,
+    "ast_hash": "2d904d2d41d53d04f8139c3da1bb74e6",
+    "semantic_hash": "2d904d2d41d53d04f8139c3da1bb74e6"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/CurrencyI18n.groovy": {
+    "mtime": 1771682127.5562186,
+    "seen": 1791906935.5010629,
+    "ast_hash": "170c7f217fca16816810cca84a727f88",
+    "semantic_hash": "170c7f217fca16816810cca84a727f88"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/Language.groovy": {
+    "mtime": 1771536799.8079264,
+    "seen": 1791906935.5010653,
+    "ast_hash": "0530488c2ac0456d28f0855112afdbf7",
+    "semantic_hash": "0530488c2ac0456d28f0855112afdbf7"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/LegalEntity.groovy": {
+    "mtime": 1784269682.997139,
+    "seen": 1791906935.5010676,
+    "ast_hash": "d48707671f88e994af908c1959502c84",
+    "semantic_hash": "d48707671f88e994af908c1959502c84"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/LegalType.groovy": {
+    "mtime": 1771535174.6822932,
+    "seen": 1791906935.5010703,
+    "ast_hash": "29a40317d88d03e9bdf584443d88d7b6",
+    "semantic_hash": "29a40317d88d03e9bdf584443d88d7b6"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/LegalTypeI18n.groovy": {
+    "mtime": 1771535174.701293,
+    "seen": 1791906935.501073,
+    "ast_hash": "e5914045097e2cc61f765410ee6ffb66",
+    "semantic_hash": "e5914045097e2cc61f765410ee6ffb66"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/Member.groovy": {
+    "mtime": 1784269682.997139,
+    "seen": 1791906935.5010753,
+    "ast_hash": "c4a20c140620b58cb3e158e6929c4a52",
+    "semantic_hash": "c4a20c140620b58cb3e158e6929c4a52"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/MemberRelation.groovy": {
+    "mtime": 1771535174.6222937,
+    "seen": 1791906935.5010777,
+    "ast_hash": "ebbfeededeb15acd43f713988e0ab203",
+    "semantic_hash": "ebbfeededeb15acd43f713988e0ab203"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/MemberRelationI18n.groovy": {
+    "mtime": 1771535174.7172928,
+    "seen": 1791906935.50108,
+    "ast_hash": "f7103dac850304948eb52c4e167b7c04",
+    "semantic_hash": "f7103dac850304948eb52c4e167b7c04"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/Municipality.groovy": {
+    "mtime": 1771535174.6502934,
+    "seen": 1791906935.5010827,
+    "ast_hash": "42800f9f5611358ff29722cce80f8481",
+    "semantic_hash": "42800f9f5611358ff29722cce80f8481"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/MunicipalityI18n.groovy": {
+    "mtime": 1771535174.6562934,
+    "seen": 1791906935.501085,
+    "ast_hash": "840ccb7b84de3cafae290204177db2ac",
+    "semantic_hash": "840ccb7b84de3cafae290204177db2ac"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/Person.groovy": {
+    "mtime": 1784269682.997139,
+    "seen": 1791906935.5010874,
+    "ast_hash": "8e96630ec5b6b7d422f4a36608ab7d01",
+    "semantic_hash": "8e96630ec5b6b7d422f4a36608ab7d01"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/Prefecture.groovy": {
+    "mtime": 1771535174.6062937,
+    "seen": 1791906935.5010898,
+    "ast_hash": "c9c6da2d986b98751d89745db0e05318",
+    "semantic_hash": "c9c6da2d986b98751d89745db0e05318"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/PrefectureI18n.groovy": {
+    "mtime": 1771535174.687293,
+    "seen": 1791906935.5010922,
+    "ast_hash": "bf009a9ece79f8a49da83c41a8ab47a7",
+    "semantic_hash": "bf009a9ece79f8a49da83c41a8ab47a7"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/Region.groovy": {
+    "mtime": 1771535174.6642933,
+    "seen": 1791906935.5010943,
+    "ast_hash": "e920517c292e85bfb0d72d807f2b76ad",
+    "semantic_hash": "e920517c292e85bfb0d72d807f2b76ad"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/RegionI18n.groovy": {
+    "mtime": 1771535174.6702933,
+    "seen": 1791906935.5010967,
+    "ast_hash": "d07778760be62ea3258a8fefa14bc9ca",
+    "semantic_hash": "d07778760be62ea3258a8fefa14bc9ca"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/Role.groovy": {
+    "mtime": 1771536799.8389263,
+    "seen": 1791906935.5010996,
+    "ast_hash": "d231e02e395e19dfb3c49cd7c77ae8de",
+    "semantic_hash": "d231e02e395e19dfb3c49cd7c77ae8de"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/StockType.groovy": {
+    "mtime": 1771682318.643008,
+    "seen": 1791906935.5011017,
+    "ast_hash": "a0e41696113bc773a218b48b9ac1cb24",
+    "semantic_hash": "a0e41696113bc773a218b48b9ac1cb24"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/StockTypeI18n.groovy": {
+    "mtime": 1771682263.1693566,
+    "seen": 1791906935.5011044,
+    "ast_hash": "65afbd95494fb363c3fffcdd5e074420",
+    "semantic_hash": "65afbd95494fb363c3fffcdd5e074420"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/model/UserAccount.groovy": {
+    "mtime": 1771535174.7322927,
+    "seen": 1791906935.5011067,
+    "ast_hash": "0ceb9f267712e9f3cc0c907b26484630",
+    "semantic_hash": "0ceb9f267712e9f3cc0c907b26484630"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/CompanyCapitalRepository.groovy": {
+    "mtime": 1773041385.6066136,
+    "seen": 1791906935.501109,
+    "ast_hash": "067171a21bab38761b02ccc96aa749dc",
+    "semantic_hash": "067171a21bab38761b02ccc96aa749dc"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/CompanyRepository.groovy": {
+    "mtime": 1772731334.6341836,
+    "seen": 1791906935.5011113,
+    "ast_hash": "7e3d4c60ff7b249c8de75f098fc91868",
+    "semantic_hash": "7e3d4c60ff7b249c8de75f098fc91868"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/CompanyStatusI18nRepository.groovy": {
+    "mtime": 1771526879.9240363,
+    "seen": 1791906935.501114,
+    "ast_hash": "ef374c1118073a401d08ff0ca248773f",
+    "semantic_hash": "ef374c1118073a401d08ff0ca248773f"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/CompanyStatusRepository.groovy": {
+    "mtime": 1771440668.5956323,
+    "seen": 1791906935.5011163,
+    "ast_hash": "34edf6fbbc1e840742925b3b3eca06d8",
+    "semantic_hash": "34edf6fbbc1e840742925b3b3eca06d8"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/CompanyStockRepository.groovy": {
+    "mtime": 1773041385.6066136,
+    "seen": 1791906935.5011187,
+    "ast_hash": "a123e79fccf10743c577eec69146b1b4",
+    "semantic_hash": "a123e79fccf10743c577eec69146b1b4"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/CountryI18nRepository.groovy": {
+    "mtime": 1771527135.7399576,
+    "seen": 1791906935.501121,
+    "ast_hash": "6dbf7aa794eb906df26c638fde3f5529",
+    "semantic_hash": "6dbf7aa794eb906df26c638fde3f5529"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/CountryRepository.groovy": {
+    "mtime": 1771437789.8504012,
+    "seen": 1791906935.5011234,
+    "ast_hash": "abb044b042bf41c7e23ebab1e35aa228",
+    "semantic_hash": "abb044b042bf41c7e23ebab1e35aa228"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/CurrencyI18nRepository.groovy": {
+    "mtime": 1771684015.719907,
+    "seen": 1791906935.5011258,
+    "ast_hash": "da4d3a8e67d96533d52d86967c5b393d",
+    "semantic_hash": "da4d3a8e67d96533d52d86967c5b393d"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/CurrencyRepository.groovy": {
+    "mtime": 1773041385.6066136,
+    "seen": 1791906935.5011282,
+    "ast_hash": "c7f04c0aeb555049dc41e47ef176afad",
+    "semantic_hash": "c7f04c0aeb555049dc41e47ef176afad"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/LanguageRepository.groovy": {
+    "mtime": 1771443841.316549,
+    "seen": 1791906935.5011306,
+    "ast_hash": "d124c441d3da2b387fe10940a9d825b8",
+    "semantic_hash": "d124c441d3da2b387fe10940a9d825b8"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/LegalEntityRepository.groovy": {
+    "mtime": 1771681684.8731925,
+    "seen": 1791906935.5011327,
+    "ast_hash": "882ed67b8d76e073f5799f1122f57ed4",
+    "semantic_hash": "882ed67b8d76e073f5799f1122f57ed4"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/LegalTypeI18nRepository.groovy": {
+    "mtime": 1771536799.8829257,
+    "seen": 1791906935.5011353,
+    "ast_hash": "e7349d838a93ff240f24c76b93a1148e",
+    "semantic_hash": "e7349d838a93ff240f24c76b93a1148e"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/LegalTypeRepository.groovy": {
+    "mtime": 1771440668.5806324,
+    "seen": 1791906935.5011377,
+    "ast_hash": "00ebd28310ce8f9110e1dc9e98127f83",
+    "semantic_hash": "00ebd28310ce8f9110e1dc9e98127f83"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/MemberRelationI18nRepository.groovy": {
+    "mtime": 1771536799.870926,
+    "seen": 1791906935.5011399,
+    "ast_hash": "bf95a853457293c0ca0c8a76cd7dd49b",
+    "semantic_hash": "bf95a853457293c0ca0c8a76cd7dd49b"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/MemberRelationRepository.groovy": {
+    "mtime": 1771440668.5866325,
+    "seen": 1791906935.5011423,
+    "ast_hash": "c6dabf6e182e35b5953f9d3ec0ce5a23",
+    "semantic_hash": "c6dabf6e182e35b5953f9d3ec0ce5a23"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/MemberRepository.groovy": {
+    "mtime": 1773222063.658292,
+    "seen": 1791906935.501145,
+    "ast_hash": "b63be3c8f6ff180ecd08f5cf3d08f629",
+    "semantic_hash": "b63be3c8f6ff180ecd08f5cf3d08f629"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/MunicipalityI18nRepository.groovy": {
+    "mtime": 1771536799.9639251,
+    "seen": 1791906935.501147,
+    "ast_hash": "484bc4936cc5027f6ce99c62413f5a3e",
+    "semantic_hash": "484bc4936cc5027f6ce99c62413f5a3e"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/MunicipalityRepository.groovy": {
+    "mtime": 1771441501.0508623,
+    "seen": 1791906935.5011497,
+    "ast_hash": "f29391fecf35ed46c03c8c5723fff8c3",
+    "semantic_hash": "f29391fecf35ed46c03c8c5723fff8c3"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/PersonRepository.groovy": {
+    "mtime": 1771681684.8951924,
+    "seen": 1791906935.501152,
+    "ast_hash": "26d9e3f8b8600fa79263ce8ada6f2e2e",
+    "semantic_hash": "26d9e3f8b8600fa79263ce8ada6f2e2e"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/PrefectureI18nRepository.groovy": {
+    "mtime": 1771536799.876926,
+    "seen": 1791906935.5011547,
+    "ast_hash": "782e6f17c5a754fd081318b30ac35562",
+    "semantic_hash": "782e6f17c5a754fd081318b30ac35562"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/PrefectureRepository.groovy": {
+    "mtime": 1771442043.2380686,
+    "seen": 1791906935.5011568,
+    "ast_hash": "92f87e3ac7fcc992cfc1ecc9df044a03",
+    "semantic_hash": "92f87e3ac7fcc992cfc1ecc9df044a03"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/RegionI18nRepository.groovy": {
+    "mtime": 1771536799.8299263,
+    "seen": 1791906935.5011592,
+    "ast_hash": "9dbe5b30cb6659b549d92c0da87d3bec",
+    "semantic_hash": "9dbe5b30cb6659b549d92c0da87d3bec"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/RegionRepository.groovy": {
+    "mtime": 1771440668.5716326,
+    "seen": 1791906935.5011616,
+    "ast_hash": "19f95d06e547cc66b3146114b95790a9",
+    "semantic_hash": "19f95d06e547cc66b3146114b95790a9"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/RoleRepository.groovy": {
+    "mtime": 1771445281.7645879,
+    "seen": 1791906935.5011642,
+    "ast_hash": "b974712a561cb4027e0bd17f23dc4dde",
+    "semantic_hash": "b974712a561cb4027e0bd17f23dc4dde"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/StockTypeI18nRepository.groovy": {
+    "mtime": 1771684902.672569,
+    "seen": 1791906935.5011668,
+    "ast_hash": "e379ba32a7aa30ae1512affd6019fec0",
+    "semantic_hash": "e379ba32a7aa30ae1512affd6019fec0"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/StockTypeRepository.groovy": {
+    "mtime": 1773041385.6066136,
+    "seen": 1791906935.5011692,
+    "ast_hash": "af4b847a5730a349b4b1ac257f1e5a66",
+    "semantic_hash": "af4b847a5730a349b4b1ac257f1e5a66"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/repository/UserAccountRepository.groovy": {
+    "mtime": 1771445075.7202694,
+    "seen": 1791906935.5011714,
+    "ast_hash": "3f402676849877ec9d27f31ebfbece1b",
+    "semantic_hash": "3f402676849877ec9d27f31ebfbece1b"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/AuthenticationService.groovy": {
+    "mtime": 1773041385.6066136,
+    "seen": 1791906935.5011737,
+    "ast_hash": "bf491d12e5a21be9fd8af7a25a4ff9d5",
+    "semantic_hash": "bf491d12e5a21be9fd8af7a25a4ff9d5"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/CompanyCapitalService.groovy": {
+    "mtime": 1773222063.658292,
+    "seen": 1791906935.5011764,
+    "ast_hash": "6fe6ec468682fde27dbb83b38ac30ac3",
+    "semantic_hash": "6fe6ec468682fde27dbb83b38ac30ac3"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/CompanyService.groovy": {
+    "mtime": 1773041385.6066136,
+    "seen": 1791906935.5011787,
+    "ast_hash": "090909d7cbffc339af67f7f8890da39b",
+    "semantic_hash": "090909d7cbffc339af67f7f8890da39b"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/CompanyStatusService.groovy": {
+    "mtime": 1773041385.6066136,
+    "seen": 1791906935.5011811,
+    "ast_hash": "5fefc6caa814bed31bcc03c5777bf2c1",
+    "semantic_hash": "5fefc6caa814bed31bcc03c5777bf2c1"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/CompanyStockService.groovy": {
+    "mtime": 1773222063.658292,
+    "seen": 1791906935.5011835,
+    "ast_hash": "34aec529e25ce197d9b60f85ca055066",
+    "semantic_hash": "34aec529e25ce197d9b60f85ca055066"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/CountryService.groovy": {
+    "mtime": 1773041385.6066136,
+    "seen": 1791906935.501186,
+    "ast_hash": "c561473a035431a0795eddb21f844d25",
+    "semantic_hash": "c561473a035431a0795eddb21f844d25"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/CurrencyService.groovy": {
+    "mtime": 1773041385.6066136,
+    "seen": 1791906935.5011883,
+    "ast_hash": "166cfd7889ffa6f9f2d3c75f616b07f1",
+    "semantic_hash": "166cfd7889ffa6f9f2d3c75f616b07f1"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/DeleteService.groovy": {
+    "mtime": 1773041385.6066136,
+    "seen": 1791906935.5011911,
+    "ast_hash": "2e6d2d94be482a4aae05a7195a956eb3",
+    "semantic_hash": "2e6d2d94be482a4aae05a7195a956eb3"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/LegalEntityService.groovy": {
+    "mtime": 1773222063.658292,
+    "seen": 1791906935.5011935,
+    "ast_hash": "7a1c75d1f71ada7a5d530dbb5ede014f",
+    "semantic_hash": "7a1c75d1f71ada7a5d530dbb5ede014f"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/LegalTypeService.groovy": {
+    "mtime": 1773041385.6066136,
+    "seen": 1791906935.5011957,
+    "ast_hash": "0b651383faf2b6c2aca7a96870099dc4",
+    "semantic_hash": "0b651383faf2b6c2aca7a96870099dc4"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/MemberRelationService.groovy": {
+    "mtime": 1773041385.6076136,
+    "seen": 1791906935.5011983,
+    "ast_hash": "6195a60c1825b5fb1b7e1a30f9f4a03b",
+    "semantic_hash": "6195a60c1825b5fb1b7e1a30f9f4a03b"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/MemberService.groovy": {
+    "mtime": 1773222063.658292,
+    "seen": 1791906935.5012007,
+    "ast_hash": "e8e4610104d472585bd3cf192b60fb99",
+    "semantic_hash": "e8e4610104d472585bd3cf192b60fb99"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/MessageService.groovy": {
+    "mtime": 1771442335.026379,
+    "seen": 1791906935.501203,
+    "ast_hash": "4a787f31bfebcfdd1369f8be45b3aa88",
+    "semantic_hash": "4a787f31bfebcfdd1369f8be45b3aa88"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/MunicipalityService.groovy": {
+    "mtime": 1773041385.6076136,
+    "seen": 1791906935.5012052,
+    "ast_hash": "0daa95e9928bec43438679f8f9b738bc",
+    "semantic_hash": "0daa95e9928bec43438679f8f9b738bc"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/PasswordService.groovy": {
+    "mtime": 1771446200.1471958,
+    "seen": 1791906935.5012078,
+    "ast_hash": "8f2dfe9824bf819a808dc63ccc6a38cb",
+    "semantic_hash": "8f2dfe9824bf819a808dc63ccc6a38cb"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/PersonService.groovy": {
+    "mtime": 1773222063.658292,
+    "seen": 1791906935.5012102,
+    "ast_hash": "8095fef57b5c5744b23b1a25f9644ce2",
+    "semantic_hash": "8095fef57b5c5744b23b1a25f9644ce2"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/PrefectureService.groovy": {
+    "mtime": 1773041385.6076136,
+    "seen": 1791906935.5012126,
+    "ast_hash": "412bac37e8f0c69b38fbf84b703366a8",
+    "semantic_hash": "412bac37e8f0c69b38fbf84b703366a8"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/RegionService.groovy": {
+    "mtime": 1773041385.6076136,
+    "seen": 1791906935.501215,
+    "ast_hash": "a54874ea8eb0f8400331143113a84911",
+    "semantic_hash": "a54874ea8eb0f8400331143113a84911"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/service/StockTypeService.groovy": {
+    "mtime": 1773041385.6076136,
+    "seen": 1791906935.5012174,
+    "ast_hash": "65b9899e23b2321ba136e497dc184fb7",
+    "semantic_hash": "65b9899e23b2321ba136e497dc184fb7"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/validation/CompanyCapitalValidation.groovy": {
+    "mtime": 1773647573.7274916,
+    "seen": 1791906935.5012197,
+    "ast_hash": "d7d91031b48277ad2efce8d133f10944",
+    "semantic_hash": "d7d91031b48277ad2efce8d133f10944"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/validation/CompanyStockValidation.groovy": {
+    "mtime": 1773647573.7274916,
+    "seen": 1791906935.5012226,
+    "ast_hash": "d3bfdaada748533cf3a3db085d3b20c8",
+    "semantic_hash": "d3bfdaada748533cf3a3db085d3b20c8"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/validation/CompanyValidation.groovy": {
+    "mtime": 1773647573.7274916,
+    "seen": 1791906935.501225,
+    "ast_hash": "d5a60b344abdae4498bca0d27ec86fe9",
+    "semantic_hash": "d5a60b344abdae4498bca0d27ec86fe9"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/validation/LegalEntityValidation.groovy": {
+    "mtime": 1773647573.7274916,
+    "seen": 1791906935.5012274,
+    "ast_hash": "b9ffa37b679ec9b4dd367ab90629d0f7",
+    "semantic_hash": "b9ffa37b679ec9b4dd367ab90629d0f7"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/validation/MemberValidation.groovy": {
+    "mtime": 1773647573.7274916,
+    "seen": 1791906935.5012298,
+    "ast_hash": "b7d31f20f9e6a1de93b8cb7c91a921e7",
+    "semantic_hash": "b7d31f20f9e6a1de93b8cb7c91a921e7"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/validation/PersonValidation.groovy": {
+    "mtime": 1773647573.7274916,
+    "seen": 1791906935.5012321,
+    "ast_hash": "359337471b37767890c2af96bd32ecc3",
+    "semantic_hash": "359337471b37767890c2af96bd32ecc3"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/validation/Utils.groovy": {
+    "mtime": 1773222063.659292,
+    "seen": 1791906935.5012345,
+    "ast_hash": "cd1ef883cc206e52993ddaa42c7e1373",
+    "semantic_hash": "cd1ef883cc206e52993ddaa42c7e1373"
+  },
+  "business-registry/api/src/main/groovy/com/business/registry/validation/Validatable.groovy": {
+    "mtime": 1773041385.6086135,
+    "seen": 1791906935.5012367,
+    "ast_hash": "95ffb4f52afd98636fd2ffd4c17876b7",
+    "semantic_hash": "95ffb4f52afd98636fd2ffd4c17876b7"
+  },
+  "business-registry/client/eslint.config.js": {
+    "mtime": 1773222063.659292,
+    "seen": 1791906935.5012393,
+    "ast_hash": "bbd1f1fee831628b12a2bc15cb7a8f30",
+    "semantic_hash": "bbd1f1fee831628b12a2bc15cb7a8f30"
+  },
+  "business-registry/client/package.json": {
+    "mtime": 1772471576.464015,
+    "seen": 1791906935.5012417,
+    "ast_hash": "363fddfe5d4bd8bfa3763aec6f59681b",
+    "semantic_hash": "363fddfe5d4bd8bfa3763aec6f59681b"
+  },
+  "business-registry/client/src/App.tsx": {
+    "mtime": 1773222063.660292,
+    "seen": 1791906935.501244,
+    "ast_hash": "07aeff91634ffbb6034cc5626d2c6083",
+    "semantic_hash": "07aeff91634ffbb6034cc5626d2c6083"
+  },
+  "business-registry/client/src/main.tsx": {
+    "mtime": 1773222063.660292,
+    "seen": 1791906935.5012465,
+    "ast_hash": "ba24175385bfc310886972691e678e37",
+    "semantic_hash": "ba24175385bfc310886972691e678e37"
+  },
+  "business-registry/client/src/pages/company/data-access/gateway.ts": {
+    "mtime": 1773222063.660292,
+    "seen": 1791906935.5012488,
+    "ast_hash": "633cfe1a2d7162098c09a69f8cc9ae1e",
+    "semantic_hash": "633cfe1a2d7162098c09a69f8cc9ae1e"
+  },
+  "business-registry/client/src/pages/company/data-access/useCreateCompany.tsx": {
+    "mtime": 1773222063.661292,
+    "seen": 1791906935.5012527,
+    "ast_hash": "d3f047ddf3c97b3aa823c0605dfdcb77",
+    "semantic_hash": "d3f047ddf3c97b3aa823c0605dfdcb77"
+  },
+  "business-registry/client/src/pages/company/data-access/useDeleteCompany.tsx": {
+    "mtime": 1773222063.661292,
+    "seen": 1791906935.5012548,
+    "ast_hash": "220a745c14e1b3d6313b0186e52bf52d",
+    "semantic_hash": "220a745c14e1b3d6313b0186e52bf52d"
+  },
+  "business-registry/client/src/pages/company/data-access/useIndexCompany.tsx": {
+    "mtime": 1773222063.661292,
+    "seen": 1791906935.5012572,
+    "ast_hash": "0ed4d160f37a60e09a16cba995401d8d",
+    "semantic_hash": "0ed4d160f37a60e09a16cba995401d8d"
+  },
+  "business-registry/client/src/pages/company/data-access/useUpdateCompany.tsx": {
+    "mtime": 1773222063.661292,
+    "seen": 1791906935.5012598,
+    "ast_hash": "5e0c50d5c4e7165005fad217630e5074",
+    "semantic_hash": "5e0c50d5c4e7165005fad217630e5074"
+  },
+  "business-registry/client/src/pages/company/data-access/useViewCompany.tsx": {
+    "mtime": 1773222063.661292,
+    "seen": 1791906935.5012622,
+    "ast_hash": "c67e24dd9c3d78b020706bec10adf786",
+    "semantic_hash": "c67e24dd9c3d78b020706bec10adf786"
+  },
+  "business-registry/client/src/pages/company/features/add/Add.tsx": {
+    "mtime": 1773222063.662292,
+    "seen": 1791906935.5012646,
+    "ast_hash": "3017c88ab2f1189374114a8701de874f",
+    "semantic_hash": "3017c88ab2f1189374114a8701de874f"
+  },
+  "business-registry/client/src/pages/company/features/edit/Edit.tsx": {
+    "mtime": 1773222063.662292,
+    "seen": 1791906935.5012672,
+    "ast_hash": "db1853f2940f2234bf17a9519dabd3dc",
+    "semantic_hash": "db1853f2940f2234bf17a9519dabd3dc"
+  },
+  "business-registry/client/src/pages/company/features/index/Index.tsx": {
+    "mtime": 1773222063.662292,
+    "seen": 1791906935.5012698,
+    "ast_hash": "960c0e72171d11d673f667d94b518970",
+    "semantic_hash": "960c0e72171d11d673f667d94b518970"
+  },
+  "business-registry/client/src/pages/company/features/shared/CompanyForm.tsx": {
+    "mtime": 1773222063.663292,
+    "seen": 1791906935.501272,
+    "ast_hash": "3e0e0be8d75a13fd6ca4def6237ccbc3",
+    "semantic_hash": "3e0e0be8d75a13fd6ca4def6237ccbc3"
+  },
+  "business-registry/client/src/pages/company/features/shared/CompanyTabsLayout.tsx": {
+    "mtime": 1773222063.663292,
+    "seen": 1791906935.501274,
+    "ast_hash": "f76e101defe24cb768821fcab2ca1ce6",
+    "semantic_hash": "f76e101defe24cb768821fcab2ca1ce6"
+  },
+  "business-registry/client/src/pages/company/features/shared/validation/validationSchema.ts": {
+    "mtime": 1773222063.663292,
+    "seen": 1791906935.5012765,
+    "ast_hash": "edd0d3fe5961d20f9f27888f350e53ef",
+    "semantic_hash": "edd0d3fe5961d20f9f27888f350e53ef"
+  },
+  "business-registry/client/src/pages/company/features/view/View.tsx": {
+    "mtime": 1773222063.663292,
+    "seen": 1791906935.5012796,
+    "ast_hash": "f1d4967c2cd7fa4660c7b90625fc024b",
+    "semantic_hash": "f1d4967c2cd7fa4660c7b90625fc024b"
+  },
+  "business-registry/client/src/pages/company/types.ts": {
+    "mtime": 1773222063.663292,
+    "seen": 1791906935.5012817,
+    "ast_hash": "0a4401f6cbaf4ce63e6f5a7fb8c39051",
+    "semantic_hash": "0a4401f6cbaf4ce63e6f5a7fb8c39051"
+  },
+  "business-registry/client/src/pages/companyCapital/data-access/gateway.ts": {
+    "mtime": 1773222063.665043,
+    "seen": 1791906935.5012841,
+    "ast_hash": "f6818b9dddd9b538041626fb3edb7944",
+    "semantic_hash": "f6818b9dddd9b538041626fb3edb7944"
+  },
+  "business-registry/client/src/pages/companyCapital/data-access/useUpdateCompanyCapital.tsx": {
+    "mtime": 1773222063.665129,
+    "seen": 1791906935.5012865,
+    "ast_hash": "f65e3f88602b82a8de733bd356383dfc",
+    "semantic_hash": "f65e3f88602b82a8de733bd356383dfc"
+  },
+  "business-registry/client/src/pages/companyCapital/data-access/useViewCompanyCapital.tsx": {
+    "mtime": 1773222063.665129,
+    "seen": 1791906935.5012887,
+    "ast_hash": "dcd0947b7f2eb82e0e9205270dda6003",
+    "semantic_hash": "dcd0947b7f2eb82e0e9205270dda6003"
+  },
+  "business-registry/client/src/pages/companyCapital/features/edit/Edit.tsx": {
+    "mtime": 1773222063.6653087,
+    "seen": 1791906935.5012913,
+    "ast_hash": "b9481eb74642efa7dc8c79458aca02f3",
+    "semantic_hash": "b9481eb74642efa7dc8c79458aca02f3"
+  },
+  "business-registry/client/src/pages/companyCapital/features/shared/CompanyCapitalForm.tsx": {
+    "mtime": 1773222063.6653087,
+    "seen": 1791906935.5012937,
+    "ast_hash": "c0b3e212e8566e7f3dabf0d366fbefe9",
+    "semantic_hash": "c0b3e212e8566e7f3dabf0d366fbefe9"
+  },
+  "business-registry/client/src/pages/companyCapital/features/shared/DeleteStockModal.tsx": {
+    "mtime": 1773222063.6654935,
+    "seen": 1791906935.5012958,
+    "ast_hash": "fc4c13a7527280633d8e300039a50eb7",
+    "semantic_hash": "fc4c13a7527280633d8e300039a50eb7"
+  },
+  "business-registry/client/src/pages/companyCapital/features/shared/EditAndAddStockModal.tsx": {
+    "mtime": 1773222063.6654935,
+    "seen": 1791906935.5012984,
+    "ast_hash": "f73bacd11a29748389599ace5b93e463",
+    "semantic_hash": "f73bacd11a29748389599ace5b93e463"
+  },
+  "business-registry/client/src/pages/companyCapital/features/shared/TableActionsForStocks.tsx": {
+    "mtime": 1773222063.6654935,
+    "seen": 1791906935.5013013,
+    "ast_hash": "294e4c3418b2e360b78d93c623cfbff4",
+    "semantic_hash": "294e4c3418b2e360b78d93c623cfbff4"
+  },
+  "business-registry/client/src/pages/companyCapital/features/shared/validation/validationSchema.ts": {
+    "mtime": 1773222063.6654935,
+    "seen": 1791906935.5013034,
+    "ast_hash": "7a421a9ec127af61751fc87f6932eb39",
+    "semantic_hash": "7a421a9ec127af61751fc87f6932eb39"
+  },
+  "business-registry/client/src/pages/companyCapital/features/view/View.tsx": {
+    "mtime": 1773222063.6654935,
+    "seen": 1791906935.501306,
+    "ast_hash": "605e2c0ccbca6e64346580e70835f8fc",
+    "semantic_hash": "605e2c0ccbca6e64346580e70835f8fc"
+  },
+  "business-registry/client/src/pages/companyCapital/types.ts": {
+    "mtime": 1773222063.6654935,
+    "seen": 1791906935.5013084,
+    "ast_hash": "be6310d1bbf4066128cd8574128cb6cc",
+    "semantic_hash": "be6310d1bbf4066128cd8574128cb6cc"
+  },
+  "business-registry/client/src/pages/legalEntity/data-access/gateway.ts": {
+    "mtime": 1773222063.6658542,
+    "seen": 1791906935.5013103,
+    "ast_hash": "46e539b4daea2d2ce28863b860da2d8f",
+    "semantic_hash": "46e539b4daea2d2ce28863b860da2d8f"
+  },
+  "business-registry/client/src/pages/legalEntity/data-access/useCreateLegalEntity.tsx": {
+    "mtime": 1773222063.6659145,
+    "seen": 1791906935.5013127,
+    "ast_hash": "6feb5ad21417e0df9c26578d826271dd",
+    "semantic_hash": "6feb5ad21417e0df9c26578d826271dd"
+  },
+  "business-registry/client/src/pages/legalEntity/data-access/useDeleteLegalEntity.tsx": {
+    "mtime": 1773222063.6659145,
+    "seen": 1791906935.5013156,
+    "ast_hash": "a4f6273fd3d3bdbdad77e500a9dfd68b",
+    "semantic_hash": "a4f6273fd3d3bdbdad77e500a9dfd68b"
+  },
+  "business-registry/client/src/pages/legalEntity/data-access/useIndexLegalEntity.tsx": {
+    "mtime": 1773222063.6659145,
+    "seen": 1791906935.5013185,
+    "ast_hash": "b60ed69469773a4bb1c5a9d2e77c1cf2",
+    "semantic_hash": "b60ed69469773a4bb1c5a9d2e77c1cf2"
+  },
+  "business-registry/client/src/pages/legalEntity/data-access/useUpdateLegalEntity.tsx": {
+    "mtime": 1773222063.6659145,
+    "seen": 1791906935.5013206,
+    "ast_hash": "7398597595e328118bd9bdcdd66e2abd",
+    "semantic_hash": "7398597595e328118bd9bdcdd66e2abd"
+  },
+  "business-registry/client/src/pages/legalEntity/data-access/useViewLegalEntity.tsx": {
+    "mtime": 1773222063.6659145,
+    "seen": 1791906935.501323,
+    "ast_hash": "7a81e9a672793dbd3e2e63ae36913e37",
+    "semantic_hash": "7a81e9a672793dbd3e2e63ae36913e37"
+  },
+  "business-registry/client/src/pages/legalEntity/features/add/Add.tsx": {
+    "mtime": 1773222063.6661072,
+    "seen": 1791906935.5013256,
+    "ast_hash": "074a107e7d2a5da45fd2365780406ac7",
+    "semantic_hash": "074a107e7d2a5da45fd2365780406ac7"
+  },
+  "business-registry/client/src/pages/legalEntity/features/edit/Edit.tsx": {
+    "mtime": 1773222063.6661072,
+    "seen": 1791906935.5013278,
+    "ast_hash": "0582fc8cd549f599d2005dac41260f7c",
+    "semantic_hash": "0582fc8cd549f599d2005dac41260f7c"
+  },
+  "business-registry/client/src/pages/legalEntity/features/index/Index.tsx": {
+    "mtime": 1773222063.6661072,
+    "seen": 1791906935.5013304,
+    "ast_hash": "bf2d61f697963cc3fc781869bedf6f60",
+    "semantic_hash": "bf2d61f697963cc3fc781869bedf6f60"
+  },
+  "business-registry/client/src/pages/legalEntity/features/shared/LegalEntityForm.tsx": {
+    "mtime": 1773222063.6661072,
+    "seen": 1791906935.5013328,
+    "ast_hash": "676882b10f53ef9aa9fa9d18b307851b",
+    "semantic_hash": "676882b10f53ef9aa9fa9d18b307851b"
+  },
+  "business-registry/client/src/pages/legalEntity/features/shared/validation/validationSchema.ts": {
+    "mtime": 1773222063.6664603,
+    "seen": 1791906935.5013351,
+    "ast_hash": "f8879e31857abfa28ef4bd55375353db",
+    "semantic_hash": "f8879e31857abfa28ef4bd55375353db"
+  },
+  "business-registry/client/src/pages/legalEntity/features/view/View.tsx": {
+    "mtime": 1773222063.6664603,
+    "seen": 1791906935.501338,
+    "ast_hash": "f02d92fd036bfd814a51f32819392b20",
+    "semantic_hash": "f02d92fd036bfd814a51f32819392b20"
+  },
+  "business-registry/client/src/pages/legalEntity/types.ts": {
+    "mtime": 1773222063.6664603,
+    "seen": 1791906935.50134,
+    "ast_hash": "45bcd42550fa3dd22bd1f2730c8bf3ea",
+    "semantic_hash": "45bcd42550fa3dd22bd1f2730c8bf3ea"
+  },
+  "business-registry/client/src/pages/member/data-access/gateway.ts": {
+    "mtime": 1773222063.6666849,
+    "seen": 1791906935.5013423,
+    "ast_hash": "74ebbbcb0d2f0b4cf24e3186f721234f",
+    "semantic_hash": "74ebbbcb0d2f0b4cf24e3186f721234f"
+  },
+  "business-registry/client/src/pages/member/data-access/useCreateMember.tsx": {
+    "mtime": 1773222063.666735,
+    "seen": 1791906935.5013447,
+    "ast_hash": "7f4ab5183bfb9ffe2a05bce54675fd86",
+    "semantic_hash": "7f4ab5183bfb9ffe2a05bce54675fd86"
+  },
+  "business-registry/client/src/pages/member/data-access/useDeleteMember.tsx": {
+    "mtime": 1773222063.666735,
+    "seen": 1791906935.501347,
+    "ast_hash": "ededf77c599846b49771132aa6bfcd06",
+    "semantic_hash": "ededf77c599846b49771132aa6bfcd06"
+  },
+  "business-registry/client/src/pages/member/data-access/useIndexMember.tsx": {
+    "mtime": 1773222063.666735,
+    "seen": 1791906935.50135,
+    "ast_hash": "cee812d98c5342f0603f080e4400868c",
+    "semantic_hash": "cee812d98c5342f0603f080e4400868c"
+  },
+  "business-registry/client/src/pages/member/data-access/useSearchLegalEntities.tsx": {
+    "mtime": 1773222063.666735,
+    "seen": 1791906935.5013523,
+    "ast_hash": "248d218eef67a6486a5504bb656137f2",
+    "semantic_hash": "248d218eef67a6486a5504bb656137f2"
+  },
+  "business-registry/client/src/pages/member/data-access/useSearchPersons.tsx": {
+    "mtime": 1773222063.666735,
+    "seen": 1791906935.5013545,
+    "ast_hash": "e59972a6286de670f1666803b3a7d607",
+    "semantic_hash": "e59972a6286de670f1666803b3a7d607"
+  },
+  "business-registry/client/src/pages/member/data-access/useUpdateMember.tsx": {
+    "mtime": 1773222063.666735,
+    "seen": 1791906935.5013568,
+    "ast_hash": "21e38445e37b9fe37d33e561dfcf87d8",
+    "semantic_hash": "21e38445e37b9fe37d33e561dfcf87d8"
+  },
+  "business-registry/client/src/pages/member/data-access/useViewMember.tsx": {
+    "mtime": 1773222063.666735,
+    "seen": 1791906935.5013595,
+    "ast_hash": "2374e8a4052bbcb574f66795e4a0fc4e",
+    "semantic_hash": "2374e8a4052bbcb574f66795e4a0fc4e"
+  },
+  "business-registry/client/src/pages/member/features/add/Add.tsx": {
+    "mtime": 1773222063.6669796,
+    "seen": 1791906935.5013616,
+    "ast_hash": "b1bb6f0cf51667b108d853b114571b53",
+    "semantic_hash": "b1bb6f0cf51667b108d853b114571b53"
+  },
+  "business-registry/client/src/pages/member/features/edit/Edit.tsx": {
+    "mtime": 1773222063.6669796,
+    "seen": 1791906935.501364,
+    "ast_hash": "77c91c3db18f066b398c6e6dbbdb38da",
+    "semantic_hash": "77c91c3db18f066b398c6e6dbbdb38da"
+  },
+  "business-registry/client/src/pages/member/features/index/Index.tsx": {
+    "mtime": 1773222063.6669796,
+    "seen": 1791906935.5013688,
+    "ast_hash": "258c654ae325a7ff7a319caef1cb6b3f",
+    "semantic_hash": "258c654ae325a7ff7a319caef1cb6b3f"
+  },
+  "business-registry/client/src/pages/member/features/shared/MemberForm.tsx": {
+    "mtime": 1773222063.6669796,
+    "seen": 1791906935.5013711,
+    "ast_hash": "756833b0b7a58fd413aceff5ba851228",
+    "semantic_hash": "756833b0b7a58fd413aceff5ba851228"
+  },
+  "business-registry/client/src/pages/member/features/shared/validation/validationSchema.ts": {
+    "mtime": 1773222063.667273,
+    "seen": 1791906935.5013738,
+    "ast_hash": "2c0cf223e439da591f511b9b6ba71ac2",
+    "semantic_hash": "2c0cf223e439da591f511b9b6ba71ac2"
+  },
+  "business-registry/client/src/pages/member/features/view/View.tsx": {
+    "mtime": 1773222063.667273,
+    "seen": 1791906935.501376,
+    "ast_hash": "d4968a3edcfc82499339a9b39427498d",
+    "semantic_hash": "d4968a3edcfc82499339a9b39427498d"
+  },
+  "business-registry/client/src/pages/member/types.ts": {
+    "mtime": 1773222063.667273,
+    "seen": 1791906935.5013783,
+    "ast_hash": "8e571a2fb0becdae5ceb43e658d56736",
+    "semantic_hash": "8e571a2fb0becdae5ceb43e658d56736"
+  },
+  "business-registry/client/src/pages/person/data-access/gateway.ts": {
+    "mtime": 1773222063.6674523,
+    "seen": 1791906935.5013807,
+    "ast_hash": "b978eb34c8a28e10ed8cd803c3a6bb54",
+    "semantic_hash": "b978eb34c8a28e10ed8cd803c3a6bb54"
+  },
+  "business-registry/client/src/pages/person/data-access/useCreatePerson.tsx": {
+    "mtime": 1773222063.667504,
+    "seen": 1791906935.5013828,
+    "ast_hash": "6a48797b96ff527635a307190b65821b",
+    "semantic_hash": "6a48797b96ff527635a307190b65821b"
+  },
+  "business-registry/client/src/pages/person/data-access/useDeletePerson.tsx": {
+    "mtime": 1773222063.667504,
+    "seen": 1791906935.5013857,
+    "ast_hash": "a2733182f4166bf64d7f4b32f2054d44",
+    "semantic_hash": "a2733182f4166bf64d7f4b32f2054d44"
+  },
+  "business-registry/client/src/pages/person/data-access/useIndexPerson.tsx": {
+    "mtime": 1773222063.667504,
+    "seen": 1791906935.501388,
+    "ast_hash": "ecb98491c02de6476cb73f183954156b",
+    "semantic_hash": "ecb98491c02de6476cb73f183954156b"
+  },
+  "business-registry/client/src/pages/person/data-access/useUpdatePerson.tsx": {
+    "mtime": 1773222063.667504,
+    "seen": 1791906935.5013907,
+    "ast_hash": "9ae7d8f6647554943010096858d2ff74",
+    "semantic_hash": "9ae7d8f6647554943010096858d2ff74"
+  },
+  "business-registry/client/src/pages/person/data-access/useViewPerson.tsx": {
+    "mtime": 1773222063.667504,
+    "seen": 1791906935.5013928,
+    "ast_hash": "6c2009e87a9496d9964ca2b9dbb2ca72",
+    "semantic_hash": "6c2009e87a9496d9964ca2b9dbb2ca72"
+  },
+  "business-registry/client/src/pages/person/features/add/Add.tsx": {
+    "mtime": 1773222063.6676793,
+    "seen": 1791906935.5013952,
+    "ast_hash": "6f1a96df11fcd4717c0c836ffc3a01a8",
+    "semantic_hash": "6f1a96df11fcd4717c0c836ffc3a01a8"
+  },
+  "business-registry/client/src/pages/person/features/edit/Edit.tsx": {
+    "mtime": 1773222063.6676793,
+    "seen": 1791906935.5013978,
+    "ast_hash": "c6ff8824efc32e10207d69999cf179f7",
+    "semantic_hash": "c6ff8824efc32e10207d69999cf179f7"
+  },
+  "business-registry/client/src/pages/person/features/index/Index.tsx": {
+    "mtime": 1773222063.6676793,
+    "seen": 1791906935.5014,
+    "ast_hash": "2c168852f515d3ec105c6e4ff39b81b6",
+    "semantic_hash": "2c168852f515d3ec105c6e4ff39b81b6"
+  },
+  "business-registry/client/src/pages/person/features/shared/PersonForm.tsx": {
+    "mtime": 1773222063.6676793,
+    "seen": 1791906935.5014024,
+    "ast_hash": "f5568511692afa72dc92fecbc0f81a7d",
+    "semantic_hash": "f5568511692afa72dc92fecbc0f81a7d"
+  },
+  "business-registry/client/src/pages/person/features/shared/validation/validationSchema.ts": {
+    "mtime": 1773222063.6679406,
+    "seen": 1791906935.501405,
+    "ast_hash": "d2ff9e35ece4b57e25f28028b10a2056",
+    "semantic_hash": "d2ff9e35ece4b57e25f28028b10a2056"
+  },
+  "business-registry/client/src/pages/person/features/view/View.tsx": {
+    "mtime": 1773222063.6679406,
+    "seen": 1791906935.5014071,
+    "ast_hash": "064aae23224a58f323b63da34a0180d5",
+    "semantic_hash": "064aae23224a58f323b63da34a0180d5"
+  },
+  "business-registry/client/src/pages/person/types.ts": {
+    "mtime": 1773222063.6679406,
+    "seen": 1791906935.5014095,
+    "ast_hash": "a6c17c392fe55a6b6d6d3c33e1d794cb",
+    "semantic_hash": "a6c17c392fe55a6b6d6d3c33e1d794cb"
+  },
+  "business-registry/client/src/pages/shared/errorPages/Error502.tsx": {
+    "mtime": 1773222063.6679406,
+    "seen": 1791906935.5014126,
+    "ast_hash": "bd9dda70aceec3aa878677906bbdf4e7",
+    "semantic_hash": "bd9dda70aceec3aa878677906bbdf4e7"
+  },
+  "business-registry/client/src/pages/shared/errorPages/NotFound.tsx": {
+    "mtime": 1773222063.6679406,
+    "seen": 1791906935.501415,
+    "ast_hash": "5e21eb3e2bece1d89afd8381bf624032",
+    "semantic_hash": "5e21eb3e2bece1d89afd8381bf624032"
+  },
+  "business-registry/client/src/pages/welcome/data-access/gateway.ts": {
+    "mtime": 1773222063.6687422,
+    "seen": 1791906935.5014172,
+    "ast_hash": "cd42fa513f411391b42953502e879928",
+    "semantic_hash": "cd42fa513f411391b42953502e879928"
+  },
+  "business-registry/client/src/pages/welcome/data-access/useLogin.tsx": {
+    "mtime": 1773222063.668844,
+    "seen": 1791906935.5014195,
+    "ast_hash": "db9472ee7dde1689da51de70ff4f5016",
+    "semantic_hash": "db9472ee7dde1689da51de70ff4f5016"
+  },
+  "business-registry/client/src/pages/welcome/features/dashboard/Dashboard.tsx": {
+    "mtime": 1773222063.668914,
+    "seen": 1791906935.5014224,
+    "ast_hash": "df42889a5b7b6d397ee9e0ffa7145653",
+    "semantic_hash": "df42889a5b7b6d397ee9e0ffa7145653"
+  },
+  "business-registry/client/src/pages/welcome/features/welcomePage/WelcomePage.tsx": {
+    "mtime": 1773222063.668914,
+    "seen": 1791906935.5014248,
+    "ast_hash": "15878275b4a06920bd871f802f29b989",
+    "semantic_hash": "15878275b4a06920bd871f802f29b989"
+  },
+  "business-registry/client/src/pages/welcome/features/welcomePage/components/LoginForm.tsx": {
+    "mtime": 1773222063.6690361,
+    "seen": 1791906935.5014272,
+    "ast_hash": "129967c3cea6209af3c0a10dc5e06828",
+    "semantic_hash": "129967c3cea6209af3c0a10dc5e06828"
+  },
+  "business-registry/client/src/routes/companyCapitalRoutes.tsx": {
+    "mtime": 1773222063.6690361,
+    "seen": 1791906935.5014296,
+    "ast_hash": "e590c36c1e5c55852945dd226038a82a",
+    "semantic_hash": "e590c36c1e5c55852945dd226038a82a"
+  },
+  "business-registry/client/src/routes/companyRoutes.tsx": {
+    "mtime": 1773222063.6690361,
+    "seen": 1791906935.5014317,
+    "ast_hash": "568fdf7300730ccdf2971f4c3c87dd89",
+    "semantic_hash": "568fdf7300730ccdf2971f4c3c87dd89"
+  },
+  "business-registry/client/src/routes/legalEntityRoutes.tsx": {
+    "mtime": 1773222063.6690361,
+    "seen": 1791906935.5014343,
+    "ast_hash": "e17055957363f940677e3f58344b81ee",
+    "semantic_hash": "e17055957363f940677e3f58344b81ee"
+  },
+  "business-registry/client/src/routes/memberRoutes.tsx": {
+    "mtime": 1773222063.6690361,
+    "seen": 1791906935.501437,
+    "ast_hash": "04575c7adf4fd0fb660149c7f020602b",
+    "semantic_hash": "04575c7adf4fd0fb660149c7f020602b"
+  },
+  "business-registry/client/src/routes/personRoutes.tsx": {
+    "mtime": 1773222063.6690361,
+    "seen": 1791906935.501441,
+    "ast_hash": "f9c981742068cd12d3ced08ae20695c8",
+    "semantic_hash": "f9c981742068cd12d3ced08ae20695c8"
+  },
+  "business-registry/client/src/routes/router.tsx": {
+    "mtime": 1773222063.6690361,
+    "seen": 1791906935.501444,
+    "ast_hash": "fd103cba8e8575ce279adeb2da7ab8a2",
+    "semantic_hash": "fd103cba8e8575ce279adeb2da7ab8a2"
+  },
+  "business-registry/client/src/shared/components/Breadcrumb.tsx": {
+    "mtime": 1773222063.6690361,
+    "seen": 1791906935.5014465,
+    "ast_hash": "d22bf54e0f58b7c0d28c701ff04fb578",
+    "semantic_hash": "d22bf54e0f58b7c0d28c701ff04fb578"
+  },
+  "business-registry/client/src/shared/components/CompanyStatusAutocomplete.tsx": {
+    "mtime": 1773222063.6690361,
+    "seen": 1791906935.5014486,
+    "ast_hash": "9f07bb6c41068e436c395ef23e503b1c",
+    "semantic_hash": "9f07bb6c41068e436c395ef23e503b1c"
+  },
+  "business-registry/client/src/shared/components/CountryAutocomplete.tsx": {
+    "mtime": 1773222063.6690361,
+    "seen": 1791906935.501451,
+    "ast_hash": "e6f698de2bec627c2c89ddb1d0558dd4",
+    "semantic_hash": "e6f698de2bec627c2c89ddb1d0558dd4"
+  },
+  "business-registry/client/src/shared/components/CurrencyAutocomplete.tsx": {
+    "mtime": 1773222063.6690361,
+    "seen": 1791906935.5014536,
+    "ast_hash": "66703eaf137f65630efba29c3e00b8c0",
+    "semantic_hash": "66703eaf137f65630efba29c3e00b8c0"
+  },
+  "business-registry/client/src/shared/components/CustomCircularProgressBar.tsx": {
+    "mtime": 1773222063.6690361,
+    "seen": 1791906935.5014558,
+    "ast_hash": "6e868a7b4deda9c956823837aa14aed2",
+    "semantic_hash": "6e868a7b4deda9c956823837aa14aed2"
+  },
+  "business-registry/client/src/shared/components/CustomDatePicker.tsx": {
+    "mtime": 1773222063.6690361,
+    "seen": 1791906935.5014582,
+    "ast_hash": "498b49f672ad61b0702da941d1417de3",
+    "semantic_hash": "498b49f672ad61b0702da941d1417de3"
+  },
+  "business-registry/client/src/shared/components/DeleteModal.tsx": {
+    "mtime": 1773222063.6690361,
+    "seen": 1791906935.5014606,
+    "ast_hash": "cd3eac2687b3a6a537dc61364c320f4e",
+    "semantic_hash": "cd3eac2687b3a6a537dc61364c320f4e"
+  },
+  "business-registry/client/src/shared/components/Details/Details.tsx": {
+    "mtime": 1773222063.669292,
+    "seen": 1791906935.501463,
+    "ast_hash": "ea7e9e2c035b5151757957777e72fca3",
+    "semantic_hash": "ea7e9e2c035b5151757957777e72fca3"
+  },
+  "business-registry/client/src/shared/components/Details/types.ts": {
+    "mtime": 1773222063.669292,
+    "seen": 1791906935.5014653,
+    "ast_hash": "8c45767b2f6b84986c832629342e9ece",
+    "semantic_hash": "8c45767b2f6b84986c832629342e9ece"
+  },
+  "business-registry/client/src/shared/components/Details/utils.tsx": {
+    "mtime": 1773222063.669292,
+    "seen": 1791906935.5014677,
+    "ast_hash": "07097124fdc170d685aa114e7d6c1ac6",
+    "semantic_hash": "07097124fdc170d685aa114e7d6c1ac6"
+  },
+  "business-registry/client/src/shared/components/LegalTypeAutocomplete.tsx": {
+    "mtime": 1773222063.669292,
+    "seen": 1791906935.50147,
+    "ast_hash": "f37a2841c7409b569a1a55e392893010",
+    "semantic_hash": "f37a2841c7409b569a1a55e392893010"
+  },
+  "business-registry/client/src/shared/components/MemberRelationAutocomplete.tsx": {
+    "mtime": 1773222063.669292,
+    "seen": 1791906935.5014727,
+    "ast_hash": "4af600492adea596fad23aa3da71099f",
+    "semantic_hash": "4af600492adea596fad23aa3da71099f"
+  },
+  "business-registry/client/src/shared/components/MunicipalityAutocomplete.tsx": {
+    "mtime": 1773222063.669292,
+    "seen": 1791906935.501475,
+    "ast_hash": "e5964ec0e9a46c13fda40bcd94c29d9e",
+    "semantic_hash": "e5964ec0e9a46c13fda40bcd94c29d9e"
+  },
+  "business-registry/client/src/shared/components/PrefectureAutocomplete.tsx": {
+    "mtime": 1773222063.669292,
+    "seen": 1791906935.501478,
+    "ast_hash": "2e3dfc9e378f2f13da8f62eaccfabd04",
+    "semantic_hash": "2e3dfc9e378f2f13da8f62eaccfabd04"
+  },
+  "business-registry/client/src/shared/components/RegionAutocomplete.tsx": {
+    "mtime": 1773222063.669292,
+    "seen": 1791906935.50148,
+    "ast_hash": "9aa2b4f8c19bbca8f33e7c713013d5bf",
+    "semantic_hash": "9aa2b4f8c19bbca8f33e7c713013d5bf"
+  },
+  "business-registry/client/src/shared/components/StockTypeAutocomplete.tsx": {
+    "mtime": 1773222063.669292,
+    "seen": 1791906935.5014825,
+    "ast_hash": "37b0a228f4107b40a9dabed918b93db2",
+    "semantic_hash": "37b0a228f4107b40a9dabed918b93db2"
+  },
+  "business-registry/client/src/shared/components/TableActions.tsx": {
+    "mtime": 1773222063.669292,
+    "seen": 1791906935.501485,
+    "ast_hash": "fd0eb67885931e511443040f2e066ff0",
+    "semantic_hash": "fd0eb67885931e511443040f2e066ff0"
+  },
+  "business-registry/client/src/shared/context/useAuth.tsx": {
+    "mtime": 1773647573.7284915,
+    "seen": 1791906935.5014873,
+    "ast_hash": "ec8e73b315c0a610ad40867bb8cd65d7",
+    "semantic_hash": "ec8e73b315c0a610ad40867bb8cd65d7"
+  },
+  "business-registry/client/src/shared/data-access/gateway.ts": {
+    "mtime": 1773222063.670292,
+    "seen": 1791906935.5014896,
+    "ast_hash": "4d5d0cfbd868402fec6ccba5514c944b",
+    "semantic_hash": "4d5d0cfbd868402fec6ccba5514c944b"
+  },
+  "business-registry/client/src/shared/data-access/useCheckUserSession.tsx": {
+    "mtime": 1773222063.670292,
+    "seen": 1791906935.501492,
+    "ast_hash": "247b3513efddbb82822c96fe35531369",
+    "semantic_hash": "247b3513efddbb82822c96fe35531369"
+  },
+  "business-registry/client/src/shared/data-access/useGetCompanyStatuses.tsx": {
+    "mtime": 1773222063.670292,
+    "seen": 1791906935.5014946,
+    "ast_hash": "de3efcf16310f5e2da42462ec91859d8",
+    "semantic_hash": "de3efcf16310f5e2da42462ec91859d8"
+  },
+  "business-registry/client/src/shared/data-access/useGetCountries.tsx": {
+    "mtime": 1773222063.670292,
+    "seen": 1791906935.5014968,
+    "ast_hash": "71c83fb978d546d229fd845d2328ce0a",
+    "semantic_hash": "71c83fb978d546d229fd845d2328ce0a"
+  },
+  "business-registry/client/src/shared/data-access/useGetCurrencies.tsx": {
+    "mtime": 1773222063.670292,
+    "seen": 1791906935.5014992,
+    "ast_hash": "b89c8d40ab55512f8fe647aa365ed1c0",
+    "semantic_hash": "b89c8d40ab55512f8fe647aa365ed1c0"
+  },
+  "business-registry/client/src/shared/data-access/useGetLegalTypes.tsx": {
+    "mtime": 1773222063.670292,
+    "seen": 1791906935.5015018,
+    "ast_hash": "b7a541167218037357f3b2416c16147d",
+    "semantic_hash": "b7a541167218037357f3b2416c16147d"
+  },
+  "business-registry/client/src/shared/data-access/useGetMemberRelations.tsx": {
+    "mtime": 1773222063.670292,
+    "seen": 1791906935.501504,
+    "ast_hash": "4fd5f2f275835142c9fbbd58c00a4be6",
+    "semantic_hash": "4fd5f2f275835142c9fbbd58c00a4be6"
+  },
+  "business-registry/client/src/shared/data-access/useGetMunicipalities.tsx": {
+    "mtime": 1773222063.670292,
+    "seen": 1791906935.5015066,
+    "ast_hash": "6bb42996d8a790ad9c6aa733b57aa907",
+    "semantic_hash": "6bb42996d8a790ad9c6aa733b57aa907"
+  },
+  "business-registry/client/src/shared/data-access/useGetPrefectures.tsx": {
+    "mtime": 1773222063.670292,
+    "seen": 1791906935.501509,
+    "ast_hash": "6a00ea671941eeb7986277abdf78127e",
+    "semantic_hash": "6a00ea671941eeb7986277abdf78127e"
+  },
+  "business-registry/client/src/shared/data-access/useGetRegions.tsx": {
+    "mtime": 1773222063.6712918,
+    "seen": 1791906935.501511,
+    "ast_hash": "bd5723d2b24e002f2e9bdd2db11b00b1",
+    "semantic_hash": "bd5723d2b24e002f2e9bdd2db11b00b1"
+  },
+  "business-registry/client/src/shared/data-access/useGetStockTypes.tsx": {
+    "mtime": 1773222063.6712918,
+    "seen": 1791906935.501514,
+    "ast_hash": "e5563d23c9db998f0b0525004d953188",
+    "semantic_hash": "e5563d23c9db998f0b0525004d953188"
+  },
+  "business-registry/client/src/shared/data-access/useLogout.tsx": {
+    "mtime": 1773647573.7284915,
+    "seen": 1791906935.5015163,
+    "ast_hash": "5834abf39ae1b3e1b38fb86784a34d01",
+    "semantic_hash": "5834abf39ae1b3e1b38fb86784a34d01"
+  },
+  "business-registry/client/src/shared/enums/RoleEnum.ts": {
+    "mtime": 1772473367.1707969,
+    "seen": 1791906935.5015206,
+    "ast_hash": "b9c5fdb8d6b58e92dcda8b4c5932624a",
+    "semantic_hash": "b9c5fdb8d6b58e92dcda8b4c5932624a"
+  },
+  "business-registry/client/src/shared/hooks/useCustomMaterialTable.tsx": {
+    "mtime": 1773222063.6712918,
+    "seen": 1791906935.501523,
+    "ast_hash": "af724727f9260439cda6f842e5498f93",
+    "semantic_hash": "af724727f9260439cda6f842e5498f93"
+  },
+  "business-registry/client/src/shared/hooks/useStressTest.tsx": {
+    "mtime": 1773647573.7284915,
+    "seen": 1791906935.501526,
+    "ast_hash": "e9ed2c49ea5bfc3f39919392b4182b51",
+    "semantic_hash": "e9ed2c49ea5bfc3f39919392b4182b51"
+  },
+  "business-registry/client/src/shared/layout/main.tsx": {
+    "mtime": 1773647573.7284915,
+    "seen": 1791906935.5015283,
+    "ast_hash": "562b33a86a8a9d6cbb28051918fe7595",
+    "semantic_hash": "562b33a86a8a9d6cbb28051918fe7595"
+  },
+  "business-registry/client/src/shared/services/httpClient/httpClient.tsx": {
+    "mtime": 1773222063.6712918,
+    "seen": 1791906935.5015304,
+    "ast_hash": "ab0632d4aaa7f6ebf45a0d34d773d087",
+    "semantic_hash": "ab0632d4aaa7f6ebf45a0d34d773d087"
+  },
+  "business-registry/client/src/shared/services/languages/MaterialReactTable/el.ts": {
+    "mtime": 1739179785.0,
+    "seen": 1791906935.5015326,
+    "ast_hash": "52b2a956828d1dcaa859c15e13c2d5ff",
+    "semantic_hash": "52b2a956828d1dcaa859c15e13c2d5ff"
+  },
+  "business-registry/client/src/shared/services/languages/MaterialReactTable/getTableLang.ts": {
+    "mtime": 1773222063.672292,
+    "seen": 1791906935.5015354,
+    "ast_hash": "58a211f10d00a0235948eaa57f16bc8c",
+    "semantic_hash": "58a211f10d00a0235948eaa57f16bc8c"
+  },
+  "business-registry/client/src/shared/services/languages/el/greek.json": {
+    "mtime": 1773222063.672292,
+    "seen": 1791906935.5015376,
+    "ast_hash": "65e79fa2de65d2bc14af7773c95890f5",
+    "semantic_hash": "65e79fa2de65d2bc14af7773c95890f5"
+  },
+  "business-registry/client/src/shared/services/languages/en/english.json": {
+    "mtime": 1773222063.672292,
+    "seen": 1791906935.5015404,
+    "ast_hash": "61cd7212c65a868ba4634d52ca629a82",
+    "semantic_hash": "61cd7212c65a868ba4634d52ca629a82"
+  },
+  "business-registry/client/src/shared/services/languages/i18n.ts": {
+    "mtime": 1773222063.672292,
+    "seen": 1791906935.5015426,
+    "ast_hash": "9a7e0f1dc1d603f52b37b4a8f5621d13",
+    "semantic_hash": "9a7e0f1dc1d603f52b37b4a8f5621d13"
+  },
+  "business-registry/client/src/shared/services/queryClient/reactQueryClient.ts": {
+    "mtime": 1773222063.673292,
+    "seen": 1791906935.501545,
+    "ast_hash": "c31c93a0eeeb28989293f5bb6c0c7273",
+    "semantic_hash": "c31c93a0eeeb28989293f5bb6c0c7273"
+  },
+  "business-registry/client/src/shared/services/snackbarProvider/snackbarProvider.tsx": {
+    "mtime": 1773222063.673292,
+    "seen": 1791906935.5015473,
+    "ast_hash": "020117d8b86197e9556f96e5fcb8c934",
+    "semantic_hash": "020117d8b86197e9556f96e5fcb8c934"
+  },
+  "business-registry/client/src/shared/types/types.ts": {
+    "mtime": 1772730288.4144754,
+    "seen": 1791906935.5015495,
+    "ast_hash": "82f47cc68294527ddc6eac8baf908dcd",
+    "semantic_hash": "82f47cc68294527ddc6eac8baf908dcd"
+  },
+  "business-registry/client/src/shared/utils.ts": {
+    "mtime": 1773222063.673292,
+    "seen": 1791906935.501552,
+    "ast_hash": "d7754ec8a209551c32e6736d86c28813",
+    "semantic_hash": "d7754ec8a209551c32e6736d86c28813"
+  },
+  "business-registry/client/tsconfig.json": {
+    "mtime": 1772472046.0073166,
+    "seen": 1791906935.5015547,
+    "ast_hash": "c25c8dec7d621eeb137575b00a42d5ea",
+    "semantic_hash": "c25c8dec7d621eeb137575b00a42d5ea"
+  },
+  "business-registry/client/tsconfig.node.json": {
+    "mtime": 1772472011.325053,
+    "seen": 1791906935.5015574,
+    "ast_hash": "df562a73dce2f53f022bc93ee20099c2",
+    "semantic_hash": "df562a73dce2f53f022bc93ee20099c2"
+  },
+  "business-registry/client/vite.config.ts": {
+    "mtime": 1773222063.673292,
+    "seen": 1791906935.5015597,
+    "ast_hash": "5210b6cf846d54eb41306585bf9dfdc2",
+    "semantic_hash": "5210b6cf846d54eb41306585bf9dfdc2"
+  },
+  "debezium/register-connector.sh": {
+    "mtime": 1784269683.0001388,
+    "seen": 1791906935.5015624,
+    "ast_hash": "82f8bc1e77c170b8cace642f84f527b5",
+    "semantic_hash": "82f8bc1e77c170b8cace642f84f527b5"
+  },
+  "history-api/config/config.go": {
+    "mtime": 1770753032.9562893,
+    "seen": 1791906935.5015647,
+    "ast_hash": "874c5af03757f8281473e9cdab8900f4",
+    "semantic_hash": "874c5af03757f8281473e9cdab8900f4"
+  },
+  "history-api/database/database.go": {
+    "mtime": 1771363777.1211946,
+    "seen": 1791906935.501567,
+    "ast_hash": "a282edde2cea5ee03a8f14f4cdd39c09",
+    "semantic_hash": "a282edde2cea5ee03a8f14f4cdd39c09"
+  },
+  "history-api/docs/docs.go": {
+    "mtime": 1771363459.460551,
+    "seen": 1791906935.5015695,
+    "ast_hash": "84182a71a879e1a15d217cbe924468b1",
+    "semantic_hash": "84182a71a879e1a15d217cbe924468b1"
+  },
+  "history-api/docs/swagger.json": {
+    "mtime": 1771363459.461551,
+    "seen": 1791906935.501572,
+    "ast_hash": "7eb62b5f7a6d3cf96f27865e23d72aaa",
+    "semantic_hash": "7eb62b5f7a6d3cf96f27865e23d72aaa"
+  },
+  "history-api/go.mod": {
+    "mtime": 1771347526.5130062,
+    "seen": 1791906935.501574,
+    "ast_hash": "7f955f541ec7b799f976c8f034aaa6c7",
+    "semantic_hash": "7f955f541ec7b799f976c8f034aaa6c7"
+  },
+  "history-api/handlers/history_handler.go": {
+    "mtime": 1771362267.4196413,
+    "seen": 1791906935.5015764,
+    "ast_hash": "6fa28c2e51be945bbef7a9fd455ff204",
+    "semantic_hash": "6fa28c2e51be945bbef7a9fd455ff204"
+  },
+  "history-api/handlers/parquet_handler.go": {
+    "mtime": 1771363425.2238047,
+    "seen": 1791906935.5015788,
+    "ast_hash": "4c58bb059981f5c4f964742fab0fa1d5",
+    "semantic_hash": "4c58bb059981f5c4f964742fab0fa1d5"
+  },
+  "history-api/main.go": {
+    "mtime": 1771347431.4996982,
+    "seen": 1791906935.501581,
+    "ast_hash": "28070ad4dab1511c9f9243bab9638042",
+    "semantic_hash": "28070ad4dab1511c9f9243bab9638042"
+  },
+  "history-api/middleware/auth.go": {
+    "mtime": 1771346589.554591,
+    "seen": 1791906935.501584,
+    "ast_hash": "3069741807f58096fe98f3cc7b005fd7",
+    "semantic_hash": "3069741807f58096fe98f3cc7b005fd7"
+  },
+  "history-api/models/audit_entry.go": {
+    "mtime": 1770752984.5056841,
+    "seen": 1791906935.501586,
+    "ast_hash": "0faf448452806ae4a26cc20d328c9fc6",
+    "semantic_hash": "0faf448452806ae4a26cc20d328c9fc6"
+  },
+  "history-api/models/topic.go": {
+    "mtime": 1771362161.3791213,
+    "seen": 1791906935.5015888,
+    "ast_hash": "befd14e44c97a6a61ed0812c067e13c9",
+    "semantic_hash": "befd14e44c97a6a61ed0812c067e13c9"
+  },
+  "history-api/models/user_account.go": {
+    "mtime": 1771362161.3310351,
+    "seen": 1791906935.5015912,
+    "ast_hash": "a5c00592d4a3eb6dd675b1a3af42dd2a",
+    "semantic_hash": "a5c00592d4a3eb6dd675b1a3af42dd2a"
+  },
+  "history-api/rebuild-history-api.sh": {
+    "mtime": 1770229760.1465828,
+    "seen": 1791906935.501593,
+    "ast_hash": "9aedb728395669d1bd5f14090c869808",
+    "semantic_hash": "9aedb728395669d1bd5f14090c869808"
+  },
+  "history-api/run-history-api.sh": {
+    "mtime": 1770752093.7239962,
+    "seen": 1791906935.5015962,
+    "ast_hash": "c644b651360bd404523f65df94c60655",
+    "semantic_hash": "c644b651360bd404523f65df94c60655"
+  },
+  "mainDb/init.sql": {
+    "mtime": 1784269683.0061386,
+    "seen": 1791906935.5016,
+    "ast_hash": "93b694aed1dc5f75f85ee3feeddd39f3",
+    "semantic_hash": "93b694aed1dc5f75f85ee3feeddd39f3"
+  },
+  "rebuild.sh": {
+    "mtime": 1770153769.0390344,
+    "seen": 1791906935.5016024,
+    "ast_hash": "28564b5a41a03848c0eac45118062ee8",
+    "semantic_hash": "28564b5a41a03848c0eac45118062ee8"
+  },
+  "sse-bridge/build.gradle": {
+    "mtime": 1770657984.4471552,
+    "seen": 1791906935.5016046,
+    "ast_hash": "6dcf22975ed8efb9c0cd1dd0860ea729",
+    "semantic_hash": "6dcf22975ed8efb9c0cd1dd0860ea729"
+  },
+  "sse-bridge/gradlew": {
+    "mtime": 1770140764.1612837,
+    "seen": 1791906935.5016072,
+    "ast_hash": "48fe0bd77a66bbb62c1150926ab1332c",
+    "semantic_hash": "48fe0bd77a66bbb62c1150926ab1332c"
+  },
+  "sse-bridge/rebuild-sse-bridge.sh": {
+    "mtime": 1770230905.214654,
+    "seen": 1791906935.5016093,
+    "ast_hash": "2979caae82869d37e229e5f5ba880362",
+    "semantic_hash": "2979caae82869d37e229e5f5ba880362"
+  },
+  "sse-bridge/settings.gradle": {
+    "mtime": 1770226014.7218878,
+    "seen": 1791906935.5016117,
+    "ast_hash": "1a79c595834e56434ec8bbdbf10b8293",
+    "semantic_hash": "1a79c595834e56434ec8bbdbf10b8293"
+  },
+  "sse-bridge/src/main/groovy/sseBridge/SseApplication.groovy": {
+    "mtime": 1770658025.4406679,
+    "seen": 1791906935.5016146,
+    "ast_hash": "aa214bca6f83c8bc851ffeb1fba97463",
+    "semantic_hash": "aa214bca6f83c8bc851ffeb1fba97463"
+  },
+  "sse-bridge/src/main/groovy/sseBridge/auth/AuthService.groovy": {
+    "mtime": 1791907157.3018992,
+    "seen": 1791907201.0491354,
+    "ast_hash": "5541f5e882b3837dfc6a53f594a0c7a3",
+    "semantic_hash": ""
+  },
+  "sse-bridge/src/main/groovy/sseBridge/auth/AuthenticationFilter.groovy": {
+    "mtime": 1770658293.408924,
+    "seen": 1791906935.501619,
+    "ast_hash": "e632b979e27f2395d56175ee6a10153b",
+    "semantic_hash": "e632b979e27f2395d56175ee6a10153b"
+  },
+  "sse-bridge/src/main/groovy/sseBridge/config/R2dbcConfiguration.groovy": {
+    "mtime": 1770659278.8487904,
+    "seen": 1791906935.5016263,
+    "ast_hash": "1b27903a4c83b46871944ee6e1939a75",
+    "semantic_hash": "1b27903a4c83b46871944ee6e1939a75"
+  },
+  "sse-bridge/src/main/groovy/sseBridge/controller/StreamController.groovy": {
+    "mtime": 1770656322.4681208,
+    "seen": 1791906935.5016289,
+    "ast_hash": "b85370d1ae7b770d2809ff0d14e8f9df",
+    "semantic_hash": "b85370d1ae7b770d2809ff0d14e8f9df"
+  },
+  "sse-bridge/src/main/groovy/sseBridge/event/EventBaseModel.groovy": {
+    "mtime": 1771536800.0022595,
+    "seen": 1791906935.5016313,
+    "ast_hash": "63ac43ff61a96d1d42ba05708c61e00c",
+    "semantic_hash": "63ac43ff61a96d1d42ba05708c61e00c"
+  },
+  "sse-bridge/src/main/groovy/sseBridge/event/EventDeserializer.groovy": {
+    "mtime": 1770656322.491739,
+    "seen": 1791906935.5016336,
+    "ast_hash": "f02fcd17176f98b75677adbac794630e",
+    "semantic_hash": "f02fcd17176f98b75677adbac794630e"
+  },
+  "sse-bridge/src/main/groovy/sseBridge/event/EventFactory.groovy": {
+    "mtime": 1770656322.495739,
+    "seen": 1791906935.501636,
+    "ast_hash": "4e8543d39470962c1961d2ad6eba4b6d",
+    "semantic_hash": "4e8543d39470962c1961d2ad6eba4b6d"
+  },
+  "sse-bridge/src/main/groovy/sseBridge/event/EventType.groovy": {
+    "mtime": 1770481273.9824572,
+    "seen": 1791906935.5016384,
+    "ast_hash": "46e7d0a72ba00895fe0b01ea7c5812ea",
+    "semantic_hash": "46e7d0a72ba00895fe0b01ea7c5812ea"
+  },
+  "sse-bridge/src/main/groovy/sseBridge/kafka/KafkaConfig.groovy": {
+    "mtime": 1770744090.2165036,
+    "seen": 1791906935.5016413,
+    "ast_hash": "d2c574053ef255092c95fae0761c977b",
+    "semantic_hash": "d2c574053ef255092c95fae0761c977b"
+  },
+  "sse-bridge/src/main/groovy/sseBridge/kafka/KafkaService.groovy": {
+    "mtime": 1770657352.6558533,
+    "seen": 1791906935.5016434,
+    "ast_hash": "c6eb91cf38e3cf47a05819c7929843e6",
+    "semantic_hash": "c6eb91cf38e3cf47a05819c7929843e6"
+  },
+  "watch.sh": {
+    "mtime": 1770317314.6489902,
+    "seen": 1791906935.5016458,
+    "ast_hash": "6a879163430dbbec6fa677de00a6c671",
+    "semantic_hash": "6a879163430dbbec6fa677de00a6c671"
+  },
+  "CLAUDE.md": {
+    "mtime": 1784269682.9761398,
+    "seen": 1791906935.5016482,
+    "ast_hash": "5a2d13d5b9431a1e71048aa3c1c82ac2",
+    "semantic_hash": "5a2d13d5b9431a1e71048aa3c1c82ac2"
+  },
+  "README.md": {
+    "mtime": 1784269682.9771397,
+    "seen": 1791906935.5016503,
+    "ast_hash": "17a9ed686ee8504a4ac115e02287d47f",
+    "semantic_hash": "17a9ed686ee8504a4ac115e02287d47f"
+  },
+  "benchmark/README.md": {
+    "mtime": 1784269682.9792836,
+    "seen": 1791906935.5016527,
+    "ast_hash": "46a842d063221146aaf5b1ebbc9dd078",
+    "semantic_hash": "46a842d063221146aaf5b1ebbc9dd078"
+  },
+  "benchmark/results/comparison.html": {
+    "mtime": 1784269682.9831395,
+    "seen": 1791906935.5016553,
+    "ast_hash": "92c21acadd904192994fd01da5835619",
+    "semantic_hash": "92c21acadd904192994fd01da5835619"
+  },
+  "benchmark/results/comparison.md": {
+    "mtime": 1784269682.9831395,
+    "seen": 1791906935.5016575,
+    "ast_hash": "17456571f70db6be5d6f53807ae5b536",
+    "semantic_hash": "17456571f70db6be5d6f53807ae5b536"
+  },
+  "docker-compose.yml": {
+    "mtime": 1784269683.0011387,
+    "seen": 1791906935.5016599,
+    "ast_hash": "09871e1a9f980263ca71fa52a01a2b82",
+    "semantic_hash": "09871e1a9f980263ca71fa52a01a2b82"
+  },
+  "history-api/docs/swagger.yaml": {
+    "mtime": 1771363459.464551,
+    "seen": 1791906935.5016625,
+    "ast_hash": "e93edfc2ad40168ba88f7fb19b098ea8",
+    "semantic_hash": "e93edfc2ad40168ba88f7fb19b098ea8"
+  },
+  "kafka-ui/config.yml": {
+    "mtime": 1771361472.4822326,
+    "seen": 1791906935.5016649,
+    "ast_hash": "372a70a34a6fed2e48a3a2a0a0d1ca20",
+    "semantic_hash": "372a70a34a6fed2e48a3a2a0a0d1ca20"
+  },
+  "business-registry/client/public/images/registry-svgrepo-com.svg": {
+    "mtime": 1773041385.6096134,
+    "seen": 1791906935.5016673,
+    "ast_hash": "77c3b39b7621351212139609f9518d34",
+    "semantic_hash": "77c3b39b7621351212139609f9518d34"
+  },
+  "sse-bridge/src/main/groovy/sseBridge/auth/ApiUserAccount.groovy": {
+    "mtime": 1791907157.3014686,
+    "seen": 1791907201.0491273,
+    "ast_hash": "05ddfe0b7e4eec9f6f9590de00d2c484",
+    "semantic_hash": ""
+  },
+  "sse-bridge/src/main/groovy/sseBridge/auth/ApiUserAccountRepository.groovy": {
+    "mtime": 1791907157.3016832,
+    "seen": 1791907201.0491316,
+    "ast_hash": "443dc6c4223bda26c3c95b50a818a4f6",
+    "semantic_hash": ""
+  },
+  "business-registry/client/index.html": {
+    "mtime": 1772474781.8342056,
+    "seen": 1791907201.049159,
+    "ast_hash": "98912e72167ad61149a520c69cdac0ad",
+    "semantic_hash": ""
+  },
+  "docker-compose.dev.yml": {
+    "mtime": 1773222063.6742918,
+    "seen": 1791907201.0491624,
+    "ast_hash": "86f01d6548ba6fa7601c8d37b7cd9123",
+    "semantic_hash": ""
+  }
+}
