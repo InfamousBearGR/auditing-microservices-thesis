@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
 
 @Table("user_api_account")
-class UserAccount {
+class ApiUserAccount {
 
     @Id
     Long id

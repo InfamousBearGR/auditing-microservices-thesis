@@ -6,20 +6,20 @@ import reactor.core.publisher.Mono
 @Service
 class AuthService {
 
-    private final UserAccountRepository userAccountRepository
+    private final ApiUserAccountRepository apiUserAccountRepository
 
-    AuthService(UserAccountRepository userAccountRepository) {
-        this.userAccountRepository = userAccountRepository
+    AuthService(ApiUserAccountRepository apiUserAccountRepository) {
+        this.apiUserAccountRepository = apiUserAccountRepository
     }
 
-    Mono<UserAccount> authenticate(String apiKey) {
+    Mono<ApiUserAccount> authenticate(String apiKey) {
         if (apiKey == null || apiKey.trim().isEmpty()) {
             return Mono.empty()
         }
-        return userAccountRepository.findByApiKey(apiKey)
+        return apiUserAccountRepository.findByApiKey(apiKey)
     }
 
-    static boolean authorize(UserAccount user, String resource) {
+    static boolean authorize(ApiUserAccount user, String resource) {
         if (user == null || resource == null) {
             return false
         }
