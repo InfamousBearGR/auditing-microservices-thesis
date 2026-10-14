@@ -1,538 +1,252 @@
 {
-  "root_group": {
-    "name": "",
-    "path": "",
-    "id": "d41d8cd98f00b204e9800998ecf8427e",
-    "groups": [],
-    "checks": [
-        {
-          "id": "f23529393338f582e8927eaf6c3fb095",
-          "passes": 10000,
-          "fails": 0,
-          "name": "vu login 200",
-          "path": "::vu login 200"
-        },
-        {
-          "name": "mutation 2xx",
-          "path": "::mutation 2xx",
-          "id": "bc7a17d1a4fc1761b7503dc35b8bc305",
-          "passes": 4231,
-          "fails": 5769
-        }
-      ]
-  },
-  "options": {
-    "summaryTrendStats": [
-      "avg",
-      "min",
-      "med",
-      "p(90)",
-      "p(95)",
-      "p(99)",
-      "max"
-    ],
-    "summaryTimeUnit": "",
-    "noColor": false
-  },
-  "state": {
-    "isStdOutTTY": false,
-    "isStdErrTTY": false,
-    "testRunDurationMs": 340553.332628
-  },
   "metrics": {
-    "iterations": {
-      "type": "counter",
-      "contains": "default",
-      "values": {
-        "count": 10000,
-        "rate": 29.36397633472405
-      }
-    },
-    "vus": {
-      "type": "gauge",
-      "contains": "default",
-      "values": {
-        "value": 45,
-        "min": 0,
-        "max": 64
-      }
-    },
-    "checks": {
-      "contains": "default",
-      "values": {
-        "passes": 14231,
-        "fails": 5769,
-        "rate": 0.71155
-      },
-      "type": "rate"
-    },
-    "op_create_ms": {
+    "op_delete_ms": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "avg": 611.9792647074526,
-        "min": 1.048368,
-        "med": 605.2608305,
-        "p(90)": 1216.8699070999999,
-        "p(95)": 1330.6128941999993,
-        "p(99)": 1802.1976455699978,
-        "max": 2899.840372
-      }
-    },
-    "iteration_duration": {
-      "values": {
-        "avg": 2167.7315644590103,
-        "min": 416.341269,
-        "med": 2134.366856,
-        "p(90)": 3049.1512473000003,
-        "p(95)": 3338.915974299999,
-        "p(99)": 3885.5193630800004,
-        "max": 5207.043107
-      },
-      "type": "trend",
-      "contains": "time"
-    },
-    "mutations_err": {
-      "type": "counter",
-      "contains": "default",
-      "values": {
-        "count": 5769,
-        "rate": 16.940077947502303
-      }
-    },
-    "http_reqs": {
-      "type": "counter",
-      "contains": "default",
-      "values": {
-        "rate": 58.80723540555185,
-        "count": 20027
-      }
-    },
-    "op_update_ms": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "max": 2911.570172,
-        "avg": 622.5408319124143,
-        "min": 1.556543,
-        "med": 610.086805,
-        "p(90)": 1224.317724,
-        "p(95)": 1344.9862014999999,
-        "p(99)": 1821.0875390000003
-      }
-    },
-    "http_req_sending": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "p(90)": 0.049727600000000025,
-        "p(95)": 0.06530600000000002,
-        "p(99)": 0.2480478400000034,
-        "max": 10.319309,
-        "avg": 0.04495928626354424,
-        "min": 0.00581,
-        "med": 0.02783
-      }
-    },
-    "http_req_failed": {
-      "type": "rate",
-      "contains": "default",
-      "values": {
-        "passes": 5769,
-        "fails": 14258,
-        "rate": 0.28806111749138663
+        "avg": 514.8925170561702,
+        "min": 1.134205,
+        "med": 498.905981,
+        "p(90)": 983.9755732,
+        "p(95)": 1052.1529056,
+        "p(99)": 1431.4729533999998,
+        "max": 1846.428555
       }
     },
     "http_req_duration": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "med": 1094.601168,
-        "p(90)": 1963.2698734000003,
-        "p(95)": 2206.5476972,
-        "p(99)": 2625.7425509000013,
-        "max": 4173.549719,
-        "avg": 1081.9485057063,
-        "min": 1.048368
-      }
-    },
-    "vus_max": {
-      "type": "gauge",
-      "contains": "default",
-      "values": {
-        "min": 64,
-        "max": 64,
-        "value": 64
-      }
-    },
-    "http_req_duration{expected_response:true}": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "p(95)": 2302.6638387999997,
-        "p(99)": 2721.05069477,
-        "max": 4173.549719,
-        "avg": 1274.3197682624484,
-        "min": 6.791709,
-        "med": 1301.4429,
-        "p(90)": 2078.9336224
+        "p(99)": 2168.736532,
+        "max": 3186.545168,
+        "avg": 893.1069802680914,
+        "min": 0.860409,
+        "med": 901.550249,
+        "p(90)": 1619.1577120000006,
+        "p(95)": 1813.9144358
       }
     },
     "http_req_tls_handshaking": {
       "type": "trend",
       "contains": "time",
       "values": {
+        "p(99)": 0,
+        "max": 0,
         "avg": 0,
         "min": 0,
         "med": 0,
         "p(90)": 0,
-        "p(95)": 0,
-        "p(99)": 0,
-        "max": 0
+        "p(95)": 0
       }
     },
-    "http_req_connecting": {
+    "http_req_duration{expected_response:true}": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "avg": 0.04814572062715337,
-        "min": 0,
-        "med": 0,
-        "p(90)": 0,
-        "p(95)": 0.25151350000000006,
-        "p(99)": 0.564608360000001,
-        "max": 19.976607
+        "p(99)": 2243.0228982800004,
+        "max": 3186.545168,
+        "avg": 1050.74987425223,
+        "min": 4.422312,
+        "med": 1071.38068,
+        "p(90)": 1718.8325918,
+        "p(95)": 1898.3507265999997
+      }
+    },
+    "vus": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 62,
+        "min": 62,
+        "max": 64
+      }
+    },
+    "vus_max": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 64,
+        "min": 64,
+        "max": 64
+      }
+    },
+    "op_update_ms": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "med": 492.572231,
+        "p(90)": 989.2181073999999,
+        "p(95)": 1072.9056233,
+        "p(99)": 1464.4182222599993,
+        "max": 1967.694015,
+        "avg": 504.9500777752542,
+        "min": 0.860409
+      }
+    },
+    "http_reqs": {
+      "values": {
+        "count": 20027,
+        "rate": 71.31865400250827
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "http_req_blocked": {
+      "values": {
+        "avg": 0.03662151540420454,
+        "min": 0.00173,
+        "med": 0.00528,
+        "p(90)": 0.014204600000000013,
+        "p(95)": 0.272627,
+        "p(99)": 0.42600620000000206,
+        "max": 8.630041
+      },
+      "type": "trend",
+      "contains": "time"
+    },
+    "http_req_failed": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "fails": 14265,
+        "rate": 0.2877115893543716,
+        "passes": 5762
+      }
+    },
+    "op_create_ms": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "med": 491.22882000000004,
+        "p(90)": 980.8421599000001,
+        "p(95)": 1054.76170525,
+        "p(99)": 1426.4369000699996,
+        "max": 1963.279745,
+        "avg": 497.64569627606676,
+        "min": 1.023873
+      }
+    },
+    "mutations_ok": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 4238,
+        "rate": 15.092048517632698
+      }
+    },
+    "data_received": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 10083280,
+        "rate": 35907.822316393445
+      }
+    },
+    "checks": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0.7119,
+        "passes": 14238,
+        "fails": 5762
+      }
+    },
+    "iterations": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 10000,
+        "rate": 35.61125181130887
+      }
+    },
+    "http_req_sending": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 0.046131,
+        "p(95)": 0.05461600000000003,
+        "p(99)": 0.08108160000000006,
+        "max": 5.876503,
+        "avg": 0.02971585349777777,
+        "min": 0.00536,
+        "med": 0.02518
+      }
+    },
+    "mutations_err": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 20.519203293676167,
+        "count": 5762
       }
     },
     "http_req_waiting": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "p(90)": 1959.4740074000003,
-        "p(95)": 2203.5470466,
-        "p(99)": 2622.1577000400007,
-        "max": 4172.302767,
-        "avg": 1079.4132613891763,
-        "min": 0.778791,
-        "med": 1092.18207
+        "p(99)": 2168.0352800800006,
+        "max": 3185.139418,
+        "avg": 891.7534213333047,
+        "min": 0.571632,
+        "med": 899.82195,
+        "p(90)": 1617.7867858,
+        "p(95)": 1812.2235829
       }
     },
-    "op_delete_ms": {
-      "values": {
-        "p(95)": 1313.5140614999998,
-        "p(99)": 1810.9625021399993,
-        "max": 2921.028611,
-        "avg": 591.0382839544407,
-        "min": 1.586146,
-        "med": 579.066222,
-        "p(90)": 1200.2942008000005
-      },
-      "type": "trend",
-      "contains": "time"
-    },
-    "http_req_blocked": {
+    "http_req_connecting": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "max": 28.341248,
-        "avg": 0.06641666185649515,
-        "min": 0.00151,
-        "med": 0.00555,
-        "p(90)": 0.021924000000000013,
-        "p(95)": 0.3492673000000002,
-        "p(99)": 0.7980578200000124
+        "p(90)": 0,
+        "p(95)": 0.19657730000000007,
+        "p(99)": 0.3064380600000001,
+        "max": 8.58495,
+        "avg": 0.023784077045987954,
+        "min": 0,
+        "med": 0
       }
     },
     "http_req_receiving": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "p(95)": 9.122446200000004,
-        "p(99)": 33.38743882000016,
-        "max": 188.437375,
-        "avg": 2.4902850308583435,
-        "min": 0.02503,
-        "med": 0.400155,
-        "p(90)": 6.308758200000001
+        "p(99)": 8.974356160000003,
+        "max": 158.137212,
+        "avg": 1.3238430812902606,
+        "min": 0.01728,
+        "med": 0.288176,
+        "p(90)": 3.2885564000000027,
+        "p(95)": 4.1653537000000025
       }
     },
     "data_sent": {
-      "contains": "data",
-      "values": {
-        "count": 6861384,
-        "rate": 20147.751739945423
-      },
-      "type": "counter"
-    },
-    "mutations_ok": {
-      "contains": "default",
-      "values": {
-        "count": 4231,
-        "rate": 12.423898387221746
-      },
-      "type": "counter"
-    },
-    "data_received": {
       "type": "counter",
       "contains": "data",
       "values": {
-        "count": 10082848,
-        "rate": 29607.25100586197
+        "count": 6892358,
+        "rate": 24544.549631168917
+      }
+    },
+    "iteration_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 371.264136,
+        "med": 1776.694424,
+        "p(90)": 2484.4195854,
+        "p(95)": 2678.76696285,
+        "p(99)": 3112.3441092500007,
+        "max": 4164.235586,
+        "avg": 1789.260936702909
       }
     }
   },
   "setup_data": {
     "cache": {
-      "currencies": [
-        {
-          "description": "Euro",
-          "id": 1
-        },
-        {
-          "id": 2,
-          "description": "United States Dollar"
-        },
-        {
-          "description": "Great Britain Pounds",
-          "id": 3
-        },
-        {
-          "id": 4,
-          "description": "Canadian Dollar"
-        },
-        {
-          "description": "Australian Dollar",
-          "id": 5
-        },
-        {
-          "description": "Turkish Lira",
-          "id": 6
-        },
-        {
-          "id": 7,
-          "description": "Albanian Lek"
-        },
-        {
-          "description": "Bulgarian Lev",
-          "id": 8
-        },
-        {
-          "description": "FYROM Denarius",
-          "id": 9
-        },
-        {
-          "description": "Russian Rouble",
-          "id": 10
-        },
-        {
-          "description": "Romanian New Leu",
-          "id": 11
-        },
-        {
-          "description": "Greek drachmas",
-          "id": 12
-        },
-        {
-          "description": "Swiss Franc",
-          "id": 13
-        },
-        {
-          "description": "Danish Krone",
-          "id": 14
-        },
-        {
-          "description": "Cayman Islands dollar",
-          "id": 15
-        },
-        {
-          "description": "Norwegian Krone",
-          "id": 16
-        },
-        {
-          "description": "Serbian Dinar",
-          "id": 17
-        },
-        {
-          "description": "Philippine Peso",
-          "id": 18
-        }
-      ],
-      "geoOptions": [
-        {
-          "municipalityId": 1,
-          "prefectureId": 9,
-          "regionId": 1
-        },
-        {
-          "municipalityId": 2,
-          "prefectureId": 9,
-          "regionId": 1
-        },
-        {
-          "municipalityId": 3,
-          "prefectureId": 9,
-          "regionId": 1
-        },
-        {
-          "prefectureId": 11,
-          "regionId": 1,
-          "municipalityId": 6
-        },
-        {
-          "regionId": 1,
-          "municipalityId": 7,
-          "prefectureId": 11
-        },
-        {
-          "municipalityId": 8,
-          "prefectureId": 11,
-          "regionId": 1
-        },
-        {
-          "municipalityId": 11,
-          "prefectureId": 21,
-          "regionId": 1
-        },
-        {
-          "regionId": 1,
-          "municipalityId": 12,
-          "prefectureId": 21
-        },
-        {
-          "municipalityId": 13,
-          "prefectureId": 21,
-          "regionId": 1
-        },
-        {
-          "municipalityId": 23,
-          "prefectureId": 16,
-          "regionId": 2
-        },
-        {
-          "municipalityId": 24,
-          "prefectureId": 16,
-          "regionId": 2
-        },
-        {
-          "prefectureId": 16,
-          "regionId": 2,
-          "municipalityId": 25
-        },
-        {
-          "municipalityId": 26,
-          "prefectureId": 19,
-          "regionId": 2
-        },
-        {
-          "regionId": 2,
-          "municipalityId": 27,
-          "prefectureId": 19
-        },
-        {
-          "municipalityId": 28,
-          "prefectureId": 19,
-          "regionId": 2
-        },
-        {
-          "municipalityId": 40,
-          "prefectureId": 26,
-          "regionId": 2
-        },
-        {
-          "regionId": 2,
-          "municipalityId": 41,
-          "prefectureId": 26
-        },
-        {
-          "regionId": 3,
-          "municipalityId": 61,
-          "prefectureId": 8
-        },
-        {
-          "regionId": 3,
-          "municipalityId": 62,
-          "prefectureId": 8
-        },
-        {
-          "municipalityId": 63,
-          "prefectureId": 23,
-          "regionId": 3
-        },
-        {
-          "municipalityId": 64,
-          "prefectureId": 23,
-          "regionId": 3
-        },
-        {
-          "municipalityId": 65,
-          "prefectureId": 23,
-          "regionId": 3
-        },
-        {
-          "municipalityId": 66,
-          "prefectureId": 27,
-          "regionId": 3
-        },
-        {
-          "municipalityId": 67,
-          "prefectureId": 27,
-          "regionId": 3
-        },
-        {
-          "municipalityId": 68,
-          "prefectureId": 27,
-          "regionId": 3
-        },
-        {
-          "municipalityId": 73,
-          "prefectureId": 4,
-          "regionId": 4
-        },
-        {
-          "regionId": 4,
-          "municipalityId": 74,
-          "prefectureId": 4
-        },
-        {
-          "municipalityId": 75,
-          "prefectureId": 4,
-          "regionId": 4
-        },
-        {
-          "municipalityId": 77,
-          "prefectureId": 18,
-          "regionId": 4
-        },
-        {
-          "municipalityId": 78,
-          "prefectureId": 18,
-          "regionId": 4
-        },
-        {
-          "prefectureId": 18,
-          "regionId": 4,
-          "municipalityId": 79
-        },
-        {
-          "regionId": 4,
-          "municipalityId": 80,
-          "prefectureId": 20
-        },
-        {
-          "municipalityId": 81,
-          "prefectureId": 20,
-          "regionId": 4
-        },
-        {
-          "municipalityId": 82,
-          "prefectureId": 20,
-          "regionId": 4
-        }
-      ],
       "legalTypes": [
         {
-          "id": 1,
-          "description": "Inadequate Info"
+          "description": "Inadequate Info",
+          "id": 1
         },
         {
           "description": "SA",
@@ -595,8 +309,8 @@
           "id": 16
         },
         {
-          "id": 17,
-          "description": "PERSONAL"
+          "description": "PERSONAL",
+          "id": 17
         },
         {
           "description": "ASSOCIATION OF PERSONS",
@@ -607,8 +321,8 @@
           "id": 19
         },
         {
-          "description": "IKE",
-          "id": 20
+          "id": 20,
+          "description": "IKE"
         },
         {
           "description": "KOI.S.P.E.",
@@ -619,8 +333,8 @@
           "id": 22
         },
         {
-          "description": "OTHER OBLIGATIONS",
-          "id": 23
+          "id": 23,
+          "description": "OTHER OBLIGATIONS"
         },
         {
           "description": "Energy Community",
@@ -631,12 +345,12 @@
           "id": 25
         },
         {
-          "id": 26,
-          "description": "Workers' Cooperatives"
+          "description": "Workers' Cooperatives",
+          "id": 26
         },
         {
-          "id": 27,
-          "description": "LP by shares"
+          "description": "LP by shares",
+          "id": 27
         },
         {
           "description": "Renewable energy community",
@@ -661,8 +375,8 @@
           "id": 3
         },
         {
-          "id": 4,
-          "description": "General Partner"
+          "description": "General Partner",
+          "id": 4
         },
         {
           "description": "Other",
@@ -689,8 +403,8 @@
           "id": 10
         },
         {
-          "id": 11,
-          "description": "Interregional Member"
+          "description": "Interregional Member",
+          "id": 11
         },
         {
           "description": "Alternate Member, Administrator",
@@ -709,8 +423,8 @@
           "id": 15
         },
         {
-          "description": "Member & Representative",
-          "id": 16
+          "id": 16,
+          "description": "Member & Representative"
         },
         {
           "description": "Member, Administrator & Representative",
@@ -723,8 +437,8 @@
           "id": 1
         },
         {
-          "description": "Nominal, Preferred, Voting",
-          "id": 2
+          "id": 2,
+          "description": "Nominal, Preferred, Voting"
         },
         {
           "description": "Nominal, Preferred, non-Voting",
@@ -745,24 +459,24 @@
       ],
       "companyStatuses": [
         {
-          "description": "Other",
-          "id": 1
+          "id": 1,
+          "description": "Other"
         },
         {
-          "id": 2,
-          "description": "Pre-registration"
+          "description": "Pre-registration",
+          "id": 2
         },
         {
-          "description": "Active",
-          "id": 3
+          "id": 3,
+          "description": "Active"
         },
         {
           "description": "In Inactivity",
           "id": 4
         },
         {
-          "id": 5,
-          "description": "Bankruptcy"
+          "description": "Bankruptcy",
+          "id": 5
         },
         {
           "id": 6,
@@ -777,8 +491,8 @@
           "id": 8
         },
         {
-          "description": "Delete",
-          "id": 9
+          "id": 9,
+          "description": "Delete"
         },
         {
           "description": "Deletion due to merger",
@@ -793,8 +507,8 @@
           "id": 12
         },
         {
-          "description": "Suspension of entry",
-          "id": 13
+          "id": 13,
+          "description": "Suspension of entry"
         }
       ],
       "countries": [
@@ -811,8 +525,8 @@
           "id": 2
         },
         {
-          "description": "NETHERLANDS",
-          "id": 3
+          "id": 3,
+          "description": "NETHERLANDS"
         },
         {
           "description": "NORWAY",
@@ -827,8 +541,8 @@
           "id": 6
         },
         {
-          "description": "NEW ZEALAND",
-          "id": 7
+          "id": 7,
+          "description": "NEW ZEALAND"
         },
         {
           "description": "OMAN",
@@ -847,8 +561,8 @@
           "id": 11
         },
         {
-          "id": 12,
-          "description": "PERU"
+          "description": "PERU",
+          "id": 12
         },
         {
           "description": "PHILIPPINES",
@@ -895,8 +609,8 @@
           "id": 23
         },
         {
-          "description": "SAUDI ARABIA",
-          "id": 24
+          "id": 24,
+          "description": "SAUDI ARABIA"
         },
         {
           "description": "SENEGALI",
@@ -915,8 +629,8 @@
           "id": 29
         },
         {
-          "description": "SIERRA LEONE",
-          "id": 30
+          "id": 30,
+          "description": "SIERRA LEONE"
         },
         {
           "description": "EL SALVADOR",
@@ -927,8 +641,8 @@
           "id": 32
         },
         {
-          "id": 33,
-          "description": "SANDO TOME AND BEFORE"
+          "description": "SANDO TOME AND BEFORE",
+          "id": 33
         },
         {
           "description": "SURINAM",
@@ -947,8 +661,8 @@
           "id": 37
         },
         {
-          "id": 38,
-          "description": "ZOUAZILAND"
+          "description": "ZOUAZILAND",
+          "id": 38
         },
         {
           "description": "SEXELES",
@@ -983,8 +697,8 @@
           "id": 46
         },
         {
-          "description": "EASTERN TIMOR",
-          "id": 47
+          "id": 47,
+          "description": "EASTERN TIMOR"
         },
         {
           "description": "TONGA",
@@ -995,16 +709,16 @@
           "id": 49
         },
         {
-          "description": "TUNISIA",
-          "id": 50
+          "id": 50,
+          "description": "TUNISIA"
         },
         {
           "description": "TURKEY",
           "id": 51
         },
         {
-          "description": "TOBALOU",
-          "id": 52
+          "id": 52,
+          "description": "TOBALOU"
         },
         {
           "description": "TAIWAN",
@@ -1035,8 +749,8 @@
           "id": 59
         },
         {
-          "id": 60,
-          "description": "OUZBEKISTAN"
+          "description": "OUZBEKISTAN",
+          "id": 60
         },
         {
           "description": "BATHQUAIN",
@@ -1051,12 +765,12 @@
           "id": 63
         },
         {
-          "description": "VIRGIN ISLANDS AND MONTSERRA",
-          "id": 64
+          "id": 64,
+          "description": "VIRGIN ISLANDS AND MONTSERRA"
         },
         {
-          "id": 65,
-          "description": "VIRGIN ISLANDS OF THE UNITED STATES OF AMERICA"
+          "description": "VIRGIN ISLANDS OF THE UNITED STATES OF AMERICA",
+          "id": 65
         },
         {
           "description": "VIETNAM",
@@ -1067,8 +781,8 @@
           "id": 67
         },
         {
-          "description": "SAMOA WEST",
-          "id": 68
+          "id": 68,
+          "description": "SAMOA WEST"
         },
         {
           "description": "EUROPEAN UNION",
@@ -1079,8 +793,8 @@
           "id": 70
         },
         {
-          "id": 71,
-          "description": "SERVIA AND BLACK MOUNTAIN"
+          "description": "SERVIA AND BLACK MOUNTAIN",
+          "id": 71
         },
         {
           "description": "REPUBLIC OF SOUTH AFRICA",
@@ -1099,16 +813,16 @@
           "id": 75
         },
         {
-          "id": 76,
-          "description": "Π.Γ.Δ.Μ."
+          "description": "Π.Γ.Δ.Μ.",
+          "id": 76
         },
         {
           "description": "ARUMBA",
           "id": 77
         },
         {
-          "id": 78,
-          "description": "AFGHANISTAN"
+          "description": "AFGHANISTAN",
+          "id": 78
         },
         {
           "description": "WILD",
@@ -1147,8 +861,8 @@
           "id": 87
         },
         {
-          "id": 88,
-          "description": "FRENCH SOUTHERN REGIONS"
+          "description": "FRENCH SOUTHERN REGIONS",
+          "id": 88
         },
         {
           "description": "ANTIGUA AND BARBUDA",
@@ -1191,8 +905,8 @@
           "id": 98
         },
         {
-          "description": "BAHRAIN",
-          "id": 99
+          "id": 99,
+          "description": "BAHRAIN"
         },
         {
           "description": "BAHAMES",
@@ -1211,12 +925,12 @@
           "id": 103
         },
         {
-          "description": "BERMUDES",
-          "id": 104
+          "id": 104,
+          "description": "BERMUDES"
         },
         {
-          "id": 105,
-          "description": "BOLIVIA"
+          "description": "BOLIVIA",
+          "id": 105
         },
         {
           "description": "BRAZIL",
@@ -1247,8 +961,8 @@
           "id": 112
         },
         {
-          "description": "CANADA",
-          "id": 113
+          "id": 113,
+          "description": "CANADA"
         },
         {
           "description": "SWITZERLAND",
@@ -1267,8 +981,8 @@
           "id": 117
         },
         {
-          "description": "CAMEROON",
-          "id": 118
+          "id": 118,
+          "description": "CAMEROON"
         },
         {
           "description": "KONGO",
@@ -1279,8 +993,8 @@
           "id": 120
         },
         {
-          "id": 121,
-          "description": "COLOMBIA"
+          "description": "COLOMBIA",
+          "id": 121
         },
         {
           "description": "COMES",
@@ -1307,24 +1021,24 @@
           "id": 127
         },
         {
-          "id": 128,
-          "description": "CZECH REPUBLIC"
+          "description": "CZECH REPUBLIC",
+          "id": 128
         },
         {
-          "id": 129,
-          "description": "GERMANY"
+          "description": "GERMANY",
+          "id": 129
         },
         {
           "description": "JIBOUTI",
           "id": 130
         },
         {
-          "id": 131,
-          "description": "DENMARK"
+          "description": "DENMARK",
+          "id": 131
         },
         {
-          "description": "DOMINICAN REPUBLIC",
-          "id": 132
+          "id": 132,
+          "description": "DOMINICAN REPUBLIC"
         },
         {
           "description": "ALGERIA",
@@ -1335,8 +1049,8 @@
           "id": 134
         },
         {
-          "description": "EGYPT",
-          "id": 135
+          "id": 135,
+          "description": "EGYPT"
         },
         {
           "description": "ERYTHRAIA",
@@ -1415,12 +1129,12 @@
           "description": "GREECE"
         },
         {
-          "description": "WATTEMALA",
-          "id": 155
+          "id": 155,
+          "description": "WATTEMALA"
         },
         {
-          "id": 156,
-          "description": "GUIANA"
+          "description": "GUIANA",
+          "id": 156
         },
         {
           "description": "HONG KONG-CONG",
@@ -1435,8 +1149,8 @@
           "id": 159
         },
         {
-          "description": "AITI",
-          "id": 160
+          "id": 160,
+          "description": "AITI"
         },
         {
           "description": "HUNGARY",
@@ -1511,28 +1225,28 @@
           "id": 178
         },
         {
-          "description": "SOUTH KOREA",
-          "id": 179
+          "id": 179,
+          "description": "SOUTH KOREA"
         },
         {
           "description": "KUWAIT",
           "id": 180
         },
         {
-          "description": "L.A.",
-          "id": 181
+          "id": 181,
+          "description": "L.A."
         },
         {
           "description": "LIBANOS",
           "id": 182
         },
         {
-          "id": 183,
-          "description": "LIBERIA"
+          "description": "LIBERIA",
+          "id": 183
         },
         {
-          "id": 184,
-          "description": "LIBYA"
+          "description": "LIBYA",
+          "id": 184
         },
         {
           "description": "HOLY LUKE",
@@ -1571,12 +1285,12 @@
           "id": 193
         },
         {
-          "id": 194,
-          "description": "MONACO"
+          "description": "MONACO",
+          "id": 194
         },
         {
-          "id": 195,
-          "description": "MOLDOVA"
+          "description": "MOLDOVA",
+          "id": 195
         },
         {
           "description": "MADAGASKARI",
@@ -1591,8 +1305,8 @@
           "id": 198
         },
         {
-          "description": "MARSHALL ISLANDS",
-          "id": 199
+          "id": 199,
+          "description": "MARSHALL ISLANDS"
         },
         {
           "description": "MALI",
@@ -1603,8 +1317,8 @@
           "id": 201
         },
         {
-          "id": 202,
-          "description": "MYANMAR"
+          "description": "MYANMAR",
+          "id": 202
         },
         {
           "description": "MOGOLIA",
@@ -1635,28 +1349,28 @@
           "id": 209
         },
         {
-          "id": 210,
-          "description": "NAMIBIA"
+          "description": "NAMIBIA",
+          "id": 210
         },
         {
-          "id": 211,
-          "description": "Saint Bartholomew"
+          "description": "Saint Bartholomew",
+          "id": 211
         },
         {
           "description": "Saint Martin (France)",
           "id": 212
         },
         {
-          "description": "Saint Martin (Netherlands)",
-          "id": 213
+          "id": 213,
+          "description": "Saint Martin (Netherlands)"
         },
         {
           "description": "Saint Marinos",
           "id": 214
         },
         {
-          "id": 215,
-          "description": "Saint Pierre and Miquelon"
+          "description": "Saint Pierre and Miquelon",
+          "id": 215
         },
         {
           "description": "Antarctica",
@@ -1683,8 +1397,8 @@
           "id": 221
         },
         {
-          "description": "Greenland",
-          "id": 222
+          "id": 222,
+          "description": "Greenland"
         },
         {
           "description": "PALESTINE",
@@ -1699,8 +1413,8 @@
           "id": 225
         },
         {
-          "description": "Democratic Republic of the Congo",
-          "id": 226
+          "id": 226,
+          "description": "Democratic Republic of the Congo"
         },
         {
           "description": "Mayotte",
@@ -1711,8 +1425,8 @@
           "id": 228
         },
         {
-          "id": 229,
-          "description": "Montenegro"
+          "description": "Montenegro",
+          "id": 229
         },
         {
           "description": "Montserrat",
@@ -1739,8 +1453,8 @@
           "id": 235
         },
         {
-          "description": "Aaland",
-          "id": 236
+          "id": 236,
+          "description": "Aaland"
         },
         {
           "description": "Pitcairn Islands",
@@ -1767,8 +1481,8 @@
           "id": 242
         },
         {
-          "description": "South Georgia and South Sandwich Islands",
-          "id": 243
+          "id": 243,
+          "description": "South Georgia and South Sandwich Islands"
         },
         {
           "description": "South Sudan",
@@ -1787,8 +1501,8 @@
           "id": 247
         },
         {
-          "description": "Palau",
-          "id": 248
+          "id": 248,
+          "description": "Palau"
         },
         {
           "description": "Puerto Rico",
@@ -1811,8 +1525,254 @@
           "id": 253
         },
         {
-          "description": "Tokelau",
-          "id": 254
+          "id": 254,
+          "description": "Tokelau"
+        }
+      ],
+      "currencies": [
+        {
+          "description": "Euro",
+          "id": 1
+        },
+        {
+          "description": "United States Dollar",
+          "id": 2
+        },
+        {
+          "description": "Great Britain Pounds",
+          "id": 3
+        },
+        {
+          "description": "Canadian Dollar",
+          "id": 4
+        },
+        {
+          "description": "Australian Dollar",
+          "id": 5
+        },
+        {
+          "description": "Turkish Lira",
+          "id": 6
+        },
+        {
+          "id": 7,
+          "description": "Albanian Lek"
+        },
+        {
+          "id": 8,
+          "description": "Bulgarian Lev"
+        },
+        {
+          "id": 9,
+          "description": "FYROM Denarius"
+        },
+        {
+          "id": 10,
+          "description": "Russian Rouble"
+        },
+        {
+          "id": 11,
+          "description": "Romanian New Leu"
+        },
+        {
+          "description": "Greek drachmas",
+          "id": 12
+        },
+        {
+          "description": "Swiss Franc",
+          "id": 13
+        },
+        {
+          "description": "Danish Krone",
+          "id": 14
+        },
+        {
+          "description": "Cayman Islands dollar",
+          "id": 15
+        },
+        {
+          "description": "Norwegian Krone",
+          "id": 16
+        },
+        {
+          "id": 17,
+          "description": "Serbian Dinar"
+        },
+        {
+          "description": "Philippine Peso",
+          "id": 18
+        }
+      ],
+      "geoOptions": [
+        {
+          "municipalityId": 1,
+          "prefectureId": 9,
+          "regionId": 1
+        },
+        {
+          "municipalityId": 2,
+          "prefectureId": 9,
+          "regionId": 1
+        },
+        {
+          "regionId": 1,
+          "municipalityId": 3,
+          "prefectureId": 9
+        },
+        {
+          "municipalityId": 6,
+          "prefectureId": 11,
+          "regionId": 1
+        },
+        {
+          "municipalityId": 7,
+          "prefectureId": 11,
+          "regionId": 1
+        },
+        {
+          "municipalityId": 8,
+          "prefectureId": 11,
+          "regionId": 1
+        },
+        {
+          "municipalityId": 11,
+          "prefectureId": 21,
+          "regionId": 1
+        },
+        {
+          "municipalityId": 12,
+          "prefectureId": 21,
+          "regionId": 1
+        },
+        {
+          "municipalityId": 13,
+          "prefectureId": 21,
+          "regionId": 1
+        },
+        {
+          "municipalityId": 23,
+          "prefectureId": 16,
+          "regionId": 2
+        },
+        {
+          "prefectureId": 16,
+          "regionId": 2,
+          "municipalityId": 24
+        },
+        {
+          "municipalityId": 25,
+          "prefectureId": 16,
+          "regionId": 2
+        },
+        {
+          "municipalityId": 26,
+          "prefectureId": 19,
+          "regionId": 2
+        },
+        {
+          "municipalityId": 27,
+          "prefectureId": 19,
+          "regionId": 2
+        },
+        {
+          "municipalityId": 28,
+          "prefectureId": 19,
+          "regionId": 2
+        },
+        {
+          "regionId": 2,
+          "municipalityId": 40,
+          "prefectureId": 26
+        },
+        {
+          "municipalityId": 41,
+          "prefectureId": 26,
+          "regionId": 2
+        },
+        {
+          "regionId": 3,
+          "municipalityId": 61,
+          "prefectureId": 8
+        },
+        {
+          "municipalityId": 62,
+          "prefectureId": 8,
+          "regionId": 3
+        },
+        {
+          "municipalityId": 63,
+          "prefectureId": 23,
+          "regionId": 3
+        },
+        {
+          "municipalityId": 64,
+          "prefectureId": 23,
+          "regionId": 3
+        },
+        {
+          "municipalityId": 65,
+          "prefectureId": 23,
+          "regionId": 3
+        },
+        {
+          "municipalityId": 66,
+          "prefectureId": 27,
+          "regionId": 3
+        },
+        {
+          "municipalityId": 67,
+          "prefectureId": 27,
+          "regionId": 3
+        },
+        {
+          "municipalityId": 68,
+          "prefectureId": 27,
+          "regionId": 3
+        },
+        {
+          "municipalityId": 73,
+          "prefectureId": 4,
+          "regionId": 4
+        },
+        {
+          "prefectureId": 4,
+          "regionId": 4,
+          "municipalityId": 74
+        },
+        {
+          "regionId": 4,
+          "municipalityId": 75,
+          "prefectureId": 4
+        },
+        {
+          "prefectureId": 18,
+          "regionId": 4,
+          "municipalityId": 77
+        },
+        {
+          "municipalityId": 78,
+          "prefectureId": 18,
+          "regionId": 4
+        },
+        {
+          "municipalityId": 79,
+          "prefectureId": 18,
+          "regionId": 4
+        },
+        {
+          "municipalityId": 80,
+          "prefectureId": 20,
+          "regionId": 4
+        },
+        {
+          "municipalityId": 81,
+          "prefectureId": 20,
+          "regionId": 4
+        },
+        {
+          "municipalityId": 82,
+          "prefectureId": 20,
+          "regionId": 4
         }
       ]
     },
@@ -1899,5 +1859,45 @@
         30
       ]
     }
+  },
+  "root_group": {
+    "name": "",
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": [],
+    "checks": [
+        {
+          "id": "f23529393338f582e8927eaf6c3fb095",
+          "passes": 10000,
+          "fails": 0,
+          "name": "vu login 200",
+          "path": "::vu login 200"
+        },
+        {
+          "path": "::mutation 2xx",
+          "id": "bc7a17d1a4fc1761b7503dc35b8bc305",
+          "passes": 4238,
+          "fails": 5762,
+          "name": "mutation 2xx"
+        }
+      ]
+  },
+  "options": {
+    "summaryTrendStats": [
+      "avg",
+      "min",
+      "med",
+      "p(90)",
+      "p(95)",
+      "p(99)",
+      "max"
+    ],
+    "summaryTimeUnit": "",
+    "noColor": false
+  },
+  "state": {
+    "testRunDurationMs": 280810.122963,
+    "isStdOutTTY": false,
+    "isStdErrTTY": false
   }
 }

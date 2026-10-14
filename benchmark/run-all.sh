@@ -23,6 +23,10 @@
 #   REPEATS     default 1    (>1: run every scenario N times, round-robin, into
 #                             results/<scenario>/run-<k>/; summarize.py then
 #                             reports the median across runs + the spread)
+#   RESULTS_DIR default benchmark/results (override to write a variant run
+#                             elsewhere without wiping the main results)
+#   COMPRESS_SEGMENTBY default "" = no segmentby (cdc compressed-size
+#                             measurement in collect.sh)
 #
 # Run from anywhere: ./benchmark/run-all.sh
 # ============================================================================
@@ -37,7 +41,7 @@ TOTAL_OPS="${TOTAL_OPS:-2000}"
 K6_IMAGE="${K6_IMAGE:-grafana/k6}"
 CDC_DRAIN_S="${CDC_DRAIN_S:-20}"
 REPEATS="${REPEATS:-1}"
-RESULTS_DIR="$REPO_ROOT/benchmark/results"
+RESULTS_DIR="${RESULTS_DIR:-$REPO_ROOT/benchmark/results}"
 ENTITIES=(company person legal_entity member company_stocks company_capital)
 
 DC="docker compose"

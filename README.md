@@ -475,40 +475,54 @@ It tears the stack down at the end.
 | `TOTAL_OPS` | `2000` | Total mutations across all VUs (the fixed workload) |
 | `CDC_DRAIN_S` | `90` | Max seconds to wait for the async CDC consumer to catch up |
 | `K6_IMAGE` | `grafana/k6` | k6 container image |
+| `REPEATS` | `1` | Runs per scenario (round-robin); `summarize.py` reports median + min–max spread |
+| `COMPRESS_SEGMENTBY` | *(empty = none)* | Optional `segmentby` column for the cdc compressed-size measurement |
+| `RESULTS_DIR` | `benchmark/results` | Output dir (use a separate one for variant runs) |
 
 **Outputs** (`benchmark/results/`):
 - `comparison.md` / `comparison.csv` — combined table across scenarios.
 - `<scenario>/k6-summary.json` — full k6 metrics (latency trends, throughput).
 - `<scenario>/storage.csv` — per audit-table row counts + sizes.
 - `cdc/lag.csv` — end-to-end CDC lag percentiles.
+- `cdc/storage_compressed.csv` — per-hypertable CDC audit size before/after TimescaleDB compression.
 
 **Reading it:** per-op latency (`Create/Update/Delete p50/95/99`) excludes login, so it isolates
 audit write-path cost; `Overhead vs baseline` attributes it per method; `Audit lag` is the
 async-vs-sync differentiator (CDC only). A share of random ops fail on constraint/FK violations by
 design (see `mutations ok / err`). Full method/toggle/load-model details: **[`benchmark/README.md`](benchmark/README.md)**.
-**Measured run** (64 VUs × 10,000 ops, median of 3 runs per scenario, all services
-co-located on one developer machine — absolute numbers vary by hardware; the
-*relationships* are the point):
+**Measured run** (64 VUs × 10,000 ops, median of 5 runs per scenario, Linux workstation —
+Ryzen 7 5700X3D / 32 GB / SATA SSD, all services co-located on one machine; absolute numbers vary
+by hardware, the *relationships* are the point. Full host details + spread:
+[`benchmark/results/linux-run-summary.md`](benchmark/results/linux-run-summary.md)):
 
 | Metric | baseline | cdc | triggers | envers |
 |--------|---------:|----:|---------:|-------:|
-| Create p50 / p95 / p99 (ms) | 599 / 1,328 / 1,831 | 650 / 1,609 / 2,207 | 599 / 1,326 / 1,811 | 601 / 1,331 / 1,802 |
-| Overhead vs baseline (create p50) | — | +8.6% | +0.0% | +0.4% |
-| Audit rows captured | 0 | 5,006 | 4,698 | 8,734 (incl. REVINFO) |
-| Audit storage (uncompressed) | — | 5.82 MB in auditDb (`hypertable_size`) | 5.70 MB in mainDb | 4.10 MB in mainDb |
-| Bytes / audit row | — | 1,219 | 1,271 | 492 |
-| **Audit lag p50 / p99 (ms)** | — | **606 / 1,351** | **~0** | **~0** |
+| Create p50 / p95 / p99 (ms) | 491 / 1,060 / 1,438 | 513 / 1,164 / 1,573 | 496 / 1,066 / 1,454 | 492 / 1,060 / 1,434 |
+| Overhead vs baseline (create p50) | — | +4.5% | +1.1% | +0.4% |
+| Throughput (ops/s, incl. re-login) | 35.4 | 33.8 | 35.5 | 35.5 |
+| Audit rows captured | 0 | 4,981 | 4,808 | 8,735 (incl. REVINFO) |
+| Audit storage (uncompressed) | — | 5.77 MB in auditDb (`hypertable_size`) | 5.72 MB in mainDb | 3.66 MB in mainDb |
+| Audit storage (TimescaleDB compressed) | — | **4.02 MB (1.46×)**¹ | n/a | n/a |
+| Bytes / audit row (uncompressed) | — | 1,214 | 1,247 | 440 |
+| **Audit lag p50 / p99 (ms)** | — | **568 / 1,000** | **~0** | **~0** |
+
+¹ Compressed = `hypertable_size()` after `ALTER TABLE … SET (timescaledb.compress, compress_orderby =
+'changed_at DESC')` (no segmentby) + `compress_chunk()` on every chunk, summed over all 27 `*_audit`
+hypertables (21 of them empty, 40 kB each). Measured in a separate 3-run cdc-only run of the same
+workload (median; uncompressed 5.87 MB in that run).
 
 Headline: triggers and Envers add no measurable write-path cost but are **in-band**
 (audit failure can fail the mutation) and co-located in the source DB. CDC costs
-~9% on the median / ~20% on the tail *when the whole pipeline shares the host*
-(resource contention + logical decoding), plus ~0.6 s of eventual-consistency lag
+~4.5% on the median / ~10% on the p95–p99 tail *when the whole pipeline shares the host*
+(resource contention + logical decoding), plus ~0.57 s of eventual-consistency lag
 and the operational weight of Kafka+Connect, in exchange for **full decoupling**
 (source DB untouched, audit store scales independently, captures non-ORM writes,
-fan-out to any number of consumers). Per-row audit size of CDC is ~30% below
-triggers on the large tables; the average is inflated by the fixed per-chunk cost
-of small hypertables. See **[`benchmark/README.md`](benchmark/README.md)** for the
-full qualitative comparison, the load model, per-method toggles and `REPEATS`.
+fan-out to any number of consumers). Uncompressed, CDC and triggers store about the
+same volume (5.77 vs 5.72 MB); per row CDC is ~26% smaller than triggers on the large
+tables (`company`, `person`, `legal_entity`), while the fixed per-chunk cost of small
+hypertables inflates the average. TimescaleDB native compression cuts the CDC store to
+**4.02 MB (1.46× overall, ~1.8–1.9× on the large tables)**. See **[`benchmark/README.md`](benchmark/README.md)** for the full qualitative
+comparison, the load model, per-method toggles and `REPEATS`.
 
 ## 🎓 Use Cases
 
