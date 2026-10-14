@@ -3,7 +3,8 @@
 # Audit-method benchmark — metrics collector.
 #
 # After a scenario's load run, snapshots how much audit data each method
-# produced and (for CDC) the end-to-end pipeline lag. Writes CSVs into the
+# produced (hypertable-aware, see collect_storage) and (for CDC) the
+# end-to-end pipeline lag. Writes CSVs into the
 # scenario's results dir. Reads directly from the running DB containers.
 #
 # Usage: ./collect.sh <scenario> <outdir>
@@ -29,6 +30,12 @@ echo "scenario,method,audit_table,row_count,total_bytes,total_pretty" > "$STORAG
 
 # Emit one storage row per audit table matching $pattern in the given DB.
 # $1=runner (main_psql|audit_psql) $2=method-label $3=LIKE-pattern (ILIKE)
+#
+# Size: pg_total_relation_size() on a TimescaleDB hypertable only measures the
+# (empty) parent relation — the rows live in chunk tables under
+# _timescaledb_internal — so for hypertables we must use hypertable_size(),
+# which sums the parent, all chunks, their indexes and toast. Plain tables
+# (triggers / Envers in mainDb) keep pg_total_relation_size().
 collect_storage() {
     local runner="$1" method="$2" pattern="$3"
     local tables
@@ -37,8 +44,19 @@ collect_storage() {
         [ -z "$t" ] && continue
         local cnt bytes pretty
         cnt=$($runner "SELECT count(*) FROM \"$t\";")
-        bytes=$($runner "SELECT pg_total_relation_size('\"$t\"');")
-        pretty=$($runner "SELECT pg_size_pretty(pg_total_relation_size('\"$t\"'));")
+        # Two separate probes: a query that names timescaledb_information.* would
+        # fail to even parse in mainDb, where the extension is not installed.
+        local is_ht
+        is_ht=$($runner "SELECT 1 FROM pg_extension WHERE extname='timescaledb';")
+        if [ "$is_ht" = "1" ]; then
+            is_ht=$($runner "SELECT 1 FROM timescaledb_information.hypertables WHERE hypertable_schema='public' AND hypertable_name='$t';")
+        fi
+        if [ "$is_ht" = "1" ]; then
+            bytes=$($runner "SELECT hypertable_size('\"$t\"');")
+        else
+            bytes=$($runner "SELECT pg_total_relation_size('\"$t\"');")
+        fi
+        pretty=$($runner "SELECT pg_size_pretty(${bytes:-0}::bigint);")
         echo "$SCENARIO,$method,$t,$cnt,$bytes,$pretty" >> "$STORAGE_CSV"
     done
 }

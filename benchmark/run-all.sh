@@ -20,6 +20,9 @@
 #   TOTAL_OPS   default 2000
 #   K6_IMAGE    default grafana/k6
 #   CDC_DRAIN_S default 20   (seconds to let the async consumer catch up)
+#   REPEATS     default 1    (>1: run every scenario N times, round-robin, into
+#                             results/<scenario>/run-<k>/; summarize.py then
+#                             reports the median across runs + the spread)
 #
 # Run from anywhere: ./benchmark/run-all.sh
 # ============================================================================
@@ -33,6 +36,7 @@ VUS="${VUS:-10}"
 TOTAL_OPS="${TOTAL_OPS:-2000}"
 K6_IMAGE="${K6_IMAGE:-grafana/k6}"
 CDC_DRAIN_S="${CDC_DRAIN_S:-20}"
+REPEATS="${REPEATS:-1}"
 RESULTS_DIR="$REPO_ROOT/benchmark/results"
 ENTITIES=(company person legal_entity member company_stocks company_capital)
 
@@ -137,9 +141,9 @@ run_k6() { # $1 = result dir
         "$K6_IMAGE" run /b/load.js
 }
 
-run_scenario() {
+run_scenario() { # $1 = scenario, $2 = result dir
     local sc="$1"
-    local rdir="$RESULTS_DIR/$sc"
+    local rdir="$2"
     rm -rf "$rdir"; mkdir -p "$rdir"
 
     log "SCENARIO: $sc — resetting stack"
@@ -195,15 +199,32 @@ run_scenario() {
 log "building images"
 $DC build business-registry-api audit-consumer
 
-for sc in $SCENARIOS; do
-    run_scenario "$sc"
-done
+if [ "$REPEATS" -le 1 ]; then
+    for sc in $SCENARIOS; do
+        run_scenario "$sc" "$RESULTS_DIR/$sc"
+    done
+else
+    # Round-robin (run 1 of every scenario, then run 2, ...) so slow drift of the
+    # host (thermal, caches, other load) spreads evenly across the scenarios.
+    for sc in $SCENARIOS; do rm -rf "$RESULTS_DIR/$sc"; done
+    for k in $(seq 1 "$REPEATS"); do
+        for sc in $SCENARIOS; do
+            log "REPEAT $k/$REPEATS"
+            run_scenario "$sc" "$RESULTS_DIR/$sc/run-$k"
+        done
+    done
+fi
 
 log "tearing down"
 $DC down -v --remove-orphans >/dev/null 2>&1 || true
 
 log "summarising"
-python3 "$REPO_ROOT/benchmark/summarize.py" "$RESULTS_DIR" || \
-    echo "  (summarize.py failed — raw CSV/JSON still in $RESULTS_DIR)"
+PY="$(command -v python3 || command -v python || true)"
+if [ -n "$PY" ]; then
+    "$PY" "$REPO_ROOT/benchmark/summarize.py" "$RESULTS_DIR" || \
+        echo "  (summarize.py failed — raw CSV/JSON still in $RESULTS_DIR)"
+else
+    echo "  (no python found — run: python3 benchmark/summarize.py benchmark/results)"
+fi
 
 log "DONE — results in $RESULTS_DIR"

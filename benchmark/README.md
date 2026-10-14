@@ -18,6 +18,7 @@ Scope: the 6 core mutable entities — `company`, `person`, `legal_entity`,
 ```bash
 ./benchmark/run-all.sh                         # all 4 scenarios, default 10 VUs x 2000 ops
 SCENARIOS="baseline triggers" VUS=20 TOTAL_OPS=5000 ./benchmark/run-all.sh
+REPEATS=3 VUS=64 TOTAL_OPS=10000 ./benchmark/run-all.sh   # 3 runs per scenario (round-robin); median + spread reported
 ```
 
 Requirements: Docker + Docker Compose. k6 runs as the `grafana/k6` container on
@@ -49,7 +50,8 @@ method needs → toggle triggers / Envers profile → run the k6 workload →
 ## Outputs (`benchmark/results/`)
 
 - `<scenario>/k6-summary.json` — full k6 metrics (latency trends, throughput).
-- `<scenario>/storage.csv` — per audit-table row counts + `pg_total_relation_size`.
+- `<scenario>/storage.csv` — per audit-table row counts + size. TimescaleDB hypertables are measured with `hypertable_size()` (parent + chunks + indexes); `pg_total_relation_size()` on a hypertable parent reports only the empty parent relation (~40 kB), which is why older runs under-reported the CDC audit volume.
+- `<scenario>/run-<k>/…` — the same files per run when `REPEATS>1`; `comparison.md` then shows the median across runs, a min–max spread table and the per-run values.
 - `cdc/lag.csv` — end-to-end CDC lag percentiles (`ingested_at − changed_at`, ms).
 - `comparison.md` / `comparison.csv` — combined table across scenarios.
 
