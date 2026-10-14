@@ -3,10 +3,17 @@
 
 Reads benchmark/results/<scenario>/{k6-summary.json,storage.csv,lag.csv} and
 writes comparison.csv + comparison.md alongside them. Pure stdlib.
+
+When a scenario was run several times (REPEATS>1 in run-all.sh), its results
+live in benchmark/results/<scenario>/run-<k>/; every metric is then reported
+as the MEDIAN across runs and a second table gives the min–max spread, so the
+comparison is not hostage to one lucky or unlucky run.
 """
 import csv
+import glob
 import json
 import os
+import statistics
 import sys
 
 SCENARIO_ORDER = ["baseline", "cdc", "triggers", "envers"]
@@ -59,6 +66,41 @@ def load_scenario(rdir):
                 row["lag_p95_ms"] = fnum(r.get("lag_p95_ms"))
                 row["lag_p99_ms"] = fnum(r.get("lag_p99_ms"))
     return row
+
+
+NUMERIC_KEYS = [
+    "ops", "throughput_ops_s", "mut_ok", "mut_err", "req_p95_ms",
+    "create_p50_ms", "create_p95_ms", "create_p99_ms",
+    "update_p50_ms", "update_p95_ms", "update_p99_ms",
+    "delete_p50_ms", "delete_p95_ms", "delete_p99_ms",
+    "audit_rows", "audit_bytes", "lag_p50_ms", "lag_p95_ms", "lag_p99_ms",
+]
+
+
+def load_scenario_runs(sdir):
+    """Load one scenario: either a single run in sdir or several run-<k>/ dirs.
+
+    Returns (aggregated_row, runs) where runs is the list of per-run rows
+    (length 1 for a single run). Aggregation = median per metric; integers
+    (ops, counts, rows, bytes) are rounded back to int.
+    """
+    run_dirs = sorted(glob.glob(os.path.join(sdir, "run-*")),
+                      key=lambda d: int(d.rsplit("-", 1)[-1]))
+    if not run_dirs:
+        row = load_scenario(sdir)
+        row["n_runs"] = 1
+        return row, [row]
+    runs = [load_scenario(d) for d in run_dirs]
+    agg = {"n_runs": len(runs)}
+    for k in NUMERIC_KEYS:
+        vals = [r[k] for r in runs if r.get(k) is not None]
+        if not vals:
+            continue
+        med = statistics.median(vals)
+        agg[k] = int(round(med)) if k in ("ops", "mut_ok", "mut_err", "audit_rows", "audit_bytes") else med
+        agg[k + "_min"] = min(vals)
+        agg[k + "_max"] = max(vals)
+    return agg, runs
 
 
 def fmt(v, suffix=""):
@@ -237,21 +279,57 @@ def main():
         print(f"no scenario dirs under {results_dir}", file=sys.stderr)
         return 1
 
-    rows = {s: load_scenario(os.path.join(results_dir, s)) for s in found}
+    loaded = {s: load_scenario_runs(os.path.join(results_dir, s)) for s in found}
+    rows = {s: loaded[s][0] for s in found}
+    runs = {s: loaded[s][1] for s in found}
+    n_runs = max(r.get("n_runs", 1) for r in rows.values())
 
     # baseline reference for overhead %
     base_c = rows.get("baseline", {}).get("create_p50_ms")
     metrics = METRICS(base_c)
 
     # markdown
-    md = ["# Audit-method comparison — results\n",
+    title = "# Audit-method comparison — results"
+    if n_runs > 1:
+        title += f" (median of {n_runs} runs per scenario)"
+    md = [title + "\n",
           "| Metric | " + " | ".join(found) + " |",
           "|" + "---|" * (len(found) + 1)]
     for label, fn in metrics:
         md.append("| " + label + " | " + " | ".join(fn(rows[s]) for s in found) + " |")
     md.append("\n_Synchronous methods (triggers, envers) commit audit rows inside "
               "the mutation transaction, so audit lag is ~0 and not measured; CDC lag "
-              "is ingested_at − changed_at across all *_audit rows._\n")
+              "is ingested_at − changed_at across all *_audit rows. Audit storage of "
+              "TimescaleDB hypertables is measured with hypertable_size() (parent + chunks)._\n")
+    if n_runs > 1:
+        spread_keys = [("Create p50 (ms)", "create_p50_ms"), ("Create p95 (ms)", "create_p95_ms"),
+                       ("Create p99 (ms)", "create_p99_ms"), ("Update p50 (ms)", "update_p50_ms"),
+                       ("Throughput (ops/s)", "throughput_ops_s"), ("Audit rows captured", "audit_rows"),
+                       ("Audit storage (MB)", "audit_bytes"), ("Audit lag p50 (ms)", "lag_p50_ms"),
+                       ("Audit lag p99 (ms)", "lag_p99_ms")]
+        md.append(f"\n## Run-to-run spread (min – max over {n_runs} runs)\n")
+        md.append("| Metric | " + " | ".join(found) + " |")
+        md.append("|" + "---|" * (len(found) + 1))
+        for label, key in spread_keys:
+            cells = []
+            for s in found:
+                lo, hi = rows[s].get(key + "_min"), rows[s].get(key + "_max")
+                if lo is None:
+                    cells.append("—")
+                elif key == "audit_bytes":
+                    cells.append(f"{lo / 1_048_576:.2f} – {hi / 1_048_576:.2f}")
+                else:
+                    cells.append(f"{fmt(lo)} – {fmt(hi)}")
+            md.append("| " + label + " | " + " | ".join(cells) + " |")
+        md.append("\n## Per-run values\n")
+        md.append("| Scenario | Run | Create p50 | Create p95 | Create p99 | Update p50 | ops/s | Audit rows | Audit MB | Lag p50 | Lag p99 |")
+        md.append("|---|---|---|---|---|---|---|---|---|---|---|")
+        for s in found:
+            for i, r in enumerate(runs[s], 1):
+                md.append("| %s | %d | %s | %s | %s | %s | %s | %s | %s | %s | %s |" % (
+                    s, i, fmt(r.get("create_p50_ms")), fmt(r.get("create_p95_ms")), fmt(r.get("create_p99_ms")),
+                    fmt(r.get("update_p50_ms")), fmt(r.get("throughput_ops_s")), fmt(r.get("audit_rows")),
+                    mb(r.get("audit_bytes")), fmt(r.get("lag_p50_ms")), fmt(r.get("lag_p99_ms"))))
     md_path = os.path.join(results_dir, "comparison.md")
     with open(md_path, "w") as f:
         f.write("\n".join(md))

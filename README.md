@@ -486,22 +486,29 @@ It tears the stack down at the end.
 audit write-path cost; `Overhead vs baseline` attributes it per method; `Audit lag` is the
 async-vs-sync differentiator (CDC only). A share of random ops fail on constraint/FK violations by
 design (see `mutations ok / err`). Full method/toggle/load-model details: **[`benchmark/README.md`](benchmark/README.md)**.
-**Sample run** (8 VUs × 1000 ops — absolute numbers vary by hardware/run; the
+**Measured run** (64 VUs × 10,000 ops, median of 3 runs per scenario, all services
+co-located on one developer machine — absolute numbers vary by hardware; the
 *relationships* are the point):
 
 | Metric | baseline | cdc | triggers | envers |
 |--------|---------:|----:|---------:|-------:|
-| Create p50 (ms) | 9.6 | 9.1 | 9.1 | 10.3 |
-| Audit rows captured | 0 | 1,256 | 1,238 | 1,497 |
-| Bytes / audit row | — | 881 | 1,171 | 651 |
-| **Audit lag p50 / p99 (ms)** | — | **592 / 943** | **~0** | **~0** |
+| Create p50 / p95 / p99 (ms) | 599 / 1,328 / 1,831 | 650 / 1,609 / 2,207 | 599 / 1,326 / 1,811 | 601 / 1,331 / 1,802 |
+| Overhead vs baseline (create p50) | — | +8.6% | +0.0% | +0.4% |
+| Audit rows captured | 0 | 5,006 | 4,698 | 8,734 (incl. REVINFO) |
+| Audit storage (uncompressed) | — | 5.82 MB in auditDb (`hypertable_size`) | 5.70 MB in mainDb | 4.10 MB in mainDb |
+| Bytes / audit row | — | 1,219 | 1,271 | 492 |
+| **Audit lag p50 / p99 (ms)** | — | **606 / 1,351** | **~0** | **~0** |
 
-Headline: CDC trades **hundreds of ms of eventual-consistency lag** and the
-operational weight of Kafka+Connect for **full decoupling** (source DB unaffected,
-audit store scales independently, captures non-ORM writes); triggers and Envers
-are immediate and simple but **in-band** (audit failure can fail the mutation) and
-co-located in the source DB. See **[`benchmark/README.md`](benchmark/README.md)**
-for the full qualitative comparison, the load model, and per-method toggles.
+Headline: triggers and Envers add no measurable write-path cost but are **in-band**
+(audit failure can fail the mutation) and co-located in the source DB. CDC costs
+~9% on the median / ~20% on the tail *when the whole pipeline shares the host*
+(resource contention + logical decoding), plus ~0.6 s of eventual-consistency lag
+and the operational weight of Kafka+Connect, in exchange for **full decoupling**
+(source DB untouched, audit store scales independently, captures non-ORM writes,
+fan-out to any number of consumers). Per-row audit size of CDC is ~30% below
+triggers on the large tables; the average is inflated by the fixed per-chunk cost
+of small hypertables. See **[`benchmark/README.md`](benchmark/README.md)** for the
+full qualitative comparison, the load model, per-method toggles and `REPEATS`.
 
 ## 🎓 Use Cases
 
