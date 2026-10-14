@@ -131,3 +131,6 @@ graphify-out/*
 !graphify-out/manifest.json
 !graphify-out/.graphify_labels.json
 !graphify-out/.graphify_labels.json.sig
+
+# thesis screenshot helper (temporary)
+.screenshots/

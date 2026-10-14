@@ -36,6 +36,10 @@ services:
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=3
       - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=3
       - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=2
+      # Event topics are auto-created on first publish; replicate them on all 3
+      # brokers (same as the internal topics) so a single broker loss costs no data.
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_MIN_INSYNC_REPLICAS=2
       - CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk
       - KAFKA_LOG_RETENTION_BYTES=1073741824
       - KAFKA_LOG_SEGMENT_BYTES=536870912
@@ -63,6 +67,10 @@ services:
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=3
       - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=3
       - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=2
+      # Event topics are auto-created on first publish; replicate them on all 3
+      # brokers (same as the internal topics) so a single broker loss costs no data.
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_MIN_INSYNC_REPLICAS=2
       - CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk
       - KAFKA_LOG_RETENTION_BYTES=1073741824
       - KAFKA_LOG_SEGMENT_BYTES=536870912
@@ -90,6 +98,10 @@ services:
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=3
       - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=3
       - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=2
+      # Event topics are auto-created on first publish; replicate them on all 3
+      # brokers (same as the internal topics) so a single broker loss costs no data.
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_MIN_INSYNC_REPLICAS=2
       - CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk
       - KAFKA_LOG_RETENTION_BYTES=1073741824
       - KAFKA_LOG_SEGMENT_BYTES=536870912
