@@ -2,8 +2,19 @@
 """Audit-method benchmark — combine per-scenario k6 + DB metrics into one table.
 
 Reads benchmark/results/<scenario>/{k6-summary.json,storage.csv,lag.csv,
-storage_compressed.csv} and writes comparison.csv + comparison.md +
-comparison.html alongside them. Pure stdlib.
+storage_compressed.csv,sse_lag.csv,integrity.csv} and writes comparison.csv +
+comparison.md + comparison.html alongside them. Pure stdlib.
+
+sse_lag.csv (cdc / cdc-failover, written by sse_probe.py) holds the end-to-end
+latency from COMMIT in mainDb to an external SSE client; integrity.csv
+(cdc-failover) the exact count of lost / duplicated events against the trigger
+ground truth. cdc-idle / cdc-slot are overhead-decomposition controls that
+produce only k6 metrics.
+
+When the benchmark was run for several VU levels (VU_LEVELS in run-all.sh),
+results live in benchmark/results/vus-<n>/<scenario>/...; pointing this script
+at benchmark/results then summarises every level and writes
+comparison-by-vus.md with the write-path latency of each scenario per level.
 
 storage_compressed.csv (cdc only) holds the TimescaleDB hypertable sizes after
 compress_chunk() on every chunk; it is optional — older result sets without it
@@ -21,7 +32,7 @@ import os
 import statistics
 import sys
 
-SCENARIO_ORDER = ["baseline", "cdc", "triggers", "envers"]
+SCENARIO_ORDER = ["baseline", "cdc", "triggers", "envers", "cdc-idle", "cdc-slot", "cdc-failover"]
 
 
 def fnum(x):
@@ -81,6 +92,28 @@ def load_scenario(rdir):
                 row["lag_p50_ms"] = fnum(r.get("lag_p50_ms"))
                 row["lag_p95_ms"] = fnum(r.get("lag_p95_ms"))
                 row["lag_p99_ms"] = fnum(r.get("lag_p99_ms"))
+                row["lag_max_ms"] = fnum(r.get("lag_max_ms"))
+
+    sse = os.path.join(rdir, "sse_lag.csv")
+    if os.path.exists(sse):
+        with open(sse) as f:
+            for r in csv.DictReader(f):
+                row["sse_events"] = int(fnum(r.get("sample_events")) or 0)
+                row["sse_p50_ms"] = fnum(r.get("lag_p50_ms"))
+                row["sse_p95_ms"] = fnum(r.get("lag_p95_ms"))
+                row["sse_p99_ms"] = fnum(r.get("lag_p99_ms"))
+                row["sse_max_ms"] = fnum(r.get("lag_max_ms"))
+                row["sse_reconnects"] = int(fnum(r.get("reconnects")) or 0)
+
+    integ = os.path.join(rdir, "integrity.csv")
+    if os.path.exists(integ):
+        row.update({"int_trigger_rows": 0, "int_cdc_rows": 0, "int_duplicates": 0, "int_missing": 0})
+        with open(integ) as f:
+            for r in csv.DictReader(f):
+                row["int_trigger_rows"] += int(fnum(r.get("trigger_rows")) or 0)
+                row["int_cdc_rows"] += int(fnum(r.get("cdc_rows")) or 0)
+                row["int_duplicates"] += int(fnum(r.get("duplicates")) or 0)
+                row["int_missing"] += int(fnum(r.get("missing")) or 0)
     return row
 
 
@@ -90,9 +123,12 @@ NUMERIC_KEYS = [
     "update_p50_ms", "update_p95_ms", "update_p99_ms",
     "delete_p50_ms", "delete_p95_ms", "delete_p99_ms",
     "audit_rows", "audit_bytes", "audit_bytes_comp", "comp_ratio",
-    "lag_p50_ms", "lag_p95_ms", "lag_p99_ms",
+    "lag_p50_ms", "lag_p95_ms", "lag_p99_ms", "lag_max_ms",
+    "sse_events", "sse_p50_ms", "sse_p95_ms", "sse_p99_ms", "sse_max_ms", "sse_reconnects",
+    "int_trigger_rows", "int_cdc_rows", "int_duplicates", "int_missing",
 ]
-INT_KEYS = ("ops", "mut_ok", "mut_err", "audit_rows", "audit_bytes", "audit_bytes_comp")
+INT_KEYS = ("ops", "mut_ok", "mut_err", "audit_rows", "audit_bytes", "audit_bytes_comp",
+            "sse_events", "sse_reconnects", "int_trigger_rows", "int_cdc_rows", "int_duplicates", "int_missing")
 
 
 def load_scenario_runs(sdir):
@@ -313,16 +349,79 @@ def METRICS(base_c, has_comp=True):
         ("Audit lag p50 (ms)", lambda r: fmt(r.get("lag_p50_ms"))),
         ("Audit lag p95 (ms)", lambda r: fmt(r.get("lag_p95_ms"))),
         ("Audit lag p99 (ms)", lambda r: fmt(r.get("lag_p99_ms"))),
+        ("Audit lag max (ms)", lambda r: fmt(r.get("lag_max_ms"))),
+        ("SSE events received", lambda r: fmt(r.get("sse_events"))),
+        ("SSE lag p50 (ms)", lambda r: fmt(r.get("sse_p50_ms"))),
+        ("SSE lag p95 (ms)", lambda r: fmt(r.get("sse_p95_ms"))),
+        ("SSE lag p99 (ms)", lambda r: fmt(r.get("sse_p99_ms"))),
+        ("SSE lag max (ms)", lambda r: fmt(r.get("sse_max_ms"))),
+        ("Integrity: trigger rows (ground truth)", lambda r: fmt(r.get("int_trigger_rows"))),
+        ("Integrity: CDC rows", lambda r: fmt(r.get("int_cdc_rows"))),
+        ("Integrity: missing events", lambda r: fmt(r.get("int_missing"))),
+        ("Integrity: duplicate events", lambda r: fmt(r.get("int_duplicates"))),
     ]
     return rows if has_comp else [m for m in rows if m[0] not in COMP_LABELS]
+
+
+def summarize_levels(results_dir, levels):
+    """results/vus-<n>/ per VU level: summarise each level, then one table with the
+    write-path latency and throughput of every scenario per level (thesis §5.3:
+    does the CDC overhead grow with concurrency?)."""
+    per_level = {}
+    for lvl in levels:
+        d = os.path.join(results_dir, f"vus-{lvl}")
+        found = [s for s in SCENARIO_ORDER if os.path.isdir(os.path.join(d, s))]
+        if not found:
+            continue
+        summarize_dir(d)
+        per_level[lvl] = {s: load_scenario_runs(os.path.join(d, s))[0] for s in found}
+    if not per_level:
+        return 1
+    scen = [s for s in SCENARIO_ORDER if any(s in r for r in per_level.values())]
+    md = ["# Audit-method comparison — by concurrency level (VUs)\n",
+          "Median per scenario (and run, when REPEATS>1). Overhead = create p50 relative to baseline at the same level.\n"]
+    for key, label in (("create_p50_ms", "Create p50 (ms)"), ("create_p95_ms", "Create p95 (ms)"),
+                       ("create_p99_ms", "Create p99 (ms)"), ("throughput_ops_s", "Throughput (ops/s)"),
+                       ("lag_p50_ms", "Audit lag p50 (ms)"), ("lag_p99_ms", "Audit lag p99 (ms)"),
+                       ("sse_p50_ms", "SSE lag p50 (ms)"), ("sse_p99_ms", "SSE lag p99 (ms)")):
+        md.append(f"\n## {label}\n")
+        md.append("| VUs | " + " | ".join(scen) + " |")
+        md.append("|" + "---|" * (len(scen) + 1))
+        for lvl in levels:
+            rows = per_level.get(lvl, {})
+            cells = []
+            for s in scen:
+                v = rows.get(s, {}).get(key)
+                cell = fmt(v)
+                if key == "create_p50_ms" and v is not None and s != "baseline":
+                    b = rows.get("baseline", {}).get("create_p50_ms")
+                    if b:
+                        cell += f" ({(v - b) / b * 100:+.1f}%)"
+                cells.append(cell)
+            md.append(f"| {lvl} | " + " | ".join(cells) + " |")
+    out = os.path.join(results_dir, "comparison-by-vus.md")
+    with open(out, "w") as f:
+        f.write("\n".join(md) + "\n")
+    print("\n".join(md))
+    print(f"\nwrote {out}")
+    return 0
 
 
 def main():
     results_dir = sys.argv[1] if len(sys.argv) > 1 else "benchmark/results"
     found = [s for s in SCENARIO_ORDER if os.path.isdir(os.path.join(results_dir, s))]
+    levels = sorted((int(os.path.basename(d).split("-", 1)[1]) for d in glob.glob(os.path.join(results_dir, "vus-*"))
+                     if os.path.basename(d).split("-", 1)[1].isdigit()))
+    if not found and levels:
+        return summarize_levels(results_dir, levels)
     if not found:
         print(f"no scenario dirs under {results_dir}", file=sys.stderr)
         return 1
+    return summarize_dir(results_dir)
+
+
+def summarize_dir(results_dir):
+    found = [s for s in SCENARIO_ORDER if os.path.isdir(os.path.join(results_dir, s))]
 
     loaded = {s: load_scenario_runs(os.path.join(results_dir, s)) for s in found}
     rows = {s: loaded[s][0] for s in found}
@@ -352,7 +451,11 @@ def main():
     md.append("\n_Synchronous methods (triggers, envers) commit audit rows inside "
               "the mutation transaction, so audit lag is ~0 and not measured; CDC lag "
               "is ingested_at − changed_at across all *_audit rows. Audit storage of "
-              "TimescaleDB hypertables is measured with hypertable_size() (parent + chunks)." + comp_note + "_\n")
+              "TimescaleDB hypertables is measured with hypertable_size() (parent + chunks)." + comp_note +
+              " SSE lag = arrival at an external SSE client − commit time (sse_probe.py). "
+              "cdc-idle = CDC stack running without a connector (contention only); cdc-slot = connector "
+              "streaming, no consumer/audit DB; cdc-failover = consumer SIGKILL + broker crash during the "
+              "run, with triggers as ground truth for the missing/duplicate counts._\n")
     if n_runs > 1:
         spread_keys = [("Create p50 (ms)", "create_p50_ms"), ("Create p95 (ms)", "create_p95_ms"),
                        ("Create p99 (ms)", "create_p99_ms"), ("Update p50 (ms)", "update_p50_ms"),
@@ -360,7 +463,9 @@ def main():
                        ("Audit storage (MB)", "audit_bytes"),
                        ("Audit storage compressed (MB)", "audit_bytes_comp"),
                        ("Compression ratio", "comp_ratio"), ("Audit lag p50 (ms)", "lag_p50_ms"),
-                       ("Audit lag p99 (ms)", "lag_p99_ms")]
+                       ("Audit lag p99 (ms)", "lag_p99_ms"), ("SSE lag p50 (ms)", "sse_p50_ms"),
+                       ("SSE lag p99 (ms)", "sse_p99_ms"), ("Integrity: missing events", "int_missing"),
+                       ("Integrity: duplicate events", "int_duplicates")]
         if not has_comp:
             spread_keys = [k for k in spread_keys if k[1] not in ("audit_bytes_comp", "comp_ratio")]
         md.append(f"\n## Run-to-run spread (min – max over {n_runs} runs)\n")

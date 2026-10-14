@@ -9,6 +9,20 @@ baseline, under one fixed, reproducible CRUD workload. Built for the thesis.
 | `cdc` | Debezium CDC → Kafka → audit-consumer | `auditDb` (TimescaleDB hypertables) | **async**, out-of-band |
 | `triggers` | PostgreSQL `AFTER` row triggers | `mainDb` (`<t>_trigger_audit`) | **sync**, same txn |
 | `envers` | Hibernate Envers | `mainDb` (`<t>_AUD` + `REVINFO`) | **sync**, same txn |
+| `cdc-idle` | *control*: full CDC stack running, **no connector registered** (no slot, no decoding) | — | — |
+| `cdc-slot` | *control*: connector streaming into Kafka, **no audit-consumer / auditDb** | — | — |
+| `cdc-failover` | `cdc` + fault injection (consumer SIGKILL, broker crash) + triggers enabled as ground truth | `auditDb` + `mainDb` (`<t>_trigger_audit`) | async |
+
+`cdc-idle` and `cdc-slot` decompose the write-path overhead of `cdc` measured on a single
+host: baseline → `cdc-idle` isolates the resource contention of the extra processes,
+`cdc-slot` adds logical decoding + Debezium + Kafka traffic, `cdc` adds the consumer and the
+second database. `cdc-failover` answers "is anything lost?" with numbers: the triggers write
+exactly one row per row-level change into `mainDb`, the CDC rows carry the WAL LSN as
+`change_id`, so `integrity.csv` reports `missing = trigger_rows − distinct(change_id)` and
+`duplicates = rows − distinct(change_id)` per table (at-least-once ⇒ duplicates ≥ 0, missing = 0
+is the claim under test). `cdc` and `cdc-failover` also start the SSE bridge and
+`sse_probe.py`, which holds one SSE connection per table and records
+`arrival − changedAt` for every event (commit → external client latency).
 
 Scope: the 6 core mutable entities — `company`, `person`, `legal_entity`,
 `member`, `company_stocks`, `company_capital`.
@@ -21,7 +35,18 @@ SCENARIOS="baseline triggers" VUS=20 TOTAL_OPS=5000 ./benchmark/run-all.sh
 REPEATS=3 VUS=64 TOTAL_OPS=10000 ./benchmark/run-all.sh   # 3 runs per scenario (round-robin); median + spread reported
 # cdc-only compression run into its own dir (main results untouched)
 SCENARIOS=cdc REPEATS=3 RESULTS_DIR="$PWD/benchmark/results/cdc-segmentby-none" ./benchmark/run-all.sh
+# two concurrency levels, with the overhead-decomposition controls → results/vus-8, results/vus-64, comparison-by-vus.md
+SCENARIOS="baseline cdc cdc-idle cdc-slot triggers envers" VU_LEVELS="8 64" TOTAL_OPS=10000 REPEATS=5 CDC_DRAIN_S=120 ./benchmark/run-all.sh
+# failure injection (consumer killed at +60 s for 20 s, kafka-1 killed at +120 s for 30 s)
+SCENARIOS=cdc-failover VUS=64 TOTAL_OPS=10000 CDC_DRAIN_S=180 RESULTS_DIR="$PWD/benchmark/results/failover" ./benchmark/run-all.sh
 ```
+
+Extra knobs: `VU_LEVELS` (space-separated VU counts; overrides `VUS` and nests results under
+`results/vus-<n>/`), `SSE_PROBE` (default `1`; set `0` to skip the SSE bridge + probe in cdc runs),
+`PROBE_IMAGE` (default `python:3.12-alpine`), `FAULT_CONSUMER_AT`/`FAULT_CONSUMER_DOWN_S`
+(default `60`/`20`), `FAULT_BROKER_AT`/`FAULT_BROKER_DOWN_S`/`FAULT_BROKER` (default
+`120`/`30`/`kafka-1`) — all fault times are seconds after the k6 start and must fall inside the
+workload's duration to mean anything (≈5 min for 64 VUs × 10,000 ops on the reference host).
 
 Extra knobs: `COMPRESS_SEGMENTBY` (default empty = no segmentby) optionally names a
 `segmentby` column for the cdc compressed-size measurement; `RESULTS_DIR` (default
@@ -69,6 +94,9 @@ method needs → toggle triggers / Envers profile → run the k6 workload →
   0-row tables are kept. A compression failure is logged as a warning and never aborts the run.
   The segmentby/orderby actually used are written to `cdc/compression_settings.txt`.
   On the 2026-10-14 run this compresses the CDC audit store ≈1.46× overall (≈1.8–1.9× on the large tables) — see `results/linux-run-summary.md`.
+- `cdc/sse_lag.csv` — commit → external SSE client latency (p50/p95/p99/max over all events received by `sse_probe.py`, plus reconnect/error counts); `sse_lag_tables.csv` per table, `sse_lag_samples.csv` every sample (`table,received_epoch_ms,lag_ms`) so the lag can be plotted over time.
+- `cdc-failover/integrity.csv` — per table: `trigger_rows, cdc_rows, cdc_distinct_changes, duplicates, missing`; `cdc-failover/faults.log` — timestamped fault events (and whether Docker's restart policy revived the consumer on its own).
+- `comparison-by-vus.md` — with `VU_LEVELS`: create p50/p95/p99, throughput and lags of each scenario per concurrency level (overhead % vs the baseline of the same level).
 - `linux-run-summary.md` — host specs, exact commands, tables and notes for the 2026-10-14 Linux run (5 repeats + the 3-run cdc compression measurement in `cdc-segmentby-none/`).
 - `comparison.md` / `comparison.csv` / `comparison.html` — combined table across scenarios (incl. `Audit storage (compressed)` and `Compression ratio` for cdc when `storage_compressed.csv` exists).
 
@@ -83,7 +111,10 @@ method needs → toggle triggers / Envers profile → run the k6 workload →
   must satisfy `validate` on every boot). Attribution: `AuditRevisionListener`
   stamps `changed_by_user_id` from the per-request `AuditContext`; `change_reason`
   + `last_user_id` also survive as audited entity columns in each `_AUD` row.
-- **CDC** — only the `cdc` scenario starts Kafka + Debezium + `audit-consumer`.
+- **Event topics** are auto-created on first publish with the brokers' `default.replication.factor = 3`
+  / `min.insync.replicas = 2` (compose env), so a single broker crash in `cdc-failover` must cost
+  neither availability nor data.
+- **CDC** — only the `cdc`-family scenarios start Kafka + Debezium + `audit-consumer`.
   `ingested_at DEFAULT now()` on the `*_audit` tables marks consumer write time;
   `changed_at` is Debezium's source commit time.
 

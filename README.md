@@ -478,6 +478,21 @@ It tears the stack down at the end.
 | `REPEATS` | `1` | Runs per scenario (round-robin); `summarize.py` reports median + min–max spread |
 | `COMPRESS_SEGMENTBY` | *(empty = none)* | Optional `segmentby` column for the cdc compressed-size measurement |
 | `RESULTS_DIR` | `benchmark/results` | Output dir (use a separate one for variant runs) |
+| `VU_LEVELS` | *(empty)* | e.g. `8 64`: run the whole scenario set once per concurrency level into `results/vus-<n>/` and write `comparison-by-vus.md` |
+| `SSE_PROBE` | `1` | In `cdc`/`cdc-failover` also start `sse-bridge` and measure commit→SSE-client latency (`sse_lag.csv`) |
+| `FAULT_CONSUMER_AT` / `FAULT_CONSUMER_DOWN_S` | `60` / `20` | `cdc-failover`: SIGKILL the audit-consumer N s after k6 starts, restart after M s |
+| `FAULT_BROKER_AT` / `FAULT_BROKER_DOWN_S` / `FAULT_BROKER` | `120` / `30` / `kafka-1` | `cdc-failover`: kill a broker N s after k6 starts, restart after M s |
+
+**Extra scenarios** (add them to `SCENARIOS`): `cdc-idle` (CDC stack running, *no* connector → pure
+resource-contention control), `cdc-slot` (connector streaming into Kafka, no consumer / audit DB →
+adds the logical-decoding cost), `cdc-failover` (consumer crash + broker crash injected during the
+workload, DB triggers enabled in parallel as ground truth → `integrity.csv` with exact missing /
+duplicate event counts). Example:
+
+```bash
+SCENARIOS="baseline cdc cdc-idle cdc-slot triggers envers" VU_LEVELS="8 64" TOTAL_OPS=10000 REPEATS=5 CDC_DRAIN_S=120 ./benchmark/run-all.sh
+SCENARIOS="cdc-failover" VUS=64 TOTAL_OPS=10000 CDC_DRAIN_S=180 RESULTS_DIR="$PWD/benchmark/results/failover" ./benchmark/run-all.sh
+```
 
 **Outputs** (`benchmark/results/`):
 - `comparison.md` / `comparison.csv` — combined table across scenarios.
@@ -485,6 +500,9 @@ It tears the stack down at the end.
 - `<scenario>/storage.csv` — per audit-table row counts + sizes.
 - `cdc/lag.csv` — end-to-end CDC lag percentiles.
 - `cdc/storage_compressed.csv` — per-hypertable CDC audit size before/after TimescaleDB compression.
+- `cdc/sse_lag.csv` (+ `sse_lag_tables.csv`, `sse_lag_samples.csv`) — commit→external SSE client latency measured by `benchmark/sse_probe.py`.
+- `cdc-failover/integrity.csv`, `cdc-failover/faults.log` — missing / duplicate events vs the trigger ground truth and the timestamps of the injected faults.
+- `comparison-by-vus.md` — when `VU_LEVELS` is set: write-path latency of every scenario per concurrency level.
 
 **Reading it:** per-op latency (`Create/Update/Delete p50/95/99`) excludes login, so it isolates
 audit write-path cost; `Overhead vs baseline` attributes it per method; `Audit lag` is the

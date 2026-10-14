@@ -67,16 +67,16 @@ case "$SCENARIO" in
     envers)
         collect_storage main_psql envers '%\_aud'   # entity revision tables (company_aud, ...)
         collect_storage main_psql envers 'revinfo' ;;
-    cdc)
+    cdc|cdc-failover)
         collect_storage audit_psql cdc '%\_audit' ;;
-    baseline)
-        : ;;  # baseline writes no audit data
+    baseline|cdc-idle|cdc-slot)
+        : ;;  # no audit store to measure (baseline: none; cdc-idle/cdc-slot: overhead controls)
     *)
         echo "unknown scenario: $SCENARIO" >&2; exit 1 ;;
 esac
 
 # ── CDC end-to-end lag (ms) across every *_audit table ──────────────────────
-if [ "$SCENARIO" = "cdc" ]; then
+if [ "$SCENARIO" = "cdc" ] || [ "$SCENARIO" = "cdc-failover" ]; then
     LAG_CSV="$OUTDIR/lag.csv"
     echo "scenario,sample_rows,lag_p50_ms,lag_p95_ms,lag_p99_ms,lag_max_ms" > "$LAG_CSV"
     local_tables=$(audit_psql "SELECT tablename FROM pg_tables WHERE schemaname='public' AND tablename ILIKE '%\\_audit' ORDER BY tablename;")
@@ -101,6 +101,25 @@ if [ "$SCENARIO" = "cdc" ]; then
 fi
 
 echo "  wrote $STORAGE_CSV"
+
+# ── cdc-failover: exact loss / duplicate count against the trigger ground truth ─
+# In cdc-failover the DB triggers run in parallel with CDC on the same workload,
+# so <t>_trigger_audit in mainDb holds exactly one row per row-level change.
+# change_id in the CDC audit rows is the WAL LSN of the change (unique per row
+# change), so:  duplicates = rows − distinct(change_id)   (at-least-once redelivery
+# after the consumer crash)  and  missing = trigger_rows − distinct(change_id).
+if [ "$SCENARIO" = "cdc-failover" ]; then
+    INT_CSV="$OUTDIR/integrity.csv"
+    echo "scenario,table,trigger_rows,cdc_rows,cdc_distinct_changes,duplicates,missing" > "$INT_CSV"
+    for t in company person legal_entity member company_stocks company_capital; do
+        trig=$(main_psql "SELECT count(*) FROM ${t}_trigger_audit;" || echo 0)
+        rows=$(audit_psql "SELECT count(*) FROM ${t}_audit;" || echo 0)
+        dist=$(audit_psql "SELECT count(DISTINCT change_id) FROM ${t}_audit;" || echo 0)
+        dup=$(( rows - dist )); miss=$(( trig - dist ))
+        echo "$SCENARIO,$t,$trig,$rows,$dist,$dup,$miss" >> "$INT_CSV"
+    done
+    echo "  wrote $INT_CSV"
+fi
 
 # ── CDC compressed audit storage (TimescaleDB native compression) ───────────
 # Runs AFTER storage.csv/lag.csv are written (those reflect the uncompressed,
