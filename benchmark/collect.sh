@@ -9,7 +9,7 @@
 #
 # Usage: ./collect.sh <scenario> <outdir>
 #   scenario : baseline | cdc | triggers | envers   (labels the output)
-#   outdir   : directory to write storage.csv / lag.csv into
+#   outdir   : directory to write storage.csv / lag.csv (+ storage_compressed.csv for cdc) into
 #
 # Container names (compose): mainDb (source), timescaledb (audit store).
 # ============================================================================
@@ -101,3 +101,38 @@ if [ "$SCENARIO" = "cdc" ]; then
 fi
 
 echo "  wrote $STORAGE_CSV"
+
+# ── CDC compressed audit storage (TimescaleDB native compression) ───────────
+# Runs AFTER storage.csv/lag.csv are written (those reflect the uncompressed,
+# row-store hypertables). For every public *_audit hypertable: enable
+# compression (no segmentby, orderby changed_at DESC), compress every
+# chunk, then re-measure hypertable_size(). Also records TimescaleDB's own
+# hypertable_compression_stats() before/after totals. 0-row tables are kept.
+# COMPRESS_SEGMENTBY (env, default empty = no segmentby, one segment stream
+# per chunk) optionally names a segmentby column. The settings used are
+# recorded in <outdir>/compression_settings.txt.
+# Failures here are logged but never abort the benchmark run.
+if [ "$SCENARIO" = "cdc" ]; then
+    COMP_CSV="$OUTDIR/storage_compressed.csv"
+    SEGMENTBY="${COMPRESS_SEGMENTBY:-}"
+    ORDERBY="changed_at DESC"
+    printf 'segmentby=%s\norderby=%s\n' "$SEGMENTBY" "$ORDERBY" > "$OUTDIR/compression_settings.txt"
+    echo "scenario,method,audit_table,row_count,uncompressed_bytes,compressed_bytes,ratio,stats_before_bytes,stats_after_bytes" > "$COMP_CSV"
+    ts_ver=$(audit_psql "SELECT extversion FROM pg_extension WHERE extname='timescaledb';" || true)
+    echo "  compressing *_audit hypertables (timescaledb ${ts_ver:-?}, segmentby='$SEGMENTBY', orderby='$ORDERBY')"
+    ht_tables=$(audit_psql "SELECT hypertable_name FROM timescaledb_information.hypertables WHERE hypertable_schema='public' AND hypertable_name ILIKE '%\\_audit' ORDER BY 1;" || true)
+    for t in $ht_tables; do
+        [ -z "$t" ] && continue
+        cnt=$(audit_psql "SELECT count(*) FROM \"$t\";" || echo "")
+        unc=$(audit_psql "SELECT hypertable_size('\"$t\"');" || echo "")
+        if ! audit_psql "ALTER TABLE \"$t\" SET (timescaledb.compress, timescaledb.compress_orderby = '$ORDERBY', timescaledb.compress_segmentby = '$SEGMENTBY');" >/dev/null \
+           || ! audit_psql "SELECT compress_chunk(c, if_not_compressed => true) FROM show_chunks('\"$t\"') c;" >/dev/null; then
+            echo "  WARN: compression failed for $t" >&2
+        fi
+        comp=$(audit_psql "SELECT hypertable_size('\"$t\"');" || echo "")
+        stats=$(audit_psql "SELECT coalesce(sum(before_compression_total_bytes),0), coalesce(sum(after_compression_total_bytes),0) FROM hypertable_compression_stats('\"$t\"');" || echo ",")
+        ratio=$(awk -v u="${unc:-0}" -v c="${comp:-0}" 'BEGIN { if (c > 0) printf "%.2f", u / c }')
+        echo "$SCENARIO,cdc,$t,$cnt,$unc,$comp,$ratio,$stats" >> "$COMP_CSV"
+    done
+    echo "  wrote $COMP_CSV"
+fi

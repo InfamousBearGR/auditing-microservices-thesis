@@ -19,7 +19,14 @@ Scope: the 6 core mutable entities — `company`, `person`, `legal_entity`,
 ./benchmark/run-all.sh                         # all 4 scenarios, default 10 VUs x 2000 ops
 SCENARIOS="baseline triggers" VUS=20 TOTAL_OPS=5000 ./benchmark/run-all.sh
 REPEATS=3 VUS=64 TOTAL_OPS=10000 ./benchmark/run-all.sh   # 3 runs per scenario (round-robin); median + spread reported
+# cdc-only compression run into its own dir (main results untouched)
+SCENARIOS=cdc REPEATS=3 RESULTS_DIR="$PWD/benchmark/results/cdc-segmentby-none" ./benchmark/run-all.sh
 ```
+
+Extra knobs: `COMPRESS_SEGMENTBY` (default empty = no segmentby) optionally names a
+`segmentby` column for the cdc compressed-size measurement; `RESULTS_DIR` (default
+`benchmark/results`) redirects all output — use it for variant runs, since `run-all.sh`
+wipes `<RESULTS_DIR>/<scenario>/` before running.
 
 Requirements: Docker + Docker Compose. k6 runs as the `grafana/k6` container on
 the compose network (no host install). `python3` for the summary (optional —
@@ -53,7 +60,17 @@ method needs → toggle triggers / Envers profile → run the k6 workload →
 - `<scenario>/storage.csv` — per audit-table row counts + size. TimescaleDB hypertables are measured with `hypertable_size()` (parent + chunks + indexes); `pg_total_relation_size()` on a hypertable parent reports only the empty parent relation (~40 kB), which is why older runs under-reported the CDC audit volume.
 - `<scenario>/run-<k>/…` — the same files per run when `REPEATS>1`; `comparison.md` then shows the median across runs, a min–max spread table and the per-run values.
 - `cdc/lag.csv` — end-to-end CDC lag percentiles (`ingested_at − changed_at`, ms).
-- `comparison.md` / `comparison.csv` — combined table across scenarios.
+- `cdc/storage_compressed.csv` — CDC audit storage **after TimescaleDB native compression**, measured by `collect.sh` *after* `storage.csv`/`lag.csv` are written. For every public `*_audit` hypertable it runs
+  `ALTER TABLE … SET (timescaledb.compress, timescaledb.compress_orderby = 'changed_at DESC', timescaledb.compress_segmentby = '')` (no segmentby) and
+  `SELECT compress_chunk(c, if_not_compressed => true) FROM show_chunks(…) c`, then re-measures `hypertable_size()`.
+  Columns: `scenario,method,audit_table,row_count,uncompressed_bytes,compressed_bytes,ratio,stats_before_bytes,stats_after_bytes` —
+  `ratio = uncompressed_bytes / compressed_bytes` (both `hypertable_size()`, so indexes and the fixed per-chunk overhead are included);
+  `stats_*` are TimescaleDB's own `before/after_compression_total_bytes` from `hypertable_compression_stats()` (chunks only, 0 when a table has no chunks).
+  0-row tables are kept. A compression failure is logged as a warning and never aborts the run.
+  The segmentby/orderby actually used are written to `cdc/compression_settings.txt`.
+  On the 2026-10-14 run this compresses the CDC audit store ≈1.46× overall (≈1.8–1.9× on the large tables) — see `results/linux-run-summary.md`.
+- `linux-run-summary.md` — host specs, exact commands, tables and notes for the 2026-10-14 Linux run (5 repeats + the 3-run cdc compression measurement in `cdc-segmentby-none/`).
+- `comparison.md` / `comparison.csv` / `comparison.html` — combined table across scenarios (incl. `Audit storage (compressed)` and `Compression ratio` for cdc when `storage_compressed.csv` exists).
 
 ## How each method is toggled
 

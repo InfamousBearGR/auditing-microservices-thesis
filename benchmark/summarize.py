@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 """Audit-method benchmark — combine per-scenario k6 + DB metrics into one table.
 
-Reads benchmark/results/<scenario>/{k6-summary.json,storage.csv,lag.csv} and
-writes comparison.csv + comparison.md alongside them. Pure stdlib.
+Reads benchmark/results/<scenario>/{k6-summary.json,storage.csv,lag.csv,
+storage_compressed.csv} and writes comparison.csv + comparison.md +
+comparison.html alongside them. Pure stdlib.
+
+storage_compressed.csv (cdc only) holds the TimescaleDB hypertable sizes after
+compress_chunk() on every chunk; it is optional — older result sets without it
+simply show "—" for the compressed rows.
 
 When a scenario was run several times (REPEATS>1 in run-all.sh), its results
 live in benchmark/results/<scenario>/run-<k>/; every metric is then reported
@@ -58,6 +63,17 @@ def load_scenario(rdir):
                 row["audit_rows"] += int(fnum(r["row_count"]) or 0)
                 row["audit_bytes"] += int(fnum(r["total_bytes"]) or 0)
 
+    comp = os.path.join(rdir, "storage_compressed.csv")
+    if os.path.exists(comp):
+        unc_sum = comp_sum = 0
+        with open(comp) as f:
+            for r in csv.DictReader(f):
+                unc_sum += int(fnum(r["uncompressed_bytes"]) or 0)
+                comp_sum += int(fnum(r["compressed_bytes"]) or 0)
+        if comp_sum:
+            row["audit_bytes_comp"] = comp_sum
+            row["comp_ratio"] = unc_sum / comp_sum
+
     lag = os.path.join(rdir, "lag.csv")
     if os.path.exists(lag):
         with open(lag) as f:
@@ -73,8 +89,10 @@ NUMERIC_KEYS = [
     "create_p50_ms", "create_p95_ms", "create_p99_ms",
     "update_p50_ms", "update_p95_ms", "update_p99_ms",
     "delete_p50_ms", "delete_p95_ms", "delete_p99_ms",
-    "audit_rows", "audit_bytes", "lag_p50_ms", "lag_p95_ms", "lag_p99_ms",
+    "audit_rows", "audit_bytes", "audit_bytes_comp", "comp_ratio",
+    "lag_p50_ms", "lag_p95_ms", "lag_p99_ms",
 ]
+INT_KEYS = ("ops", "mut_ok", "mut_err", "audit_rows", "audit_bytes", "audit_bytes_comp")
 
 
 def load_scenario_runs(sdir):
@@ -97,10 +115,25 @@ def load_scenario_runs(sdir):
         if not vals:
             continue
         med = statistics.median(vals)
-        agg[k] = int(round(med)) if k in ("ops", "mut_ok", "mut_err", "audit_rows", "audit_bytes") else med
+        agg[k] = int(round(med)) if k in INT_KEYS else med
         agg[k + "_min"] = min(vals)
         agg[k + "_max"] = max(vals)
     return agg, runs
+
+
+def compression_settings(results_dir):
+    """segmentby/orderby used by collect.sh (compression_settings.txt in any cdc
+    run dir); falls back to the collect.sh defaults for older result sets."""
+    settings = {"segmentby": "", "orderby": "changed_at DESC"}
+    paths = sorted(glob.glob(os.path.join(results_dir, "cdc", "compression_settings.txt")) +
+                   glob.glob(os.path.join(results_dir, "cdc", "run-*", "compression_settings.txt")))
+    if paths:
+        with open(paths[0]) as f:
+            for line in f:
+                k, _, v = line.rstrip("\n").partition("=")
+                if k in settings:
+                    settings[k] = v
+    return settings
 
 
 def fmt(v, suffix=""):
@@ -132,7 +165,7 @@ def overhead_pct(r, base_c):
     return (c - base_c) / base_c * 100.0
 
 
-def write_html(results_dir, found, rows, base_c):
+def write_html(results_dir, found, rows, base_c, has_comp=True):
     """Self-contained HTML report: grouped bar charts + comparison table.
 
     Pulls RAW numeric values from `rows` (not the formatted md strings) so
@@ -162,7 +195,9 @@ def write_html(results_dir, found, rows, base_c):
             "rows": series("audit_rows"),
         }),
         ("storage", "Audit storage (MB)", "MB", {
-            "MB": [(b / 1_048_576 if b else None) for b in series("audit_bytes")],
+            "uncompressed": [(b / 1_048_576 if b else None) for b in series("audit_bytes")],
+            **({"compressed (cdc)": [(b / 1_048_576 if b else None) for b in series("audit_bytes_comp")]}
+               if has_comp else {}),
         }),
         ("bpr", "Bytes per audit row", "B", {
             "B/row": [(rows[s]["audit_bytes"] / rows[s]["audit_rows"]
@@ -205,7 +240,7 @@ def write_html(results_dir, found, rows, base_c):
     table_rows = "".join(
         "<tr><th>" + label + "</th>" +
         "".join("<td>" + fn(rows[s]) + "</td>" for s in found) + "</tr>"
-        for label, fn in METRICS(base_c)
+        for label, fn in METRICS(base_c, has_comp)
     )
     header = "".join("<th>" + s + "</th>" for s in found)
     canvases = "".join(
@@ -215,6 +250,8 @@ def write_html(results_dir, found, rows, base_c):
         f'new Chart(document.getElementById("{cid}"),{cfg});' for cid, cfg in blocks
     )
 
+    comp_html = (" Compressed storage (cdc) is hypertable_size() after compress_chunk() on all chunks."
+                 if has_comp else "")
     html = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <title>Audit-method comparison</title>
@@ -236,7 +273,7 @@ def write_html(results_dir, found, rows, base_c):
 <table><thead><tr><th>Metric</th>{header}</tr></thead><tbody>{table_rows}</tbody></table>
 <p class="note">Synchronous methods (triggers, envers) commit audit rows inside the
  mutation transaction, so audit lag is ~0 and not measured; CDC lag is
- ingested_at − changed_at across all *_audit rows. Charts need network access
+ ingested_at − changed_at across all *_audit rows.{comp_html} Charts need network access
  (Chart.js CDN); the table renders offline.</p>
 <script>{scripts}</script>
 </body></html>"""
@@ -247,9 +284,13 @@ def write_html(results_dir, found, rows, base_c):
     return html_path
 
 
-def METRICS(base_c):
-    """Metric rows shared by md / csv / html. (label, row->formatted str)."""
-    return [
+COMP_LABELS = ("Audit storage (compressed)", "Compression ratio")
+
+
+def METRICS(base_c, has_comp=True):
+    """Metric rows shared by md / csv / html. (label, row->formatted str).
+    The compressed-storage rows are dropped when no run has storage_compressed.csv."""
+    rows = [
         ("Total ops", lambda r: fmt(r.get("ops"))),
         ("Throughput (ops/s)", lambda r: fmt(r.get("throughput_ops_s"))),
         ("Mutations ok / err", lambda r: f"{fmt(r.get('mut_ok'))} / {fmt(r.get('mut_err'))}"),
@@ -264,12 +305,16 @@ def METRICS(base_c):
             else f"{overhead_pct(r, base_c):+.1f}%")),
         ("Audit rows captured", lambda r: fmt(r.get("audit_rows"))),
         ("Audit storage", lambda r: mb(r.get("audit_bytes"))),
+        ("Audit storage (compressed)", lambda r: mb(r.get("audit_bytes_comp"))),
+        ("Compression ratio", lambda r: (
+            "—" if r.get("comp_ratio") is None else f"{r['comp_ratio']:.2f}×")),
         ("Bytes / audit row", lambda r: (
             "—" if not r.get("audit_rows") else fmt(r["audit_bytes"] / r["audit_rows"], " B"))),
         ("Audit lag p50 (ms)", lambda r: fmt(r.get("lag_p50_ms"))),
         ("Audit lag p95 (ms)", lambda r: fmt(r.get("lag_p95_ms"))),
         ("Audit lag p99 (ms)", lambda r: fmt(r.get("lag_p99_ms"))),
     ]
+    return rows if has_comp else [m for m in rows if m[0] not in COMP_LABELS]
 
 
 def main():
@@ -286,7 +331,8 @@ def main():
 
     # baseline reference for overhead %
     base_c = rows.get("baseline", {}).get("create_p50_ms")
-    metrics = METRICS(base_c)
+    has_comp = any(r.get("audit_bytes_comp") for rs in runs.values() for r in rs)
+    metrics = METRICS(base_c, has_comp)
 
     # markdown
     title = "# Audit-method comparison — results"
@@ -297,16 +343,26 @@ def main():
           "|" + "---|" * (len(found) + 1)]
     for label, fn in metrics:
         md.append("| " + label + " | " + " | ".join(fn(rows[s]) for s in found) + " |")
+    cs = compression_settings(results_dir)
+    seg = f"segmentby {cs['segmentby']}" if cs["segmentby"] else "no segmentby"
+    comp_note = (" Compressed (cdc only) = hypertable_size() after enabling TimescaleDB compression "
+                 f"({seg}, orderby {cs['orderby']}) and running compress_chunk() on all "
+                 "chunks; compression ratio = uncompressed / compressed bytes, summed over all "
+                 "*_audit hypertables." if has_comp else "")
     md.append("\n_Synchronous methods (triggers, envers) commit audit rows inside "
               "the mutation transaction, so audit lag is ~0 and not measured; CDC lag "
               "is ingested_at − changed_at across all *_audit rows. Audit storage of "
-              "TimescaleDB hypertables is measured with hypertable_size() (parent + chunks)._\n")
+              "TimescaleDB hypertables is measured with hypertable_size() (parent + chunks)." + comp_note + "_\n")
     if n_runs > 1:
         spread_keys = [("Create p50 (ms)", "create_p50_ms"), ("Create p95 (ms)", "create_p95_ms"),
                        ("Create p99 (ms)", "create_p99_ms"), ("Update p50 (ms)", "update_p50_ms"),
                        ("Throughput (ops/s)", "throughput_ops_s"), ("Audit rows captured", "audit_rows"),
-                       ("Audit storage (MB)", "audit_bytes"), ("Audit lag p50 (ms)", "lag_p50_ms"),
+                       ("Audit storage (MB)", "audit_bytes"),
+                       ("Audit storage compressed (MB)", "audit_bytes_comp"),
+                       ("Compression ratio", "comp_ratio"), ("Audit lag p50 (ms)", "lag_p50_ms"),
                        ("Audit lag p99 (ms)", "lag_p99_ms")]
+        if not has_comp:
+            spread_keys = [k for k in spread_keys if k[1] not in ("audit_bytes_comp", "comp_ratio")]
         md.append(f"\n## Run-to-run spread (min – max over {n_runs} runs)\n")
         md.append("| Metric | " + " | ".join(found) + " |")
         md.append("|" + "---|" * (len(found) + 1))
@@ -316,20 +372,28 @@ def main():
                 lo, hi = rows[s].get(key + "_min"), rows[s].get(key + "_max")
                 if lo is None:
                     cells.append("—")
-                elif key == "audit_bytes":
+                elif key in ("audit_bytes", "audit_bytes_comp"):
                     cells.append(f"{lo / 1_048_576:.2f} – {hi / 1_048_576:.2f}")
+                elif key == "comp_ratio":
+                    cells.append(f"{lo:.2f} – {hi:.2f}")
                 else:
                     cells.append(f"{fmt(lo)} – {fmt(hi)}")
             md.append("| " + label + " | " + " | ".join(cells) + " |")
         md.append("\n## Per-run values\n")
-        md.append("| Scenario | Run | Create p50 | Create p95 | Create p99 | Update p50 | ops/s | Audit rows | Audit MB | Lag p50 | Lag p99 |")
-        md.append("|---|---|---|---|---|---|---|---|---|---|---|")
+        cols = ["Scenario", "Run", "Create p50", "Create p95", "Create p99", "Update p50",
+                "ops/s", "Audit rows", "Audit MB"] + (["Audit MB (compressed)"] if has_comp else []) + \
+               ["Lag p50", "Lag p99"]
+        md.append("| " + " | ".join(cols) + " |")
+        md.append("|" + "---|" * len(cols))
         for s in found:
             for i, r in enumerate(runs[s], 1):
-                md.append("| %s | %d | %s | %s | %s | %s | %s | %s | %s | %s | %s |" % (
-                    s, i, fmt(r.get("create_p50_ms")), fmt(r.get("create_p95_ms")), fmt(r.get("create_p99_ms")),
-                    fmt(r.get("update_p50_ms")), fmt(r.get("throughput_ops_s")), fmt(r.get("audit_rows")),
-                    mb(r.get("audit_bytes")), fmt(r.get("lag_p50_ms")), fmt(r.get("lag_p99_ms"))))
+                cells = [s, str(i), fmt(r.get("create_p50_ms")), fmt(r.get("create_p95_ms")),
+                         fmt(r.get("create_p99_ms")), fmt(r.get("update_p50_ms")),
+                         fmt(r.get("throughput_ops_s")), fmt(r.get("audit_rows")), mb(r.get("audit_bytes"))]
+                if has_comp:
+                    cells.append(mb(r.get("audit_bytes_comp")))
+                cells += [fmt(r.get("lag_p50_ms")), fmt(r.get("lag_p99_ms"))]
+                md.append("| " + " | ".join(cells) + " |")
     md_path = os.path.join(results_dir, "comparison.md")
     with open(md_path, "w") as f:
         f.write("\n".join(md))
@@ -337,12 +401,12 @@ def main():
     # csv
     csv_path = os.path.join(results_dir, "comparison.csv")
     with open(csv_path, "w", newline="") as f:
-        w = csv.writer(f)
+        w = csv.writer(f, lineterminator="\n")
         w.writerow(["metric"] + found)
         for label, fn in metrics:
             w.writerow([label] + [fn(rows[s]) for s in found])
 
-    html_path = write_html(results_dir, found, rows, base_c)
+    html_path = write_html(results_dir, found, rows, base_c, has_comp)
 
     print("\n".join(md))
     print(f"\nwrote {md_path}\nwrote {csv_path}\nwrote {html_path}")
