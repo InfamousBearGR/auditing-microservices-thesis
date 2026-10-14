@@ -18,25 +18,23 @@ Create a real commit. Message written per the `caveman:caveman-commit` skill. Ar
    git log --oneline -5
    ```
 
-2. **Branch guard.** If on the default branch (`main`/`master`), create a branch first: `git switch -c <type>/<short-slug>` (slug from the change, e.g. `refactor/sse-api-user-account`). Skip only if the user said to commit on the current branch.
-
-3. **Pick files.** Decide the exact paths that belong to this change:
+2. **Pick files.** Decide the exact paths that belong to this change:
    - If the user named paths, use those only.
    - Otherwise, the files this session's task modified. If unclear, ask.
    - **Already-staged files that are not part of this change must be unstaged** (`git restore --staged <path>`) before committing. Never assume the index is clean.
    - Never stage: build outputs/binaries, gitignored `graphify-out/` files (cache, backups), `.env*`, credentials, large generated files, `node_modules/`. Warn if they appear.
    - Stage with explicit paths: `git add <path>...`. Never `git add -A` / `git add .`.
 
-4. **Verify the index** before committing: `git diff --cached --stat`. The listed files must be exactly the intended set. If anything else is there, fix it first.
+3. **Verify the index** before committing: `git diff --cached --stat`. The listed files must be exactly the intended set. If anything else is there, fix it first.
 
-5. **Write the message** following `caveman:caveman-commit` rules:
+4. **Write the message** following `caveman:caveman-commit` rules:
    - `<type>(<scope>): <imperative summary>`. Use the types `feat|fix|refactor|perf|docs|test|chore|build|ci|style|revert`. Aim for ≤50 chars, hard cap 72, no trailing period.
    - Match the repo's capitalization and scope style from `git log`.
    - Body only when the why is not obvious, or for breaking changes, security fixes, migrations and reverts. Wrap at 72, use `-` bullets.
    - Never write "this commit", "I", "we", "now", or emoji.
    - No AI attribution and no Co-Authored-By trailer, unless the user asks for one.
 
-6. **Commit** with a heredoc so formatting survives:
+5. **Commit** with a heredoc so formatting survives:
    ```bash
    git commit -F - <<'EOF'
    <subject>
@@ -46,7 +44,7 @@ Create a real commit. Message written per the `caveman:caveman-commit` skill. Ar
    ```
    Never `--no-verify` and never `--amend` unless the user asks. If a pre-commit hook fails, fix the cause and make a new commit. Do not bypass the hook.
 
-7. **Confirm**: `git show --stat --format='%h %s' HEAD`. Then report:
+6. **Confirm**: `git show --stat --format='%h %s' HEAD`. Then report:
    - the hash, branch and subject
    - the files committed
    - anything left uncommitted or unstaged on purpose
