@@ -1,0 +1,2 @@
+scenario,sample_events,lag_p50_ms,lag_p95_ms,lag_p99_ms,lag_max_ms,reconnects,errors
+cdc-failover,4749,269.83,4305.86,11977.51,13968.83,0,0

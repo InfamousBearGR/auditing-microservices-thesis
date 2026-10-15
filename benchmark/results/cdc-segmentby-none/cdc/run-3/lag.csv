@@ -1,2 +1,2 @@
 scenario,sample_rows,lag_p50_ms,lag_p95_ms,lag_p99_ms,lag_max_ms
-cdc,5056,583.84,869.91,963.53,1086.06
+cdc,4753,580.24,946.76,1880.60,1952.60

@@ -1,19 +1,29 @@
 metric,cdc
 Total ops,"10,000"
-Throughput (ops/s),33.5
-Mutations ok / err,"4,170 / 5,830"
-Create p50 (ms),516.4
-Create p95 (ms),"1,171.5"
-Create p99 (ms),"1,605.7"
-Update p50 (ms),515.9
-Update p95 (ms),"1,186.3"
-Delete p50 (ms),515.9
+Throughput (ops/s),33.9
+Mutations ok / err,"4,142 / 5,858"
+Create p50 (ms),508.0
+Create p95 (ms),"1,148.9"
+Create p99 (ms),"1,573.6"
+Update p50 (ms),516.0
+Update p95 (ms),"1,157.5"
+Delete p50 (ms),502.8
 Overhead vs baseline (create p50),—
-Audit rows captured,"5,056"
-Audit storage,5.87 MB
-Audit storage (compressed),4.02 MB
-Compression ratio,1.46×
-Bytes / audit row,"1,216.8 B"
-Audit lag p50 (ms),586.7
-Audit lag p95 (ms),933.2
-Audit lag p99 (ms),"1,070.3"
+Audit rows captured,"4,753"
+Audit storage,5.64 MB
+Audit storage (compressed),4.01 MB
+Compression ratio,1.41×
+Bytes / audit row,"1,244.4 B"
+Audit lag p50 (ms),583.3
+Audit lag p95 (ms),937.4
+Audit lag p99 (ms),"1,097.1"
+Audit lag max (ms),"1,415.7"
+SSE events received,"4,753"
+SSE lag p50 (ms),272.3
+SSE lag p95 (ms),495.3
+SSE lag p99 (ms),520.0
+SSE lag max (ms),561.6
+Integrity: trigger rows (ground truth),—
+Integrity: CDC rows,—
+Integrity: missing events,—
+Integrity: duplicate events,—

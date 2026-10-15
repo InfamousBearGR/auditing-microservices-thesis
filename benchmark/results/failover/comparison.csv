@@ -1,0 +1,27 @@
+metric,cdc-failover
+Total ops,"10,000"
+Throughput (ops/s),33.9
+Mutations ok / err,"4,130 / 5,870"
+Create p50 (ms),510.4
+Create p95 (ms),"1,136.7"
+Create p99 (ms),"1,544.7"
+Update p50 (ms),515.0
+Update p95 (ms),"1,146.6"
+Delete p50 (ms),508.0
+Overhead vs baseline (create p50),—
+Audit rows captured,"4,760"
+Audit storage,5.67 MB
+Bytes / audit row,"1,249.5 B"
+Audit lag p50 (ms),655.2
+Audit lag p95 (ms),"30,335.1"
+Audit lag p99 (ms),"43,454.1"
+Audit lag max (ms),"46,446.5"
+SSE events received,"4,760"
+SSE lag p50 (ms),276.3
+SSE lag p95 (ms),"3,418.1"
+SSE lag p99 (ms),"11,101.7"
+SSE lag max (ms),"15,413.6"
+Integrity: trigger rows (ground truth),"4,760"
+Integrity: CDC rows,"4,760"
+Integrity: missing events,0
+Integrity: duplicate events,0
