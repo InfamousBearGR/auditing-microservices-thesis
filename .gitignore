@@ -134,3 +134,7 @@ graphify-out/*
 
 # thesis screenshot helper (temporary)
 .screenshots/
+
+# Benchmark: smoke-run output and Python bytecode
+benchmark/results-smoke/
+benchmark/__pycache__/

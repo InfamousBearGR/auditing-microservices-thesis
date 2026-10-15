@@ -60,6 +60,8 @@ paths:
         - person
         - legal_entity
         - member
+        - company_stocks
+        - company_capital
         example: company
         in: query
         name: topic
@@ -122,6 +124,8 @@ paths:
         - person
         - legal_entity
         - member
+        - company_stocks
+        - company_capital
         example: company
         in: query
         name: topic
@@ -183,6 +187,8 @@ paths:
         - person
         - legal_entity
         - member
+        - company_stocks
+        - company_capital
         example: company
         in: query
         name: topic
@@ -246,6 +252,8 @@ paths:
         - person
         - legal_entity
         - member
+        - company_stocks
+        - company_capital
         example: company
         in: query
         name: topic
@@ -287,7 +295,7 @@ paths:
       - history
 securityDefinitions:
   ApiKeyAuth:
-    description: 'Enter your API key in the format: Bearer <api_key>'
+    description: 'Enter your API key in the format: Bearer <api_key> (an X-API-Key: <api_key> header is accepted too)'
     in: header
     name: Authorization
     type: apiKey

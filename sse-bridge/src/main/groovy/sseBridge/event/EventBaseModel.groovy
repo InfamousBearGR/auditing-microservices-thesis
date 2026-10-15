@@ -24,7 +24,18 @@ class EventBaseModel implements Serializable {
 
     long timestamp
 
+    /**
+     * When the change was COMMITTED in the source database: Debezium's
+     * payload.source.ts_ms. This is the same instant the audit consumer stores
+     * as changed_at, so SSE and audit-store latencies share one reference point.
+     */
     String changedAt
+
+    /**
+     * When Debezium processed the change: the envelope's payload.ts_ms
+     * (commit → capturedAt = WAL decoding + Debezium queueing).
+     */
+    String capturedAt
 
     Long changeId
 
@@ -35,6 +46,11 @@ class EventBaseModel implements Serializable {
     @JsonGetter("changedAt")
     String getChangedAt() {
         return changedAt
+    }
+
+    @JsonGetter("capturedAt")
+    String getCapturedAt() {
+        return capturedAt
     }
 
     @JsonGetter("changeId")
@@ -55,7 +71,7 @@ class EventBaseModel implements Serializable {
                 this.eventType = EventType.DELETE
                 break
             default:
-                // Ignore unknown operation types
+                // Ignore unknown operation types (e.g. "r" = snapshot read)
                 break
         }
     }
@@ -82,13 +98,21 @@ class EventBaseModel implements Serializable {
         this.after = after
     }
 
+    /** Envelope payload.ts_ms — when Debezium processed the event (NOT the commit time). */
     @JsonSetter("ts_ms")
-    void setChangedAt(long ts_ms) {
-        this.changedAt = Instant.ofEpochMilli(ts_ms).toString()
+    void setCapturedAtMillis(long tsMs) {
+        this.capturedAt = Instant.ofEpochMilli(tsMs).toString()
     }
 
+    /** payload.source: LSN → changeId, source.ts_ms (commit time) → changedAt. */
     @JsonSetter("source")
-    void setChangeId(JsonNode source) {
-        this.changeId = source.has("lsn") ? source.get("lsn").asLong() : null
+    void setSource(JsonNode source) {
+        if (source == null || source.isNull()) {
+            return
+        }
+        this.changeId = source.has("lsn") && !source.get("lsn").isNull() ? source.get("lsn").asLong() : null
+        if (source.has("ts_ms") && !source.get("ts_ms").isNull()) {
+            this.changedAt = Instant.ofEpochMilli(source.get("ts_ms").asLong()).toString()
+        }
     }
 }

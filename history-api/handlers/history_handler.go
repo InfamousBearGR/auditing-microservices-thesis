@@ -53,7 +53,7 @@ func respondWithError(w http.ResponseWriter, statusCode int, message string) {
 // @Produce json
 // @Param dateFrom query string true "Date in YYYY-MM-DD format" example(2026-02-10)
 // @Param dateTo query string true "Date in YYYY-MM-DD format" example(2026-02-10)
-// @Param topic query string true "Topic name" Enums(company, person, legal_entity, member) example(company)
+// @Param topic query string true "Topic name" Enums(company, person, legal_entity, member, company_stocks, company_capital) example(company)
 // @Security ApiKeyAuth
 // @Success 200 {array} models.AuditEntry "Successfully retrieved audit entries"
 // @Failure 400 {string} string "dateFrom parameter required"
@@ -147,7 +147,7 @@ func (h *HistoryHandler) GetHistoryByDateRange(w http.ResponseWriter, r *http.Re
 // @Produce json
 // @Param changeIdFrom query integer true "Starting change_id (inclusive)" example(1)
 // @Param changeIdTo query integer true "Ending change_id (inclusive)" example(100)
-// @Param topic query string true "Topic name" Enums(company, person, legal_entity, member) example(company)
+// @Param topic query string true "Topic name" Enums(company, person, legal_entity, member, company_stocks, company_capital) example(company)
 // @Security ApiKeyAuth
 // @Success 200 {array} models.AuditEntry "Successfully retrieved audit entries"
 // @Failure 400 {string} string "changeIdFrom parameter required or invalid"

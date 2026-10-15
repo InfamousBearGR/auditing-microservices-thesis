@@ -14,6 +14,8 @@ class AuthenticationFilter implements WebFilter {
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationFilter.class)
     private static final String API_KEY_HEADER = "X-API-Key"
+    private static final String AUTHORIZATION_HEADER = "Authorization"
+    private static final String BEARER_PREFIX = "Bearer "
     private static final String USER_ATTRIBUTE = "authenticatedUser"
 
     private final AuthService authService
@@ -31,8 +33,9 @@ class AuthenticationFilter implements WebFilter {
             return chain.filter(exchange)
         }
 
-        // Extract API key from header
-        String apiKey = exchange.request.headers.getFirst(API_KEY_HEADER)
+        // Extract API key: X-API-Key: <key>  or  Authorization: Bearer <key>
+        // (the History API accepts the same two forms, so one key works for both)
+        String apiKey = extractApiKey(exchange)
 
         if (apiKey == null || apiKey.trim().isEmpty()) {
             log.warn("Missing API key for path: {}", path)
@@ -64,6 +67,22 @@ class AuthenticationFilter implements WebFilter {
                 exchange.response.statusCode = HttpStatus.UNAUTHORIZED
                 exchange.response.setComplete()
             })
+    }
+
+    private static String extractApiKey(ServerWebExchange exchange) {
+        String apiKey = exchange.request.headers.getFirst(API_KEY_HEADER)
+        if (apiKey != null && !apiKey.trim().isEmpty()) {
+            return apiKey.trim()
+        }
+        String authorization = exchange.request.headers.getFirst(AUTHORIZATION_HEADER)
+        if (authorization == null || authorization.trim().isEmpty()) {
+            return null
+        }
+        String value = authorization.trim()
+        if (value.regionMatches(true, 0, BEARER_PREFIX, 0, BEARER_PREFIX.length())) {
+            value = value.substring(BEARER_PREFIX.length()).trim()
+        }
+        return value
     }
 
     private static String extractResourceFromPath(String path) {

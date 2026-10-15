@@ -17,7 +17,10 @@ class EventFactory {
 
     static EventBaseModel getEvent(byte[] data) throws IOException {
         JsonNode node = objectMapper.readTree(data)
-        log.info("Raw JSON node: " + node.toString())
+        if (log.isDebugEnabled()) {
+            // DEBUG only: logging every full event at INFO costs I/O + CPU on the hot path
+            log.debug("Raw JSON node: {}", node.toString())
+        }
         if (node.has("payload")) {
             node = node.get("payload")
         }

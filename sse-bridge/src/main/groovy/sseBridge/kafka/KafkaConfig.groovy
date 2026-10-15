@@ -59,7 +59,8 @@ class KafkaConfig {
         configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, EventDeserializer.class)
         configProps.put(ConsumerConfig.CLIENT_ID_CONFIG, kafkaClientId)
         configProps.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaGroupId)
-        configProps.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true)
+        // Offsets are committed by reactor-kafka for records acknowledged in KafkaService.
+        configProps.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false)
         configProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
 
         configProps.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeoutMsConfig)

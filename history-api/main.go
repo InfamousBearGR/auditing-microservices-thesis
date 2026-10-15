@@ -24,7 +24,7 @@ import (
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
-// @description Enter your API key in the format: Bearer <api_key>
+// @description Enter your API key in the format: Bearer <api_key> (an X-API-Key: <api_key> header is accepted too)
 func main() {
 	// Load configuration
 	config.Load()

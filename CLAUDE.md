@@ -89,11 +89,12 @@ Note: the JVM services have **no committed `gradle-wrapper.jar`** — `./gradlew
 ### Benchmark (audit-method comparison)
 
 ```bash
-./benchmark/run-all.sh                         # all 4 scenarios: baseline | cdc | triggers | envers
+SMOKE=1 ./benchmark/run-all.sh                 # every scenario once, small load → benchmark/results-smoke + smoke_check.py
+./benchmark/run-all.sh                         # 4 scenarios: baseline | cdc | triggers | envers
 SCENARIOS="cdc triggers" VUS=8 TOTAL_OPS=2000 CDC_DRAIN_S=90 ./benchmark/run-all.sh
 ```
 
-Orchestrator does `down -v` → bring up only the services a scenario needs → toggle the method → run the k6 workload (`benchmark/load.js`, via the `grafana/k6` container) → collect DB metrics (`collect.sh`) → `summarize.py` writes `benchmark/results/comparison.{md,csv}`. See `benchmark/README.md`.
+Orchestrator does `down -v` → start `mainDb` alone, bulk-seed it (`benchmark/sql/seed.sql`) with every audit method off → bring up only the services a scenario needs → toggle the method → run the k6 workload (`benchmark/load.js`, via the `grafana/k6` container; one login per VU, one mutation per iteration, per-VU id partition) → collect DB metrics (`collect.sh`) → `summarize.py` writes `comparison.{md,csv,html}` (median, spread, bootstrap CI + Mann–Whitney vs baseline) → `smoke_check.py` sanity-checks every output. Scenarios also include the controls `cdc-idle` / `cdc-slot`, `cdc-failover` (fault injection, fixed arrival rate) and `history` (History API JSON vs Parquet). See `benchmark/README.md`.
 
 ## Architecture notes that span files
 
@@ -107,15 +108,16 @@ Orchestrator does `down -v` → bring up only the services a scenario needs → 
   - *DB triggers* — `capture_trigger_audit()` + `<t>_trigger_audit` tables + AFTER row triggers, all appended to `mainDb/init.sql` (created `ENABLE`d; toggle with `ALTER TABLE … DISABLE/ENABLE TRIGGER <t>_audit_trigger`). Synchronous, in the mutation txn.
   - *Hibernate Envers* — `@Audited` on the 6 entity classes + a custom `REVINFO` (`com.business.registry.audit` package: `AuditRevisionEntity`/`AuditRevisionListener`, with user pulled from a per-request `AuditContext` set by `AuditContextFilter`). Dependency is `org.hibernate.orm:hibernate-envers`. **OFF by default** (`hibernate.integration.envers.enabled=false` in base profiles); enabled via the `envers` profile (`BR_API_PROFILES=prod,envers`), which also flips `ddl-auto` to `update` to create the `_AUD` tables. `REVINFO` is pre-created in `mainDb/init.sql` because it is a mapped `@Entity` that `validate` checks on every boot. If you add/annotate an entity, mark `@ManyToOne` targets `RelationTargetAuditMode.NOT_AUDITED` unless the target is also `@Audited`.
   - *CDC lag* — `ingested_at TIMESTAMPTZ DEFAULT now()` was added to every `*_audit` table in `auditDb/init.sql`; CDC lag = `ingested_at − changed_at`. Synchronous methods commit in-txn so their lag is ~0.
-  - Benchmark users `bench1..bench64` are seeded in `mainDb/init.sql` (one per k6 VU) — required because Spring Security's `maximumSessions(1)` + `SessionAuthenticationFilter` mean the load generator must use a distinct user per VU and re-login per iteration (see `benchmark/README.md`).
+  - Benchmark users `bench1..bench64` are seeded in `mainDb/init.sql` (one per k6 VU, because of Spring Security's `maximumSessions(1)`). Their Argon2id hash uses a deliberately cheap cost (`m=1024,t=1,p=1$salt:hash` — `PasswordService` reads cost parameters stored with the hash; legacy `salt:hash` = default `m=65536,t=2`), so password hashing does not dominate the load test. k6 logs in once per VU and re-logs in only if the session is rejected (see `benchmark/README.md`).
+  - *SSE timestamps* — the SSE bridge's `changedAt` is Debezium `source.ts_ms` (commit time, same as the audit store's `changed_at`); `capturedAt` is the envelope `ts_ms` (when Debezium processed it).
 
 - **Two separate auth models — don't conflate them.**
   - *Business Registry* (API + client): Spring Security **session** auth (cookie). Users/roles live in `mainDb` (`user_account`, `roles`). One concurrent session per user. Test user: `admin` / `testPassword`.
-  - *Audit layer* (SSE Bridge + History API): **API-key** auth validated against `auditDb.user_api_account`. The `access` JSONB column does resource-level authorization per table (e.g. `{"company": true, "person": false}`); requests for tables the key can't access return 403. SSE Bridge reads the key from `X-API-Key`; History API uses `Authorization: Bearer <key>`. Test key: `sample_api_key_123`.
+  - *Audit layer* (SSE Bridge + History API): **API-key** auth validated against `auditDb.user_api_account`. The `access` JSONB column does resource-level authorization per table (e.g. `{"company": true, "person": false}`); requests for tables the key can't access return 403. Both services accept the key as `X-API-Key: <key>` or `Authorization: Bearer <key>`. Test key: `sample_api_key_123`.
 
-- **SSE Bridge is fully reactive.** It consumes Kafka via Reactor Kafka and pushes to clients over `GET /stream/{tableName}` using WebFlux + R2DBC (for the auth lookup). Keep this path non-blocking — no blocking JDBC/JPA here (contrast with the audit consumer, which uses plain blocking JDBC).
+- **SSE Bridge is fully reactive.** It consumes Kafka via Reactor Kafka and pushes to clients over `GET /stream/{tableName}` using WebFlux + R2DBC (for the auth lookup). Keep this path non-blocking — no blocking JDBC/JPA here (contrast with the audit consumer, which uses plain blocking JDBC). The shared stream is a hot `publish()` (live events only — no replay; missed events come from the History API by `change_id`), and consumed offsets are acknowledged so a restart resumes where it stopped.
 
-- **History API dual output.** Same queries, two formats: JSON streaming (`/getHistoryBy*`) and Parquet export (`/exportHistoryBy*`), by date range or `change_id` range, with the target table passed as `?topic=<table>`. Swagger UI at `/swagger/`; regenerate docs with `swag init` (output in `history-api/docs/`).
+- **History API dual output.** Same queries, two formats: JSON streaming (`/getHistoryBy*`) and Parquet export (`/exportHistoryBy*`), by date range or `change_id` range, with the target table passed as `?topic=<table>` (company, person, legal_entity, member, company_stocks, company_capital). Swagger UI at `/swagger/`; regenerate docs with `swag init` (output in `history-api/docs/`).
 
 - **i18n.** The client uses i18next (Greek + English). The API also serves locale-aware reference data — translation mapping lives under `business-registry/api/src/main/resources/i18n` and the `mapper/i18n` package.
 

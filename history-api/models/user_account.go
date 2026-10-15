@@ -11,31 +11,16 @@ type UserAccount struct {
 	LastUpdated string          `json:"last_updated"`
 }
 
-// TopicAccess represents the access permissions for different topics
-type TopicAccess struct {
-	Company     bool `json:"company"`
-	Person      bool `json:"person"`
-	LegalEntity bool `json:"legal_entity"`
-	Member      bool `json:"member"`
-}
-
-// HasAccessToTopic checks if the user has access to a specific topic
+// HasAccessToTopic checks if the user has access to a specific topic.
+// The access JSONB maps table names to booleans, e.g. {"company": true, "person": false}
+// — the same document the SSE Bridge checks, so one key grants the same tables in both.
 func (u *UserAccount) HasAccessToTopic(topic string) bool {
-	var access TopicAccess
+	if !Topic(topic).IsValid() {
+		return false
+	}
+	var access map[string]bool
 	if err := json.Unmarshal(u.Access, &access); err != nil {
 		return false
 	}
-
-	switch Topic(topic) {
-	case TopicCompany:
-		return access.Company
-	case TopicPerson:
-		return access.Person
-	case TopicLegalEntity:
-		return access.LegalEntity
-	case TopicMember:
-		return access.Member
-	default:
-		return false
-	}
+	return access[topic]
 }

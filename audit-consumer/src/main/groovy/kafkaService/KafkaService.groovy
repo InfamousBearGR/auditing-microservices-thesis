@@ -65,7 +65,10 @@ class KafkaService {
         Long parentId = Utils.getLongFromJsonNode(after, "id") ?: Utils.getLongFromJsonNode(before, "id") ?: 0
         Timestamp operationTimestamp = new Timestamp(Utils.getLongFromJsonNode(payload.get("source"), "ts_ms"))
         Long lsn = Utils.getLongFromJsonNode(payload.get("source"), "lsn")
-        String change_reason = Utils.getStringFromJsonNode(after, "change_reason") ?: ""
+        // DELETE events have no after-image; the API stamps the delete reason on the
+        // row (UPDATE) right before deleting it, so the before-image carries it.
+        String change_reason = Utils.getStringFromJsonNode(after, "change_reason") ?:
+                Utils.getStringFromJsonNode(before, "change_reason") ?: ""
 
         // Insert into audit table
         before = Utils.removeItemFromJsonNode(before, "change_reason")
