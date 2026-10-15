@@ -820,10 +820,14 @@ VALUES ('admin', 'ud4k9Q7SrDX/IoDhB95m3Q==:Y0AD/f7morva6T4Ru7PFZEMPTY5rneTBe+SO9
 
 -- Benchmark load users (thesis): one distinct user per k6 VU so concurrent VUs
 -- don't collide under Spring Security's maximumSessions(1) (one session per user).
--- bench1..bench64 — covers VUS up to 64; all share the 'testPassword' hash, role 2.
+-- bench1..bench64 — covers VUS up to 64; password 'testPassword', role 2.
+-- Their Argon2id hash uses a deliberately CHEAP cost (m=1 MiB, t=1, ~1 ms instead
+-- of ~200 ms CPU + 64 MB per login for the default m=64 MiB, t=2) so that the load
+-- generator measures the audited write path, not password hashing. The parameters
+-- travel with the hash (see PasswordService); real accounts keep the default cost.
 INSERT INTO user_account (username, password_hash, role_id, change_reason)
 SELECT 'bench' || g,
-       'ud4k9Q7SrDX/IoDhB95m3Q==:Y0AD/f7morva6T4Ru7PFZEMPTY5rneTBe+SO9oNSX4g=',
+       'm=1024,t=1,p=1$YmVuY2htYXJrLXNhbHQwMQ==:+wLB8i03l61w+Mc4SiVrVTCbs9TxFwy0tg73XqiJmfY=',
        2, 'benchmark'
 FROM generate_series(1, 64) AS g;
 

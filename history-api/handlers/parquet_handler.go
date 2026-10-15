@@ -152,7 +152,7 @@ func (h *ParquetHandler) writeParquetFileStreaming(w http.ResponseWriter, stream
 // @Produce application/octet-stream
 // @Param dateFrom query string true "Date in YYYY-MM-DD format" example(2026-02-10)
 // @Param dateTo query string true "Date in YYYY-MM-DD format" example(2026-02-10)
-// @Param topic query string true "Topic name" Enums(company, person, legal_entity, member) example(company)
+// @Param topic query string true "Topic name" Enums(company, person, legal_entity, member, company_stocks, company_capital) example(company)
 // @Security ApiKeyAuth
 // @Success 200 {file} binary "Parquet file download"
 // @Failure 400 {string} string "dateFrom parameter required"
@@ -229,7 +229,7 @@ func (h *ParquetHandler) ExportHistoryByDateRangeParquet(w http.ResponseWriter, 
 // @Produce application/octet-stream
 // @Param changeIdFrom query integer true "Starting change_id (inclusive)" example(1)
 // @Param changeIdTo query integer true "Ending change_id (inclusive)" example(100)
-// @Param topic query string true "Topic name" Enums(company, person, legal_entity, member) example(company)
+// @Param topic query string true "Topic name" Enums(company, person, legal_entity, member, company_stocks, company_capital) example(company)
 // @Security ApiKeyAuth
 // @Success 200 {file} binary "Parquet file download"
 // @Failure 400 {string} string "changeIdFrom parameter required"

@@ -19,14 +19,26 @@ class KafkaService {
 
     @PostConstruct
     void init() {
+        // One shared, HOT stream for all SSE clients: a client receives the events
+        // published while it is connected (missed events are recovered through the
+        // History API by change_id). publish() — not replay(): an unbounded replay()
+        // kept every event since start-up in memory and re-sent the whole history to
+        // each new or reconnecting client.
         eventPublisher = kafkaReceiver.receive()
+                .map(consumerRecord -> {
+                    // Commit the bridge's consumer position (periodically, by reactor-kafka)
+                    // so a restarted bridge resumes where it stopped instead of re-reading
+                    // the topics from the earliest offset.
+                    consumerRecord.receiverOffset().acknowledge()
+                    return consumerRecord
+                })
                 .filter(record -> record.value() != null)
                 .map(consumerRecord -> {
                     EventBaseModel event = consumerRecord.value()
                     event.setSourceTopic(consumerRecord.topic())
                     return event
                 })
-                .replay()
+                .publish()
         eventPublisher.connect()
     }
 

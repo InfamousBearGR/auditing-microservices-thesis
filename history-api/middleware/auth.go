@@ -36,7 +36,7 @@ func (m *AuthMiddleware) Authenticate(next http.Handler) http.Handler {
 		// Extract API key from Authorization header
 		apiKey := extractAPIKey(r)
 		if apiKey == "" {
-			http.Error(w, "Missing or invalid Authorization header. Use 'Bearer <api_key>'", http.StatusUnauthorized)
+			http.Error(w, "Missing API key. Use 'X-API-Key: <api_key>' or 'Authorization: Bearer <api_key>'", http.StatusUnauthorized)
 			return
 		}
 
@@ -64,9 +64,15 @@ func CheckTopicAccess(r *http.Request, topic string) bool {
 	return user.HasAccessToTopic(topic)
 }
 
-// extractAPIKey extracts the API key from the Authorization header
-// Expects format: "Bearer <api_key>" or just "<api_key>"
+// extractAPIKey extracts the API key from the request.
+// Accepted forms (the SSE Bridge accepts the same two, so one key works for both):
+//   - X-API-Key: <api_key>
+//   - Authorization: Bearer <api_key>   (or just "Authorization: <api_key>")
 func extractAPIKey(r *http.Request) string {
+	if key := strings.TrimSpace(r.Header.Get("X-API-Key")); key != "" {
+		return key
+	}
+
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
 		return ""

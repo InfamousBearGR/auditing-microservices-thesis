@@ -55,7 +55,9 @@ const docTemplate = `{
                             "company",
                             "person",
                             "legal_entity",
-                            "member"
+                            "member",
+                            "company_stocks",
+                            "company_capital"
                         ],
                         "type": "string",
                         "example": "company",
@@ -145,7 +147,9 @@ const docTemplate = `{
                             "company",
                             "person",
                             "legal_entity",
-                            "member"
+                            "member",
+                            "company_stocks",
+                            "company_capital"
                         ],
                         "type": "string",
                         "example": "company",
@@ -235,7 +239,9 @@ const docTemplate = `{
                             "company",
                             "person",
                             "legal_entity",
-                            "member"
+                            "member",
+                            "company_stocks",
+                            "company_capital"
                         ],
                         "type": "string",
                         "example": "company",
@@ -328,7 +334,9 @@ const docTemplate = `{
                             "company",
                             "person",
                             "legal_entity",
-                            "member"
+                            "member",
+                            "company_stocks",
+                            "company_capital"
                         ],
                         "type": "string",
                         "example": "company",
@@ -423,7 +431,7 @@ const docTemplate = `{
     },
     "securityDefinitions": {
         "ApiKeyAuth": {
-            "description": "Enter your API key in the format: Bearer \u003capi_key\u003e",
+            "description": "Enter your API key in the format: Bearer \u003capi_key\u003e (an X-API-Key: \u003capi_key\u003e header is accepted too)",
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"

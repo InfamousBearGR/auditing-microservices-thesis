@@ -13,7 +13,7 @@ services:
     volumes:
       - ./mainDb/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U admin -d mainDb" ]
+      test: [ "CMD-SHELL", "pg_isready -h 127.0.0.1 -U admin -d mainDb" ]  # TCP: not ready while init scripts run
       interval: 5s
       timeout: 5s
       retries: 5
@@ -170,7 +170,7 @@ services:
     volumes:
       - ./auditDb/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U admin -d auditdb" ]
+      test: [ "CMD-SHELL", "pg_isready -h 127.0.0.1 -U admin -d auditdb" ]  # TCP: not ready while init scripts run
       interval: 5s
       timeout: 5s
       retries: 5
