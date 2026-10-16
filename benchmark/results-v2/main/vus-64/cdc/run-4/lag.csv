@@ -1,0 +1,2 @@
+scenario,sample_rows,lag_p50_ms,lag_p95_ms,lag_p99_ms,lag_max_ms
+cdc,18200,1046.80,2899.12,3290.62,3475.62

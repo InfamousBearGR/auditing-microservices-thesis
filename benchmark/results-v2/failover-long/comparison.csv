@@ -1,0 +1,36 @@
+metric,cdc-failover
+Total ops,"20,000"
+Load model,"open, 50 ops/s"
+Throughput (ops/s),49.9
+Mutations ok / err,"19,594 / 406"
+Errors 4xx / 5xx,406 / 0
+Logins / re-logins,"20,000 / 19,936"
+Login p50 (ms),1.3
+Create p50 (ms),4.4
+Create p95 (ms),7.3
+Create p99 (ms),109.1
+Update p50 (ms),4.9
+Update p95 (ms),8.7
+Delete p50 (ms),5.3
+Overhead vs baseline (create p50),—
+Audit rows captured,"37,991"
+Audit storage,24.84 MB
+Audit storage after VACUUM FULL,23.64 MB
+Dead tuples in audit tables,0
+Bytes / audit row,685.7 B
+Audit lag p50 (ms),"13,007.0"
+Audit lag p95 (ms),"157,121.5"
+Audit lag p99 (ms),"173,369.3"
+Audit lag max (ms),"177,076.6"
+SSE events received,"37,991"
+SSE lag p50 (ms),814.0
+SSE lag p95 (ms),"155,948.7"
+SSE lag p99 (ms),"172,967.9"
+SSE lag max (ms),"177,052.9"
+SSE commit→Debezium p50 (ms),329.0
+SSE Debezium→client p50 (ms),442.1
+SSE duplicate / stale events,0 / 0
+Integrity: trigger rows (ground truth),"37,991"
+Integrity: CDC rows,"37,991"
+Integrity: missing events,0
+Integrity: duplicate events,0

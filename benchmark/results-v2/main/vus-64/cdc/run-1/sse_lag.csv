@@ -1,0 +1,2 @@
+scenario,sample_events,lag_p50_ms,lag_p95_ms,lag_p99_ms,lag_max_ms,reconnects,errors,capture_p50_ms,capture_p95_ms,capture_p99_ms,deliver_p50_ms,deliver_p95_ms,deliver_p99_ms,stale_skipped,duplicates
+cdc,17947,666.19,902.40,988.30,1114.20,0,0,251.00,483.00,517.00,403.39,606.03,664.41,0,0

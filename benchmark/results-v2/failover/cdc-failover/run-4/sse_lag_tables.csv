@@ -1,0 +1,7 @@
+scenario,table,sample_events,lag_p50_ms,lag_p95_ms,lag_p99_ms,lag_max_ms,reconnects,errors,stale_skipped,duplicates
+cdc-failover,company,2741,561.43,19773.43,27923.14,30273.35,0,0,0,0
+cdc-failover,person,2471,553.34,21100.80,28593.10,30367.88,0,0,0,0
+cdc-failover,legal_entity,2663,574.46,20231.81,27523.99,30352.76,0,0,0,0
+cdc-failover,member,1942,573.70,21581.40,28811.19,30229.95,0,0,0,0
+cdc-failover,company_stocks,6367,583.23,22264.43,28788.51,30209.96,0,0,0,0
+cdc-failover,company_capital,1810,583.35,22430.67,28682.05,30210.91,0,0,0,0

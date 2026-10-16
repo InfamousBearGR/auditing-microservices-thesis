@@ -1,0 +1,2 @@
+scenario,sample_rows,lag_p50_ms,lag_p95_ms,lag_p99_ms,lag_max_ms
+cdc-failover,37991,19347.84,165096.93,181002.90,184971.21

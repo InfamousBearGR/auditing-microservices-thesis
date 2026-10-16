@@ -1,0 +1,31 @@
+# 2026-10-16T06:19:43+0300
+## KRaft quorum
+ClusterId:              MkU3OEVBNTcwNTJENDM2Qk
+LeaderId:               1
+LeaderEpoch:            1
+HighWatermark:          304
+MaxFollowerLag:         0
+MaxFollowerLagTimeMs:   0
+CurrentVoters:          [{"id": 1, "endpoints": ["CONTROLLER://kafka-1:9093"]}, {"id": 2, "endpoints": ["CONTROLLER://kafka-2:9093"]}, {"id": 3, "endpoints": ["CONTROLLER://kafka-3:9093"]}]
+CurrentObservers:       []
+## consumer group audit_consumer_group (coordinator / state)
+
+GROUP                COORDINATOR (ID)          ASSIGNMENT-STRATEGY  STATE                #MEMBERS
+audit_consumer_group kafka-3:9092  (3)         range                Stable               1
+## consumer group sse-bridge-group (coordinator / state)
+
+GROUP            COORDINATOR (ID)          ASSIGNMENT-STRATEGY  STATE                #MEMBERS
+sse-bridge-group kafka-3:9092  (3)         range                Stable               1
+## partition leaders of the event topics
+Topic: server.public.legal_entity	TopicId: VaJ4XKOFQHSvoht1snCrog	PartitionCount: 1	ReplicationFactor: 3	Configs: min.insync.replicas=2,segment.bytes=536870912,retention.bytes=1073741824
+	Topic: server.public.legal_entity	Partition: 0	Leader: 3	Replicas: 3,1,2	Isr: 3,1,2	Elr: 	LastKnownElr: 
+Topic: server.public.member	TopicId: 2_gmC7JaS42G2v1HLkU9AQ	PartitionCount: 1	ReplicationFactor: 3	Configs: min.insync.replicas=2,segment.bytes=536870912,retention.bytes=1073741824
+	Topic: server.public.member	Partition: 0	Leader: 2	Replicas: 2,3,1	Isr: 2,3,1	Elr: 	LastKnownElr: 
+Topic: server.public.person	TopicId: M89kHvFTShuacY3vzHwRkw	PartitionCount: 1	ReplicationFactor: 3	Configs: min.insync.replicas=2,segment.bytes=536870912,retention.bytes=1073741824
+	Topic: server.public.person	Partition: 0	Leader: 2	Replicas: 2,3,1	Isr: 2,3,1	Elr: 	LastKnownElr: 
+Topic: server.public.company_capital	TopicId: Y5U7JQLqRJqoXNiw8kXa-A	PartitionCount: 1	ReplicationFactor: 3	Configs: min.insync.replicas=2,segment.bytes=536870912,retention.bytes=1073741824
+	Topic: server.public.company_capital	Partition: 0	Leader: 2	Replicas: 2,3,1	Isr: 2,3,1	Elr: 	LastKnownElr: 
+Topic: server.public.company	TopicId: Nxw9CuJxT0epem72ktx0GQ	PartitionCount: 1	ReplicationFactor: 3	Configs: min.insync.replicas=2,segment.bytes=536870912,retention.bytes=1073741824
+	Topic: server.public.company	Partition: 0	Leader: 3	Replicas: 3,1,2	Isr: 3,1,2	Elr: 	LastKnownElr: 
+Topic: server.public.company_stocks	TopicId: IkifOw4MQYyiq5ktVyHWCw	PartitionCount: 1	ReplicationFactor: 3	Configs: min.insync.replicas=2,segment.bytes=536870912,retention.bytes=1073741824
+	Topic: server.public.company_stocks	Partition: 0	Leader: 1	Replicas: 1,2,3	Isr: 1,2,3	Elr: 	LastKnownElr: 

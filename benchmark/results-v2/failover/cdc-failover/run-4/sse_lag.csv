@@ -1,0 +1,2 @@
+scenario,sample_events,lag_p50_ms,lag_p95_ms,lag_p99_ms,lag_max_ms,reconnects,errors,capture_p50_ms,capture_p95_ms,capture_p99_ms,deliver_p50_ms,deliver_p95_ms,deliver_p99_ms,stale_skipped,duplicates
+cdc-failover,17994,572.76,21282.21,28593.10,30367.88,0,0,253.00,483.00,502.00,305.51,20973.42,28367.00,0,0

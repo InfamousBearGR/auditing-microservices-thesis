@@ -1,0 +1,7 @@
+scenario,method,audit_table,row_count,total_bytes,total_pretty,heap_bytes,toast_bytes,index_bytes,live_tuples,dead_tuples,inserted_tuples,compact_bytes
+triggers,triggers,company_capital_trigger_audit,4081,2547712,2488 kB,2211840,8192,294912,4103,0,4081,2375680
+triggers,triggers,company_stocks_trigger_audit,14101,7282688,7112 kB,6561792,8192,679936,14214,0,14101,7045120
+triggers,triggers,company_trigger_audit,5480,5693440,5560 kB,5283840,8192,368640,5506,0,5480,5496832
+triggers,triggers,legal_entity_trigger_audit,5497,5275648,5152 kB,4866048,8192,368640,5517,0,5497,5095424
+triggers,triggers,member_trigger_audit,4674,3645440,3560 kB,3301376,8192,303104,4702,0,4674,3489792
+triggers,triggers,person_trigger_audit,4447,4669440,4560 kB,4308992,8192,319488,4454,0,4447,4415488

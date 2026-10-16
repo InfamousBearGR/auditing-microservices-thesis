@@ -1,0 +1,7 @@
+scenario,table,trigger_rows,cdc_rows,cdc_distinct_changes,duplicates,missing
+cdc-failover,company,5362,5362,5362,0,0
+cdc-failover,person,4651,4651,4651,0,0
+cdc-failover,legal_entity,5725,5725,5725,0,0
+cdc-failover,member,4516,4516,4516,0,0
+cdc-failover,company_stocks,13712,13712,13712,0,0
+cdc-failover,company_capital,3922,3922,3922,0,0

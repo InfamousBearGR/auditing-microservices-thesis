@@ -1,0 +1,7 @@
+scenario,table,sample_events,lag_p50_ms,lag_p95_ms,lag_p99_ms,lag_max_ms,reconnects,errors,stale_skipped,duplicates
+cdc,company,5428,506.60,870.79,977.48,1461.32,0,0,0,0
+cdc,person,4672,508.25,858.48,967.36,1441.63,0,0,0,0
+cdc,legal_entity,5436,513.40,862.61,971.10,1448.93,0,0,0,0
+cdc,member,4740,509.80,860.91,946.56,1429.57,0,0,0,0
+cdc,company_stocks,13536,513.19,869.07,964.74,1357.08,0,0,0,0
+cdc,company_capital,3887,507.54,864.13,965.31,1357.47,0,0,0,0

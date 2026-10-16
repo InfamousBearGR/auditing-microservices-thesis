@@ -1,0 +1,25 @@
+date: 2026-10-16T03:41:31+0300
+host: Linux 7.2.9-arch1-1 x86_64
+CPU(s): 16
+Model name: AMD Ryzen 7 5700X3D 8-Core Processor
+memory_gb: 31
+docker: 29.9.0
+compose: 5.6.0
+-- images (repo:tag@id)
+sse-probe python:3.12-alpine sha256:1b668429b351
+auditing-microservices-thesis-sse-bridge-1 auditing-microservices-thesis-sse-bridge sha256:be37c828585d
+audit-consumer auditing-microservices-thesis-audit-consumer sha256:372fd2d88f6c
+debezium quay.io/debezium/connect:latest sha256:7c0e311be6ff
+timescaledb timescale/timescaledb:latest-pg15 sha256:b26180320dea
+kafka-1 apache/kafka:latest sha256:9516fb7634ba
+kafka-2 apache/kafka:latest sha256:9516fb7634ba
+kafka-3 apache/kafka:latest sha256:9516fb7634ba
+business-registry-api auditing-microservices-thesis-business-registry-api sha256:8631099efe06
+mainDb postgres:15-alpine sha256:fceb6f86328c
+k6: k6 v2.0.0+dirty (commit/8c3be52cc1-dirty, go1.26.3, linux/amd64)
+mainDb: 15.17
+auditDb: 15.13 timescaledb 2.25.2
+debezium-connect: {"version":"4.1.1","commit":"be816b82d25370ce","kafka_cluster_id":"MkU3OEVBNTcwNTJENDM2Qk"}
+kafka: kafka-clients-4.2.0.jar
+-- load model
+VUS=64 TOTAL_OPS=10000 RATE= FAILOVER_RATE=50 BENCH_SEED_ROWS=2000 PARTITION_IDS=1 LOGIN_EVERY_ITERATION=0

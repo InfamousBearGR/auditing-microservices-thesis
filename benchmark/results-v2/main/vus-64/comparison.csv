@@ -1,0 +1,38 @@
+metric,baseline,cdc,triggers,envers,cdc-idle,cdc-slot
+Total ops,"10,000","10,000","10,000","10,000","10,000","10,000"
+Load model,closed (shared-iterations),closed (shared-iterations),closed (shared-iterations),closed (shared-iterations),closed (shared-iterations),closed (shared-iterations)
+Throughput (ops/s),"1,363.1",811.7,"1,262.1","1,242.4","1,062.6","1,046.5"
+Mutations ok / err,"9,868 / 132","9,869 / 131","9,866 / 134","9,862 / 138","9,861 / 139","9,858 / 142"
+Errors 4xx / 5xx,132 / 0,131 / 0,134 / 0,138 / 0,139 / 0,142 / 0
+Logins / re-logins,"10,000 / 9,936","10,000 / 9,936","10,000 / 9,936","10,000 / 9,936","10,000 / 9,936","10,000 / 9,936"
+Login p50 (ms),11.6,17.8,12.3,12.9,13.0,15.2
+Create p50 (ms),18.3,25.7,19.5,21.0,19.6,22.0
+Create p95 (ms),37.2,77.8,46.3,43.7,48.0,53.1
+Create p99 (ms),99.5,166.6,137.1,89.9,150.0,117.0
+Update p50 (ms),20.7,30.2,22.6,24.3,22.6,25.4
+Update p95 (ms),45.3,92.4,52.4,52.6,59.7,64.9
+Delete p50 (ms),20.7,29.5,22.3,23.4,22.2,25.3
+Overhead vs baseline (create p50),+0.0%,+40.3%,+6.5%,+14.6%,+7.1%,+20.0%
+Audit rows captured,0,"18,104","17,969","25,643",0,0
+Audit storage,—,13.56 MB,13.68 MB,4.46 MB,—,—
+Audit storage after VACUUM FULL,—,12.70 MB,12.66 MB,3.55 MB,—,—
+Dead tuples in audit tables,—,0,0,0,—,—
+Audit storage (compressed),—,5.16 MB,—,—,—,—
+Compression ratio,—,2.46×,—,—,—,—
+Bytes / audit row,—,785.5 B,798.3 B,182.4 B,—,—
+Audit lag p50 (ms),—,"1,319.2",—,—,—,—
+Audit lag p95 (ms),—,"2,899.1",—,—,—,—
+Audit lag p99 (ms),—,"3,290.6",—,—,—,—
+Audit lag max (ms),—,"3,475.6",—,—,—,—
+SSE events received,—,"18,104",—,—,—,—
+SSE lag p50 (ms),—,621.7,—,—,—,—
+SSE lag p95 (ms),—,903.6,—,—,—,—
+SSE lag p99 (ms),—,"1,017.0",—,—,—,—
+SSE lag max (ms),—,"1,114.2",—,—,—,—
+SSE commit→Debezium p50 (ms),—,243.0,—,—,—,—
+SSE Debezium→client p50 (ms),—,380.1,—,—,—,—
+SSE duplicate / stale events,—,0 / 0,—,—,—,—
+Integrity: trigger rows (ground truth),—,—,—,—,—,—
+Integrity: CDC rows,—,—,—,—,—,—
+Integrity: missing events,—,—,—,—,—,—
+Integrity: duplicate events,—,—,—,—,—,—

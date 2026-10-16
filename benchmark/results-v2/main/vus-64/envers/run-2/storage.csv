@@ -1,0 +1,8 @@
+scenario,method,audit_table,row_count,total_bytes,total_pretty,heap_bytes,toast_bytes,index_bytes,live_tuples,dead_tuples,inserted_tuples,compact_bytes
+envers,envers,company_aud,2274,679936,664 kB,557056,8192,90112,2274,0,2274,532480
+envers,envers,company_capital_aud,1635,385024,376 kB,286720,0,73728,1635,0,1635,253952
+envers,envers,company_stocks_aud,5680,958464,936 kB,737280,0,196608,5680,0,5680,827392
+envers,envers,legal_entity_aud,2340,688128,672 kB,565248,8192,90112,2340,0,2340,516096
+envers,envers,member_aud,1712,442368,432 kB,344064,0,73728,1712,0,1712,278528
+envers,envers,person_aud,2194,688128,672 kB,565248,8192,90112,2194,0,2194,565248
+envers,envers,revinfo,9862,892928,872 kB,630784,0,237568,9862,0,9862,753664
