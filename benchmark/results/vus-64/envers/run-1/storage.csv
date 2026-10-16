@@ -1,8 +1,0 @@
-scenario,method,audit_table,row_count,total_bytes,total_pretty
-envers,envers,company_aud,1324,933888,912 kB
-envers,envers,company_capital_aud,105,114688,112 kB
-envers,envers,company_stocks_aud,371,319488,312 kB
-envers,envers,legal_entity_aud,1331,991232,968 kB
-envers,envers,member_aud,163,122880,120 kB
-envers,envers,person_aud,1517,819200,800 kB
-envers,envers,revinfo,4328,647168,632 kB

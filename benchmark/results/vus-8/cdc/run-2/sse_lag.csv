@@ -1,2 +1,0 @@
-scenario,sample_events,lag_p50_ms,lag_p95_ms,lag_p99_ms,lag_max_ms,reconnects,errors
-cdc,4613,234.47,489.50,515.40,527.05,0,0

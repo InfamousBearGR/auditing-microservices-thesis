@@ -1,7 +1,0 @@
-scenario,method,audit_table,row_count,total_bytes,total_pretty
-triggers,triggers,company_capital_trigger_audit,66,131072,128 kB
-triggers,triggers,company_stocks_trigger_audit,276,245760,240 kB
-triggers,triggers,company_trigger_audit,1379,1146880,1120 kB
-triggers,triggers,legal_entity_trigger_audit,1389,1122304,1096 kB
-triggers,triggers,member_trigger_audit,161,245760,240 kB
-triggers,triggers,person_trigger_audit,1422,1302528,1272 kB
